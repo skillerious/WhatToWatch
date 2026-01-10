@@ -1,5 +1,22 @@
 [
   {
+    "id": "wv_1768063887941_w0k73najq",
+    "title": "The Walking Dead",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2010",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/ng3cMtxYKt1OSQYqFlnKWnVsqNO.jpg",
+    "tmdbId": "1402",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T16:51:27.941Z",
+    "updatedAt": "2026-01-10T16:51:27.941Z"
+  },
+  {
     "id": "wv_1768063863502_gqc81naem",
     "title": "Black Summer",
     "category": "tv",
