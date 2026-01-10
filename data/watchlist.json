@@ -1,5 +1,23 @@
 [
   {
+    "id": "wv_1768073172148_7v4kltrsu",
+    "title": "Westworld",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2016",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/8MfgyFHf7XEboZJPZXCIDqqiz6e.jpg",
+    "tmdbId": "63247",
+    "overview": "A dark odyssey about the dawn of artificial consciousness and the evolution of sin. Set at the intersection of the near future and the reimagined past, it explores a world in which every human appetite, no matter how noble or depraved, can be indulged.",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T19:26:12.148Z",
+    "updatedAt": "2026-01-10T19:26:12.148Z"
+  },
+  {
     "id": "wv_1768073058632_q6y99yaty",
     "title": "Gangs of London",
     "category": "tv",
