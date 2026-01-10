@@ -561,7 +561,7 @@
     "id": "wv_1768065931377_clamlq30v",
     "title": "Stranger Things",
     "category": "tv",
-    "status": "watched",
+    "status": "towatch",
     "year": "2016",
     "priority": 5,
     "rating": 10,
@@ -571,9 +571,9 @@
     "tmdbId": "66732",
     "overview": "When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces, and one strange little girl.",
     "season": "",
-    "dateCompleted": "2026-01-10",
+    "dateCompleted": null,
     "createdAt": "2026-01-10T17:25:31.377Z",
-    "updatedAt": "2026-01-10T22:00:14.845Z"
+    "updatedAt": "2026-01-10T22:00:28.228Z"
   },
   {
     "id": "wv_1768065906869_xi43btgbj",
