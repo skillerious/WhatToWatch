@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0f">
     <meta name="description" content="WatchVault - Your personal cinema tracker. Track movies, shows, and anime with GitHub sync.">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -92,6 +92,7 @@
                 linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
             background-size: 60px 60px;
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 0%, transparent 70%);
             mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 0%, transparent 70%);
         }
 
@@ -152,8 +153,8 @@
             height: var(--header-height);
             padding-top: var(--safe-area-top);
             background: var(--bg-glass-solid);
-            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-glass);
             z-index: 1000;
             display: flex;
@@ -348,6 +349,7 @@
             background: var(--bg-glass);
             color: var(--text-primary);
             border: 1px solid var(--border-glass);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
         }
 
@@ -415,6 +417,7 @@
             border: 1px solid var(--border-glass);
             border-radius: var(--radius-lg);
             padding: 16px;
+            -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
             text-align: center;
@@ -470,6 +473,7 @@
             color: var(--text-primary);
             font-family: 'Outfit', sans-serif;
             font-size: 1rem;
+            -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
         }
@@ -509,6 +513,7 @@
             font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
         }
 
@@ -551,6 +556,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             white-space: nowrap;
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             flex-shrink: 0;
         }
@@ -586,6 +592,7 @@
             border: 1px solid var(--border-glass);
             border-radius: var(--radius-xl);
             overflow: hidden;
+            -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             animation: cardIn 0.5s ease backwards;
@@ -696,6 +703,7 @@
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
         }
 
@@ -742,6 +750,7 @@
             margin-bottom: 12px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -820,8 +829,10 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
+            background:
+                radial-gradient(120% 120% at 50% 0%, rgba(12, 20, 30, 0.75), rgba(4, 6, 12, 0.92) 55%, rgba(0, 0, 0, 0.96) 100%);
+            -webkit-backdrop-filter: blur(14px) saturate(120%);
+            backdrop-filter: blur(14px) saturate(120%);
             z-index: 2000;
             display: flex;
             align-items: center;
@@ -829,7 +840,7 @@
             padding: 20px;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .modal-overlay.active {
@@ -838,76 +849,261 @@
         }
 
         .modal {
+            position: relative;
+            isolation: isolate;
             width: 100%;
-            max-width: 520px;
+            max-width: 620px;
             max-height: 90vh;
             max-height: 90dvh;
-            overflow-y: auto;
-            background: var(--bg-card);
-            border: 1px solid var(--border-glass);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background:
+                radial-gradient(140% 120% at 12% -20%, rgba(0, 240, 255, 0.14), transparent 45%),
+                radial-gradient(120% 120% at 110% -10%, rgba(255, 215, 0, 0.12), transparent 55%),
+                linear-gradient(180deg, rgba(18, 18, 28, 0.98), rgba(8, 9, 14, 0.98));
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-xl);
-            backdrop-filter: blur(30px);
-            transform: scale(0.9) translateY(20px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 40px 80px -35px rgba(0, 0, 0, 0.85),
+                0 0 0 1px rgba(255, 255, 255, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.6);
+            transform: translateY(22px) scale(0.96);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            border-radius: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            pointer-events: none;
+        }
+
+        .modal > * {
+            position: relative;
+            z-index: 1;
         }
 
         .modal-overlay.active .modal {
-            transform: scale(1) translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .modal-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-glass);
-            position: sticky;
+            padding: 22px 26px;
+            background: linear-gradient(120deg, rgba(14, 18, 28, 0.98), rgba(10, 12, 18, 0.92));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+            position: relative;
+        }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
             top: 0;
-            background: var(--bg-card);
-            z-index: 1;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.6), rgba(255, 215, 0, 0.5), transparent);
+            opacity: 0.45;
+        }
+
+        .modal-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .modal-icon {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(255, 45, 149, 0.18));
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            border-radius: var(--radius-md);
+            color: var(--accent-cyan);
+            box-shadow:
+                inset 0 0 18px rgba(0, 240, 255, 0.2),
+                0 6px 18px rgba(0, 0, 0, 0.35);
         }
 
         .modal-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .modal-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
         }
 
         .modal-close {
-            width: 36px;
-            height: 36px;
-            background: transparent;
-            border: 1px solid var(--border-glass);
+            width: 38px;
+            height: 38px;
+            background: rgba(8, 10, 16, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-sm);
-            color: var(--text-secondary);
+            color: var(--text-muted);
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
         }
 
         .modal-close:hover {
-            border-color: var(--accent-pink);
+            background: rgba(255, 45, 149, 0.12);
+            border-color: rgba(255, 45, 149, 0.5);
             color: var(--accent-pink);
+            transform: rotate(90deg) scale(1.02);
         }
 
         .modal-body {
-            padding: 24px;
+            flex: 1;
+            overflow-y: auto;
+            padding: 26px;
+            background: rgba(8, 10, 16, 0.85);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.03),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.02);
+        }
+
+        .modal .form-input,
+        .modal .form-select,
+        .modal .form-textarea {
+            background: rgba(6, 8, 12, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        .modal .form-input:hover,
+        .modal .form-select:hover,
+        .modal .form-textarea:hover {
+            border-color: rgba(255, 255, 255, 0.16);
+            background: rgba(8, 10, 16, 0.95);
+        }
+
+        .modal .form-input:focus,
+        .modal .form-select:focus,
+        .modal .form-textarea:focus {
+            background: rgba(8, 12, 18, 0.98);
+        }
+
+        /* Poster Preview Section */
+        .poster-preview-section {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .poster-preview {
+            width: 100px;
+            height: 150px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(255, 45, 149, 0.05));
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-align: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .poster-preview.has-image {
+            border: none;
+            background: none;
+        }
+
+        .poster-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+        }
+
+        .poster-preview-icon {
+            font-size: 1.8rem;
+            opacity: 0.5;
+        }
+
+        .poster-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Form Section Headers */
+        .form-section {
+            margin-bottom: 24px;
+        }
+
+        .form-section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .form-section-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-glass);
+            border-radius: var(--radius-sm);
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+        }
+
+        .form-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            font-weight: 500;
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .form-label {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             font-size: 0.8rem;
             color: var(--text-secondary);
             margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .form-label-required {
+            color: var(--accent-pink);
+            font-size: 0.7rem;
         }
 
         .form-input,
@@ -915,13 +1111,20 @@
         .form-textarea {
             width: 100%;
             padding: 14px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-glass);
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: var(--radius-md);
             color: var(--text-primary);
             font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
+        }
+
+        .form-input:hover,
+        .form-select:hover,
+        .form-textarea:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.5);
         }
 
         .form-input:focus,
@@ -929,60 +1132,183 @@
         .form-textarea:focus {
             outline: none;
             border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+            background: rgba(0, 240, 255, 0.03);
+            box-shadow:
+                0 0 0 3px rgba(0, 240, 255, 0.08),
+                0 0 20px rgba(0, 240, 255, 0.1);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--text-muted);
         }
 
         .form-select {
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(240,240,245,0.4)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(0,240,255,0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 18px;
+            background-position: right 14px center;
+            background-size: 16px;
+            padding-right: 44px;
         }
 
         .form-select option {
             background: var(--bg-deep);
             color: var(--text-primary);
+            padding: 10px;
         }
 
         .form-textarea {
-            min-height: 80px;
+            min-height: 90px;
             resize: vertical;
+            line-height: 1.5;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            gap: 14px;
         }
 
         .form-row-3 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px;
+            gap: 14px;
         }
 
+        /* Status Selector */
+        .status-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .status-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .status-option:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .status-option.active {
+            border-color: var(--accent-cyan);
+            background: var(--accent-cyan-dim);
+        }
+
+        .status-option.active.watching {
+            border-color: var(--status-watching);
+            background: rgba(0, 240, 255, 0.1);
+        }
+
+        .status-option.active.watched {
+            border-color: var(--status-watched);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .status-option.active.towatch {
+            border-color: var(--status-towatch);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .status-icon {
+            font-size: 1.3rem;
+        }
+
+        .status-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .status-option.active .status-text {
+            color: var(--text-primary);
+        }
+
+        /* Priority Stars */
         .priority-input {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            padding: 10px 0;
         }
 
         .priority-star {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             cursor: pointer;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.15);
             transition: all 0.2s ease;
+            filter: grayscale(1);
         }
 
-        .priority-star:hover,
+        .priority-star:hover {
+            transform: scale(1.2);
+            filter: grayscale(0);
+            color: var(--accent-gold);
+        }
+
         .priority-star.active {
             color: var(--accent-gold);
-            transform: scale(1.1);
+            filter: grayscale(0);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
+        /* Rating Display */
+        .rating-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+        }
+
+        .rating-badge {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 50%;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .rating-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* TMDB Search */
         .tmdb-search-container {
             position: relative;
+        }
+
+        .tmdb-search-input {
+            padding-left: 44px;
+        }
+
+        .tmdb-search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
         }
 
         .tmdb-results {
@@ -990,27 +1316,44 @@
             top: 100%;
             left: 0;
             right: 0;
-            background: var(--bg-glass-solid);
-            border: 1px solid var(--border-glass);
+            background: rgba(15, 15, 25, 0.98);
+            border: 1px solid rgba(0, 240, 255, 0.2);
             border-radius: var(--radius-md);
             margin-top: 8px;
-            max-height: 300px;
+            max-height: 280px;
             overflow-y: auto;
-            z-index: 10;
+            z-index: 100;
             display: none;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         .tmdb-results.active {
             display: block;
+            animation: slideDown 0.2s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tmdb-results-header {
+            padding: 10px 14px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border-glass);
         }
 
         .tmdb-result-item {
             display: flex;
-            gap: 12px;
-            padding: 12px;
+            gap: 14px;
+            padding: 14px;
             cursor: pointer;
-            transition: background 0.2s;
-            border-bottom: 1px solid var(--border-glass);
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .tmdb-result-item:last-child {
@@ -1018,13 +1361,13 @@
         }
 
         .tmdb-result-item:hover {
-            background: var(--accent-cyan-dim);
+            background: linear-gradient(90deg, rgba(0, 240, 255, 0.08), transparent);
         }
 
         .tmdb-result-poster {
-            width: 45px;
-            height: 68px;
-            border-radius: 4px;
+            width: 50px;
+            height: 75px;
+            border-radius: 6px;
             background: rgba(255, 255, 255, 0.05);
             overflow: hidden;
             flex-shrink: 0;
@@ -1042,11 +1385,14 @@
         .tmdb-result-info {
             flex: 1;
             min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .tmdb-result-title {
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 4px;
             overflow: hidden;
@@ -1054,19 +1400,86 @@
             white-space: nowrap;
         }
 
-        .tmdb-result-year {
+        .tmdb-result-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 0.75rem;
             color: var(--text-muted);
         }
 
+        .tmdb-result-year {
+            color: var(--accent-cyan);
+            font-weight: 500;
+        }
+
+        .tmdb-result-type {
+            padding: 2px 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+        }
+
+        /* Modal Footer */
         .modal-footer {
             display: flex;
             gap: 12px;
-            padding: 0 24px 24px;
+            padding: 20px 24px;
+            background: linear-gradient(180deg, rgba(9, 11, 16, 0.96), rgba(6, 7, 12, 0.98));
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
         }
 
         .modal-footer .btn {
             flex: 1;
+            padding: 14px 20px;
+            font-weight: 600;
+        }
+
+        .modal-footer .btn-glass {
+            background: rgba(10, 12, 18, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+        }
+
+        .modal-footer .btn-glass:hover {
+            background: rgba(18, 22, 30, 0.9);
+            border-color: rgba(0, 240, 255, 0.25);
+            color: var(--text-primary);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
+            border: none;
+            color: #000;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-footer .btn-save {
+            box-shadow: 0 10px 24px rgba(0, 240, 255, 0.2);
+        }
+
+        .btn-save::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-save:hover::before {
+            left: 100%;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 240, 255, 0.35);
         }
 
         /* Settings Panel */
@@ -1075,11 +1488,12 @@
             top: 0;
             right: -100%;
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             height: 100vh;
             height: 100dvh;
             background: var(--bg-card);
             border-left: 1px solid var(--border-glass);
+            -webkit-backdrop-filter: blur(30px);
             backdrop-filter: blur(30px);
             z-index: 2001;
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1095,6 +1509,8 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.6);
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
             z-index: 2000;
             opacity: 0;
             visibility: hidden;
@@ -1113,73 +1529,365 @@
             padding: 20px 24px;
             padding-top: calc(20px + var(--safe-area-top));
             border-bottom: 1px solid var(--border-glass);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.03), rgba(255, 45, 149, 0.03));
         }
 
         .settings-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-title svg {
+            color: var(--accent-cyan);
+        }
+
+        /* Settings Tabs */
+        .settings-tabs {
+            display: flex;
+            padding: 0 16px;
+            gap: 4px;
+            border-bottom: 1px solid var(--border-glass);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .settings-tab {
+            flex: 1;
+            padding: 14px 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .settings-tab svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .settings-tab:hover {
+            color: var(--text-secondary);
+        }
+
+        .settings-tab:hover svg {
+            opacity: 0.8;
+        }
+
+        .settings-tab.active {
+            color: var(--accent-cyan);
+        }
+
+        .settings-tab.active svg {
+            opacity: 1;
+            color: var(--accent-cyan);
+        }
+
+        .settings-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .settings-tab.active::after {
+            transform: scaleX(1);
         }
 
         .settings-body {
             flex: 1;
             overflow-y: auto;
-            padding: 24px;
+            padding: 20px 24px;
+        }
+
+        .settings-tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .settings-tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .settings-section {
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .settings-section-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             margin-bottom: 14px;
-        }
-
-        .token-display {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: var(--radius-md);
-            margin-bottom: 14px;
+            gap: 8px;
         }
 
-        .token-display.not-set {
-            background: rgba(255, 215, 0, 0.1);
+        .settings-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-glass);
+        }
+
+        /* Connection Status Card */
+        .connection-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 255, 136, 0.02));
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: var(--radius-lg);
+            margin-bottom: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .connection-card.not-connected {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 215, 0, 0.02));
             border-color: rgba(255, 215, 0, 0.2);
         }
 
-        .token-status {
-            font-size: 0.85rem;
+        .connection-card.error {
+            background: linear-gradient(135deg, rgba(255, 45, 149, 0.08), rgba(255, 45, 149, 0.02));
+            border-color: rgba(255, 45, 149, 0.2);
         }
 
-        .token-display:not(.not-set) .token-status {
+        .connection-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 136, 0.15);
             color: var(--accent-green);
+            flex-shrink: 0;
         }
 
-        .token-display.not-set .token-status {
+        .connection-card.not-connected .connection-icon {
+            background: rgba(255, 215, 0, 0.15);
             color: var(--accent-gold);
         }
 
+        .connection-card.error .connection-icon {
+            background: rgba(255, 45, 149, 0.15);
+            color: var(--accent-pink);
+        }
+
+        .connection-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .connection-status {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .connection-detail {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .connection-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon-sm {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-icon-sm:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--border-glow);
+            color: var(--accent-cyan);
+        }
+
+        .btn-icon-sm.spinning svg {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toggle Switch */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .toggle-row:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-info {
+            flex: 1;
+        }
+
+        .toggle-label {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .toggle-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-glass);
+            border-radius: 26px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-slider::before {
+            position: absolute;
+            content: '';
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: var(--accent-cyan-dim);
+            border-color: var(--accent-cyan);
+        }
+
+        .toggle-switch input:checked + .toggle-slider::before {
+            transform: translateX(22px);
+            background: var(--accent-cyan);
+        }
+
+        /* Form improvements */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-label-hint {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .form-input-wrapper {
+            position: relative;
+        }
+
+        .form-input-wrapper .form-input {
+            padding-right: 44px;
+        }
+
+        .input-toggle-visibility {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .input-toggle-visibility:hover {
+            color: var(--accent-cyan);
+        }
+
         .info-box {
-            padding: 14px;
-            background: rgba(0, 240, 255, 0.05);
-            border: 1px solid rgba(0, 240, 255, 0.1);
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(168, 85, 247, 0.03));
+            border: 1px solid rgba(0, 240, 255, 0.15);
             border-radius: var(--radius-md);
             font-size: 0.8rem;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.7;
+        }
+
+        .info-box.warning {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 215, 0, 0.02));
+            border-color: rgba(255, 215, 0, 0.2);
         }
 
         .info-box a {
             color: var(--accent-cyan);
             text-decoration: none;
+            font-weight: 500;
         }
 
         .info-box a:hover {
@@ -1187,11 +1895,192 @@
         }
 
         .info-box p {
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .info-box p:last-child {
             margin-bottom: 0;
+        }
+
+        .info-box ol {
+            margin: 8px 0;
+            padding-left: 18px;
+        }
+
+        .info-box ol li {
+            margin-bottom: 4px;
+        }
+
+        /* Action Buttons in Settings */
+        .settings-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .settings-actions .btn {
+            flex: 1;
+        }
+
+        /* Data Management Cards */
+        .data-action-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .data-action-card:hover {
+            border-color: var(--border-glow);
+            background: rgba(30, 30, 50, 0.6);
+        }
+
+        .data-action-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .data-action-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-cyan-dim);
+            color: var(--accent-cyan);
+            flex-shrink: 0;
+        }
+
+        .data-action-card.danger .data-action-icon {
+            background: var(--accent-pink-dim);
+            color: var(--accent-pink);
+        }
+
+        .data-action-info {
+            flex: 1;
+        }
+
+        .data-action-title {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .data-action-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .data-action-arrow {
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        .data-action-card:hover .data-action-arrow {
+            transform: translateX(4px);
+            color: var(--accent-cyan);
+        }
+
+        /* Stats in Settings */
+        .settings-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .settings-stat {
+            padding: 14px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+
+        .settings-stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 4px;
+        }
+
+        .settings-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Settings Footer */
+        .settings-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-glass);
+            text-align: center;
+        }
+
+        .settings-version {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .settings-credits {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .settings-credits a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .settings-credits a:hover {
+            text-decoration: underline;
+        }
+
+        /* Compact View Mode */
+        body.compact-view .cards-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+        }
+
+        body.compact-view .item-card {
+            border-radius: var(--radius-lg);
+        }
+
+        body.compact-view .card-poster {
+            height: 140px;
+        }
+
+        body.compact-view .card-header {
+            padding: 10px 12px;
+        }
+
+        body.compact-view .card-body {
+            padding: 8px 12px 12px;
+        }
+
+        body.compact-view .card-title {
+            font-size: 1rem;
+        }
+
+        body.compact-view .card-notes {
+            display: none;
+        }
+
+        /* No Animations Mode */
+        body.no-animations,
+        body.no-animations * {
+            animation: none !important;
+            transition: none !important;
         }
 
         /* Empty State */
@@ -1239,6 +2128,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-glass);
             border-radius: var(--radius-md);
+            -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             display: flex;
             align-items: center;
@@ -1428,6 +2318,31 @@
                 max-height: 95dvh;
                 border-radius: var(--radius-lg);
                 margin: 10px;
+            }
+
+            .modal-header {
+                padding: 18px 20px;
+            }
+
+            .modal-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .modal-title {
+                font-size: 1.1rem;
+            }
+
+            .modal-subtitle {
+                font-size: 0.72rem;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .modal-footer {
+                padding: 16px 20px;
             }
 
             .settings-panel {
@@ -1728,7 +2643,19 @@
     <div class="modal-overlay" id="itemModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal">
             <div class="modal-header">
-                <h2 class="modal-title" id="modalTitle">Add New Item</h2>
+                <div class="modal-title-wrapper">
+                    <div class="modal-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="8"></circle>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="modal-title" id="modalTitle">Add New Item</h2>
+                        <div class="modal-subtitle">Capture title, status, and rating in one pass.</div>
+                    </div>
+                </div>
                 <button class="modal-close" id="modalClose" aria-label="Close modal">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -1819,7 +2746,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-glass" id="cancelBtn">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="saveBtn">Save Item</button>
+                    <button type="submit" class="btn btn-save" id="saveBtn">Save Item</button>
                 </div>
             </form>
         </div>
@@ -1829,7 +2756,13 @@
     <div class="settings-backdrop" id="settingsBackdrop"></div>
     <div class="settings-panel" id="settingsPanel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
         <div class="settings-header">
-            <h2 class="settings-title" id="settingsTitle">Settings</h2>
+            <h2 class="settings-title" id="settingsTitle">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                Settings
+            </h2>
             <button class="modal-close" id="settingsClose" aria-label="Close settings">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -1837,70 +2770,366 @@
                 </svg>
             </button>
         </div>
+
+        <!-- Settings Tabs -->
+        <div class="settings-tabs">
+            <button class="settings-tab active" data-tab="sync">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+                Sync
+            </button>
+            <button class="settings-tab" data-tab="appearance">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                Display
+            </button>
+            <button class="settings-tab" data-tab="data">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                </svg>
+                Data
+            </button>
+            <button class="settings-tab" data-tab="about">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                About
+            </button>
+        </div>
+
         <div class="settings-body">
-            <div class="settings-section">
-                <h3 class="settings-section-title">GitHub Sync</h3>
-                <div class="token-display not-set" id="tokenDisplay">
-                    <span>🔑</span>
-                    <span class="token-status" id="tokenStatus">Not configured</span>
+            <!-- Sync Tab -->
+            <div class="settings-tab-content active" id="tab-sync">
+                <div class="settings-section">
+                    <h3 class="settings-section-title">GitHub Connection</h3>
+                    <div class="connection-card not-connected" id="connectionCard">
+                        <div class="connection-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                            </svg>
+                        </div>
+                        <div class="connection-info">
+                            <div class="connection-status" id="connectionStatus">Not Connected</div>
+                            <div class="connection-detail" id="connectionDetail">Configure token to enable sync</div>
+                        </div>
+                        <div class="connection-actions">
+                            <button type="button" class="btn-icon-sm" id="testConnectionBtn" title="Test connection">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <polyline points="23 4 23 10 17 10"></polyline>
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="githubToken">
+                            Personal Access Token
+                            <span class="form-label-hint">Required</span>
+                        </label>
+                        <div class="form-input-wrapper">
+                            <input type="password" class="form-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
+                            <button type="button" class="input-toggle-visibility" id="toggleTokenVisibility" title="Toggle visibility">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="repoName">
+                            Repository
+                            <span class="form-label-hint">owner/repo</span>
+                        </label>
+                        <input type="text" class="form-input" id="repoName" placeholder="username/repository" value="skillerious/WhatToWatch">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="dataPath">
+                            Data File Path
+                            <span class="form-label-hint">JSON file location</span>
+                        </label>
+                        <input type="text" class="form-input" id="dataPath" placeholder="data/watchlist.json" value="data/watchlist.json">
+                    </div>
+
+                    <div class="settings-actions">
+                        <button type="button" class="btn btn-primary" id="saveTokenBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                <polyline points="7 3 7 8 15 8"></polyline>
+                            </svg>
+                            Save & Sync
+                        </button>
+                    </div>
+
+                    <div class="info-box" style="margin-top: 16px;">
+                        <p><strong>Quick Setup:</strong></p>
+                        <ol>
+                            <li>Go to <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">GitHub Token Settings</a></li>
+                            <li>Click "Generate new token (classic)"</li>
+                            <li>Select the <strong>repo</strong> scope</li>
+                            <li>Copy token and paste above</li>
+                        </ol>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="githubToken">Personal Access Token</label>
-                    <input type="password" class="form-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="repoName">Repository</label>
-                    <input type="text" class="form-input" id="repoName" placeholder="skillerious/WhatToWatch" value="skillerious/WhatToWatch">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="dataPath">Data File Path</label>
-                    <input type="text" class="form-input" id="dataPath" placeholder="data/watchlist.json" value="data/watchlist.json">
-                </div>
-                <button class="btn btn-primary" id="saveTokenBtn" style="width: 100%; margin-bottom: 14px;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                        <polyline points="7 3 7 8 15 8"></polyline>
-                    </svg>
-                    Save & Sync
-                </button>
-                <div class="info-box">
-                    <p><strong>Setup Guide:</strong></p>
-                    <p>1. Go to <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">GitHub Tokens</a></p>
-                    <p>2. Generate new token (classic)</p>
-                    <p>3. Select <strong>repo</strong> scope</p>
-                    <p>4. Paste token above and click Save & Sync</p>
+
+                <div class="settings-section">
+                    <h3 class="settings-section-title">TMDB Integration</h3>
+                    <div class="form-group">
+                        <label class="form-label" for="tmdbKey">
+                            API Key
+                            <span class="form-label-hint">Optional</span>
+                        </label>
+                        <div class="form-input-wrapper">
+                            <input type="password" class="form-input" id="tmdbKey" placeholder="Your TMDB API key">
+                            <button type="button" class="input-toggle-visibility" id="toggleTmdbVisibility" title="Toggle visibility">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <p>Get a free API key at <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">TMDB</a> for automatic movie posters and search suggestions.</p>
+                    </div>
                 </div>
             </div>
-            <div class="settings-section">
-                <h3 class="settings-section-title">TMDB API (For Posters)</h3>
-                <div class="form-group">
-                    <label class="form-label" for="tmdbKey">TMDB API Key</label>
-                    <input type="password" class="form-input" id="tmdbKey" placeholder="Your TMDB API key">
+
+            <!-- Display Tab -->
+            <div class="settings-tab-content" id="tab-appearance">
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Preferences</h3>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-label">Auto-sync on changes</div>
+                            <div class="toggle-desc">Automatically save to GitHub when you make changes</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="autoSyncToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-label">Show completion dates</div>
+                            <div class="toggle-desc">Display when you finished watching items</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="showDatesToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-label">Compact card view</div>
+                            <div class="toggle-desc">Use smaller cards to fit more on screen</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="compactViewToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-label">Animations</div>
+                            <div class="toggle-desc">Enable smooth transitions and effects</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="animationsToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                 </div>
-                <div class="info-box">
-                    <p>Get a free API key at <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">TMDB</a> for movie posters and auto-complete search.</p>
+
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Default Values</h3>
+                    <div class="form-group">
+                        <label class="form-label" for="defaultCategory">Default Category</label>
+                        <select class="form-input" id="defaultCategory">
+                            <option value="movie">Movie</option>
+                            <option value="tv">TV Show</option>
+                            <option value="anime">Anime</option>
+                            <option value="documentary">Documentary</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="defaultStatus">Default Status</label>
+                        <select class="form-input" id="defaultStatus">
+                            <option value="towatch">To Watch</option>
+                            <option value="watching">Watching</option>
+                            <option value="watched">Watched</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="settings-section">
-                <h3 class="settings-section-title">Data Management</h3>
-                <button class="btn btn-glass" id="exportBtn" style="width: 100%; margin-bottom: 10px;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                    Export JSON
-                </button>
-                <button class="btn btn-glass" id="importBtn" style="width: 100%;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="17 8 12 3 7 8"></polyline>
-                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                    </svg>
-                    Import JSON
-                </button>
-                <input type="file" id="importFile" accept=".json" style="display: none;">
+
+            <!-- Data Tab -->
+            <div class="settings-tab-content" id="tab-data">
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Your Library</h3>
+                    <div class="settings-stats">
+                        <div class="settings-stat">
+                            <div class="settings-stat-value" id="settingsStatTotal">0</div>
+                            <div class="settings-stat-label">Total Items</div>
+                        </div>
+                        <div class="settings-stat">
+                            <div class="settings-stat-value" id="settingsStatWatched">0</div>
+                            <div class="settings-stat-label">Completed</div>
+                        </div>
+                        <div class="settings-stat">
+                            <div class="settings-stat-value" id="settingsStatWatching">0</div>
+                            <div class="settings-stat-label">In Progress</div>
+                        </div>
+                        <div class="settings-stat">
+                            <div class="settings-stat-value" id="settingsStatToWatch">0</div>
+                            <div class="settings-stat-label">Queued</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Import & Export</h3>
+                    <div class="data-action-card" id="exportBtn">
+                        <div class="data-action-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                        </div>
+                        <div class="data-action-info">
+                            <div class="data-action-title">Export Library</div>
+                            <div class="data-action-desc">Download your watchlist as a JSON file</div>
+                        </div>
+                        <div class="data-action-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="data-action-card" id="importBtn">
+                        <div class="data-action-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                        </div>
+                        <div class="data-action-info">
+                            <div class="data-action-title">Import Library</div>
+                            <div class="data-action-desc">Load watchlist from a JSON file</div>
+                        </div>
+                        <div class="data-action-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <input type="file" id="importFile" accept=".json" hidden>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Danger Zone</h3>
+                    <div class="data-action-card danger" id="clearDataBtn">
+                        <div class="data-action-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </div>
+                        <div class="data-action-info">
+                            <div class="data-action-title">Clear All Data</div>
+                            <div class="data-action-desc">Remove all items from your library</div>
+                        </div>
+                        <div class="data-action-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="info-box warning" style="margin-top: 12px;">
+                        <p><strong>Warning:</strong> Clearing data cannot be undone. Make sure to export your library first if you want to keep a backup.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Tab -->
+            <div class="settings-tab-content" id="tab-about">
+                <div class="settings-section" style="text-align: center; padding: 20px 0;">
+                    <div style="font-size: 4rem; margin-bottom: 16px;">🎬</div>
+                    <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.8rem; margin-bottom: 8px; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">WatchVault</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Your Personal Cinema Tracker</p>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Features</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-glass); border-radius: var(--radius-sm);">
+                            <span style="font-size: 1.2rem;">📊</span>
+                            <span style="color: var(--text-secondary); font-size: 0.85rem;">Track movies, shows, anime & more</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-glass); border-radius: var(--radius-sm);">
+                            <span style="font-size: 1.2rem;">☁️</span>
+                            <span style="color: var(--text-secondary); font-size: 0.85rem;">GitHub sync for cloud backup</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-glass); border-radius: var(--radius-sm);">
+                            <span style="font-size: 1.2rem;">🎨</span>
+                            <span style="color: var(--text-secondary); font-size: 0.85rem;">TMDB integration for posters</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-glass); border-radius: var(--radius-sm);">
+                            <span style="font-size: 1.2rem;">📱</span>
+                            <span style="color: var(--text-secondary); font-size: 0.85rem;">Fully responsive design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Links</h3>
+                    <div class="data-action-card" onclick="window.open('https://github.com/skillerious/WhatToWatch', '_blank')">
+                        <div class="data-action-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                            </svg>
+                        </div>
+                        <div class="data-action-info">
+                            <div class="data-action-title">GitHub Repository</div>
+                            <div class="data-action-desc">View source code and contribute</div>
+                        </div>
+                        <div class="data-action-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-footer">
+            <div class="settings-version">Version 2.0.0</div>
+            <div class="settings-credits">
+                Made with ❤️ by <a href="https://github.com/skillerious" target="_blank" rel="noopener">skillerious</a>
             </div>
         </div>
     </div>
@@ -1931,14 +3160,30 @@
                 this.selectedPoster = '';
                 this.selectedTmdbId = '';
 
+                // Preferences
+                this.autoSync = localStorage.getItem('watchvault_autosync') !== 'false';
+                this.showDates = localStorage.getItem('watchvault_showdates') !== 'false';
+
                 this.init();
             }
 
             async init() {
                 this.cacheElements();
                 this.bindEvents();
+                this.loadPreferences();
                 await this.loadData();
                 this.hideLoading();
+            }
+
+            loadPreferences() {
+                // Apply compact view
+                if (localStorage.getItem('watchvault_compact') === 'true') {
+                    document.body.classList.add('compact-view');
+                }
+                // Apply animations preference
+                if (localStorage.getItem('watchvault_animations') === 'false') {
+                    document.body.classList.add('no-animations');
+                }
             }
 
             cacheElements() {
@@ -1992,6 +3237,23 @@
                 this.tokenDisplay = document.getElementById('tokenDisplay');
                 this.tokenStatus = document.getElementById('tokenStatus');
                 this.importFile = document.getElementById('importFile');
+
+                // New settings elements
+                this.settingsTabs = document.querySelectorAll('.settings-tab');
+                this.settingsTabContents = document.querySelectorAll('.settings-tab-content');
+                this.connectionCard = document.getElementById('connectionCard');
+                this.connectionStatus = document.getElementById('connectionStatus');
+                this.connectionDetail = document.getElementById('connectionDetail');
+                this.testConnectionBtn = document.getElementById('testConnectionBtn');
+                this.toggleTokenVisibility = document.getElementById('toggleTokenVisibility');
+                this.toggleTmdbVisibility = document.getElementById('toggleTmdbVisibility');
+                this.clearDataBtn = document.getElementById('clearDataBtn');
+                this.autoSyncToggle = document.getElementById('autoSyncToggle');
+                this.showDatesToggle = document.getElementById('showDatesToggle');
+                this.compactViewToggle = document.getElementById('compactViewToggle');
+                this.animationsToggle = document.getElementById('animationsToggle');
+                this.defaultCategory = document.getElementById('defaultCategory');
+                this.defaultStatus = document.getElementById('defaultStatus');
 
                 this.syncIndicator = document.getElementById('syncIndicator');
                 this.syncDot = document.getElementById('syncDot');
@@ -2083,6 +3345,50 @@
                 this.exportBtn?.addEventListener('click', () => this.exportData());
                 this.importBtn?.addEventListener('click', () => this.importFile?.click());
                 this.importFile?.addEventListener('change', (e) => this.handleImport(e));
+
+                // Settings tabs
+                this.settingsTabs.forEach(tab => {
+                    tab.addEventListener('click', () => this.switchSettingsTab(tab.dataset.tab));
+                });
+
+                // Test connection
+                this.testConnectionBtn?.addEventListener('click', () => this.testConnection());
+
+                // Toggle password visibility
+                this.toggleTokenVisibility?.addEventListener('click', () => {
+                    this.toggleInputVisibility(this.githubToken, this.toggleTokenVisibility);
+                });
+                this.toggleTmdbVisibility?.addEventListener('click', () => {
+                    this.toggleInputVisibility(this.tmdbKeyInput, this.toggleTmdbVisibility);
+                });
+
+                // Clear all data
+                this.clearDataBtn?.addEventListener('click', () => this.clearAllData());
+
+                // Preference toggles
+                this.autoSyncToggle?.addEventListener('change', (e) => {
+                    localStorage.setItem('watchvault_autosync', e.target.checked);
+                    this.autoSync = e.target.checked;
+                });
+                this.showDatesToggle?.addEventListener('change', (e) => {
+                    localStorage.setItem('watchvault_showdates', e.target.checked);
+                    this.showDates = e.target.checked;
+                    this.render();
+                });
+                this.compactViewToggle?.addEventListener('change', (e) => {
+                    localStorage.setItem('watchvault_compact', e.target.checked);
+                    document.body.classList.toggle('compact-view', e.target.checked);
+                });
+                this.animationsToggle?.addEventListener('change', (e) => {
+                    localStorage.setItem('watchvault_animations', e.target.checked);
+                    document.body.classList.toggle('no-animations', !e.target.checked);
+                });
+                this.defaultCategory?.addEventListener('change', (e) => {
+                    localStorage.setItem('watchvault_defaultcategory', e.target.value);
+                });
+                this.defaultStatus?.addEventListener('change', (e) => {
+                    localStorage.setItem('watchvault_defaultstatus', e.target.value);
+                });
 
                 this.searchInput?.addEventListener('input', (e) => {
                     this.searchQuery = e.target.value.toLowerCase();
@@ -2593,10 +3899,33 @@
             }
 
             openSettings() {
+                // Populate form values
                 this.githubToken.value = this.token;
                 this.repoNameInput.value = this.repoName;
                 this.dataPathInput.value = this.dataPath;
                 this.tmdbKeyInput.value = this.tmdbKey;
+
+                // Update connection status card
+                this.updateConnectionCard();
+
+                // Update settings stats
+                this.updateSettingsStats();
+
+                // Load preference toggles
+                this.autoSyncToggle.checked = localStorage.getItem('watchvault_autosync') !== 'false';
+                this.showDatesToggle.checked = localStorage.getItem('watchvault_showdates') !== 'false';
+                this.compactViewToggle.checked = localStorage.getItem('watchvault_compact') === 'true';
+                this.animationsToggle.checked = localStorage.getItem('watchvault_animations') !== 'false';
+
+                // Load default values
+                const defaultCat = localStorage.getItem('watchvault_defaultcategory') || 'movie';
+                const defaultStat = localStorage.getItem('watchvault_defaultstatus') || 'towatch';
+                if (this.defaultCategory) this.defaultCategory.value = defaultCat;
+                if (this.defaultStatus) this.defaultStatus.value = defaultStat;
+
+                // Reset to first tab
+                this.switchSettingsTab('sync');
+
                 this.settingsPanel?.classList.add('active');
                 this.settingsBackdrop?.classList.add('active');
                 document.body.style.overflow = 'hidden';
@@ -2606,6 +3935,119 @@
                 this.settingsPanel?.classList.remove('active');
                 this.settingsBackdrop?.classList.remove('active');
                 document.body.style.overflow = '';
+            }
+
+            switchSettingsTab(tabId) {
+                this.settingsTabs.forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.tab === tabId);
+                });
+                this.settingsTabContents.forEach(content => {
+                    content.classList.toggle('active', content.id === `tab-${tabId}`);
+                });
+            }
+
+            updateConnectionCard() {
+                if (!this.connectionCard) return;
+
+                if (this.token && this.repoName) {
+                    this.connectionCard.classList.remove('not-connected', 'error');
+                    this.connectionStatus.textContent = 'Connected';
+                    this.connectionDetail.textContent = this.repoName;
+                } else {
+                    this.connectionCard.classList.add('not-connected');
+                    this.connectionCard.classList.remove('error');
+                    this.connectionStatus.textContent = 'Not Connected';
+                    this.connectionDetail.textContent = 'Configure token to enable sync';
+                }
+            }
+
+            updateSettingsStats() {
+                const total = this.items.length;
+                const watched = this.items.filter(i => i.status === 'watched').length;
+                const watching = this.items.filter(i => i.status === 'watching').length;
+                const towatch = this.items.filter(i => i.status === 'towatch').length;
+
+                const statTotal = document.getElementById('settingsStatTotal');
+                const statWatched = document.getElementById('settingsStatWatched');
+                const statWatching = document.getElementById('settingsStatWatching');
+                const statToWatch = document.getElementById('settingsStatToWatch');
+
+                if (statTotal) statTotal.textContent = total;
+                if (statWatched) statWatched.textContent = watched;
+                if (statWatching) statWatching.textContent = watching;
+                if (statToWatch) statToWatch.textContent = towatch;
+            }
+
+            async testConnection() {
+                if (!this.token || !this.repoName) {
+                    this.showToast('Please enter token and repository first', 'error');
+                    return;
+                }
+
+                this.testConnectionBtn?.classList.add('spinning');
+
+                try {
+                    const response = await fetch(
+                        `https://api.github.com/repos/${this.repoName}`,
+                        {
+                            headers: {
+                                'Authorization': `token ${this.token}`,
+                                'Accept': 'application/vnd.github.v3+json'
+                            }
+                        }
+                    );
+
+                    if (response.ok) {
+                        const repo = await response.json();
+                        this.connectionCard?.classList.remove('not-connected', 'error');
+                        this.connectionStatus.textContent = 'Connected';
+                        this.connectionDetail.textContent = repo.full_name;
+                        this.showToast('Connection successful!');
+                    } else if (response.status === 401) {
+                        throw new Error('Invalid token');
+                    } else if (response.status === 404) {
+                        throw new Error('Repository not found');
+                    } else {
+                        throw new Error('Connection failed');
+                    }
+                } catch (error) {
+                    this.connectionCard?.classList.remove('not-connected');
+                    this.connectionCard?.classList.add('error');
+                    this.connectionStatus.textContent = 'Connection Failed';
+                    this.connectionDetail.textContent = error.message;
+                    this.showToast(error.message, 'error');
+                } finally {
+                    this.testConnectionBtn?.classList.remove('spinning');
+                }
+            }
+
+            toggleInputVisibility(input, button) {
+                if (!input || !button) return;
+
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+
+                // Update icon
+                const eyeOpen = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+                const eyeClosed = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+
+                button.innerHTML = isPassword ? eyeClosed : eyeOpen;
+            }
+
+            async clearAllData() {
+                if (!confirm('Are you sure you want to delete ALL items from your library? This cannot be undone!')) {
+                    return;
+                }
+
+                if (!confirm('This will permanently delete ' + this.items.length + ' items. Are you absolutely sure?')) {
+                    return;
+                }
+
+                this.items = [];
+                await this.saveData();
+                this.render();
+                this.updateSettingsStats();
+                this.showToast('All data has been cleared');
             }
 
             async saveSettings() {
@@ -2624,10 +4066,12 @@
                     this.fileSha = null;
                     await this.loadData();
                     await this.saveData();
+                    this.updateConnectionCard();
                     this.showToast('Settings saved and synced!');
                 } else {
                     this.showToast('Settings saved');
                     this.updateSyncStatus('local');
+                    this.updateConnectionCard();
                 }
 
                 this.updateTokenDisplay(!!this.token);
