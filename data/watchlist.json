@@ -1,5 +1,23 @@
 [
   {
+    "id": "wv_1768073274866_eqvornhlm",
+    "title": "Yellowstone",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2018",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/s4QRRYc1V2e68Qy9Wel9MI8fhRP.jpg",
+    "tmdbId": "73586",
+    "overview": "Follow the violent world of the Dutton family, who controls the largest contiguous ranch in the United States. Led by their patriarch John Dutton, the family defends their property against constant attack by land developers, an Indian reservation, and America’s first National Park.",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T19:27:54.866Z",
+    "updatedAt": "2026-01-10T19:27:54.866Z"
+  },
+  {
     "id": "wv_1768073260790_glheguufa",
     "title": "Designated Survivor",
     "category": "tv",
