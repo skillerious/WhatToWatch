@@ -239,7 +239,7 @@
         <div class="cards-grid" id="cardsGrid"></div>
 
         <!-- Empty State -->
-        <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-state is-hidden" id="emptyState">
             <div class="empty-icon">🎬</div>
             <h2 class="empty-title">Your Vault is Empty</h2>
             <p class="empty-text">Start building your watchlist by adding movies, shows, and anime. Your data syncs with GitHub for cross-device access.</p>
@@ -287,20 +287,44 @@
             </div>
             <form id="itemForm">
                 <div class="modal-body">
-                    <div class="form-group tmdb-search-container">
-                        <label class="form-label" for="itemTitle">Title *</label>
-                        <input type="text" class="form-input" id="itemTitle" required placeholder="Search or enter title..." autocomplete="off">
-                        <div class="tmdb-results" id="tmdbResults"></div>
+                    <div class="modal-section">
+                        <div class="form-group tmdb-search-container">
+                            <label class="form-label" for="itemTitle">Title *</label>
+                            <input type="text" class="form-input" id="itemTitle" required placeholder="Search or enter title..." autocomplete="off">
+                            <div class="tmdb-results" id="tmdbResults"></div>
+                        </div>
                     </div>
-                    <div class="form-row">
+                    <div class="modal-section">
                         <div class="form-group">
                             <label class="form-label" for="itemCategory">Category</label>
-                            <select class="form-select" id="itemCategory">
-                                <option value="movie">🎬 Movie</option>
-                                <option value="tv">📺 TV Show</option>
-                                <option value="anime">🎌 Anime</option>
-                                <option value="documentary">🎥 Documentary</option>
-                                <option value="other">✨ Other</option>
+                            <div class="category-selector" role="radiogroup" aria-label="Category">
+                                <button type="button" class="category-toggle" data-category="movie" role="radio" aria-checked="false">
+                                    <span class="category-toggle-icon">🎬</span>
+                                    <span class="category-toggle-text">Movie</span>
+                                </button>
+                                <button type="button" class="category-toggle" data-category="tv" role="radio" aria-checked="false">
+                                    <span class="category-toggle-icon">📺</span>
+                                    <span class="category-toggle-text">TV Show</span>
+                                </button>
+                                <button type="button" class="category-toggle" data-category="anime" role="radio" aria-checked="false">
+                                    <span class="category-toggle-icon">🎌</span>
+                                    <span class="category-toggle-text">Anime</span>
+                                </button>
+                                <button type="button" class="category-toggle" data-category="documentary" role="radio" aria-checked="false">
+                                    <span class="category-toggle-icon">🎥</span>
+                                    <span class="category-toggle-text">Documentary</span>
+                                </button>
+                                <button type="button" class="category-toggle" data-category="other" role="radio" aria-checked="false">
+                                    <span class="category-toggle-icon">✨</span>
+                                    <span class="category-toggle-text">Other</span>
+                                </button>
+                            </div>
+                            <select class="form-select sr-only" id="itemCategory" aria-label="Category">
+                                <option value="movie">Movie</option>
+                                <option value="tv">TV Show</option>
+                                <option value="anime">Anime</option>
+                                <option value="documentary">Documentary</option>
+                                <option value="other">Other</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -312,55 +336,59 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-row-3">
-                        <div class="form-group">
-                            <label class="form-label" for="itemYear">Year</label>
-                            <input type="text" class="form-input" id="itemYear" placeholder="2024">
+                    <div class="modal-section">
+                        <div class="form-row-3">
+                            <div class="form-group">
+                                <label class="form-label" for="itemYear">Year</label>
+                                <input type="text" class="form-input" id="itemYear" placeholder="2024">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="itemRating">My Rating</label>
+                                <select class="form-select" id="itemRating">
+                                    <option value="">Not rated</option>
+                                    <option value="10">10 - Masterpiece</option>
+                                    <option value="9">9 - Amazing</option>
+                                    <option value="8">8 - Great</option>
+                                    <option value="7">7 - Good</option>
+                                    <option value="6">6 - Fine</option>
+                                    <option value="5">5 - Average</option>
+                                    <option value="4">4 - Bad</option>
+                                    <option value="3">3 - Very Bad</option>
+                                    <option value="2">2 - Horrible</option>
+                                    <option value="1">1 - Appalling</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Priority</label>
+                                <div class="priority-input" id="priorityInput" role="radiogroup" aria-label="Priority rating">
+                                    <span class="priority-star" data-value="1" role="radio" aria-checked="false" tabindex="0">★</span>
+                                    <span class="priority-star" data-value="2" role="radio" aria-checked="false" tabindex="0">★</span>
+                                    <span class="priority-star" data-value="3" role="radio" aria-checked="false" tabindex="0">★</span>
+                                    <span class="priority-star" data-value="4" role="radio" aria-checked="false" tabindex="0">★</span>
+                                    <span class="priority-star" data-value="5" role="radio" aria-checked="false" tabindex="0">★</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label" for="itemRating">My Rating</label>
-                            <select class="form-select" id="itemRating">
-                                <option value="">Not rated</option>
-                                <option value="10">10 - Masterpiece</option>
-                                <option value="9">9 - Amazing</option>
-                                <option value="8">8 - Great</option>
-                                <option value="7">7 - Good</option>
-                                <option value="6">6 - Fine</option>
-                                <option value="5">5 - Average</option>
-                                <option value="4">4 - Bad</option>
-                                <option value="3">3 - Very Bad</option>
-                                <option value="2">2 - Horrible</option>
-                                <option value="1">1 - Appalling</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Priority</label>
-                            <div class="priority-input" id="priorityInput" role="radiogroup" aria-label="Priority rating">
-                                <span class="priority-star" data-value="1" role="radio" aria-checked="false" tabindex="0">★</span>
-                                <span class="priority-star" data-value="2" role="radio" aria-checked="false" tabindex="0">★</span>
-                                <span class="priority-star" data-value="3" role="radio" aria-checked="false" tabindex="0">★</span>
-                                <span class="priority-star" data-value="4" role="radio" aria-checked="false" tabindex="0">★</span>
-                                <span class="priority-star" data-value="5" role="radio" aria-checked="false" tabindex="0">★</span>
+                        <div class="form-row is-hidden" id="dateCompletedRow">
+                            <div class="form-group">
+                                <label class="form-label" for="itemDateCompleted">Date Completed</label>
+                                <input type="date" class="form-input" id="itemDateCompleted">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="itemSeason">Season/Episode</label>
+                                <input type="text" class="form-input" id="itemSeason" placeholder="S1 E10">
                             </div>
                         </div>
                     </div>
-                    <div class="form-row" id="dateCompletedRow" style="display: none;">
+                    <div class="modal-section">
                         <div class="form-group">
-                            <label class="form-label" for="itemDateCompleted">Date Completed</label>
-                            <input type="date" class="form-input" id="itemDateCompleted">
+                            <label class="form-label" for="itemTags">Tags</label>
+                            <input type="text" class="form-input" id="itemTags" placeholder="action, thriller, sci-fi (comma separated)">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="itemSeason">Season/Episode</label>
-                            <input type="text" class="form-input" id="itemSeason" placeholder="S1 E10">
+                            <label class="form-label" for="itemNotes">Notes</label>
+                            <textarea class="form-textarea" id="itemNotes" placeholder="Your thoughts, reminders, or review..."></textarea>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="itemTags">Tags</label>
-                        <input type="text" class="form-input" id="itemTags" placeholder="action, thriller, sci-fi (comma separated)">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="itemNotes">Notes</label>
-                        <textarea class="form-textarea" id="itemNotes" placeholder="Your thoughts, reminders, or review..."></textarea>
                     </div>
                     <input type="hidden" id="itemId">
                     <input type="hidden" id="itemPoster">
@@ -501,7 +529,7 @@
                         </button>
                     </div>
 
-                    <div class="info-box" style="margin-top: 16px;">
+                    <div class="info-box info-box-spaced">
                         <p><strong>Quick Setup:</strong></p>
                         <ol>
                             <li>Go to <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">GitHub Token Settings</a></li>
@@ -541,41 +569,41 @@
                     <h3 class="settings-section-title">Preferences</h3>
                     <div class="toggle-row">
                         <div class="toggle-info">
-                            <div class="toggle-label">Auto-sync on changes</div>
+                            <div class="toggle-label" id="autoSyncLabel">Auto-sync on changes</div>
                             <div class="toggle-desc">Automatically save to GitHub when you make changes</div>
                         </div>
                         <label class="toggle-switch">
-                            <input type="checkbox" id="autoSyncToggle" checked>
+                            <input type="checkbox" id="autoSyncToggle" checked aria-labelledby="autoSyncLabel">
                             <span class="toggle-slider"></span>
                         </label>
                     </div>
                     <div class="toggle-row">
                         <div class="toggle-info">
-                            <div class="toggle-label">Show completion dates</div>
+                            <div class="toggle-label" id="showDatesLabel">Show completion dates</div>
                             <div class="toggle-desc">Display when you finished watching items</div>
                         </div>
                         <label class="toggle-switch">
-                            <input type="checkbox" id="showDatesToggle" checked>
+                            <input type="checkbox" id="showDatesToggle" checked aria-labelledby="showDatesLabel">
                             <span class="toggle-slider"></span>
                         </label>
                     </div>
                     <div class="toggle-row">
                         <div class="toggle-info">
-                            <div class="toggle-label">Compact card view</div>
+                            <div class="toggle-label" id="compactViewLabel">Compact card view</div>
                             <div class="toggle-desc">Use smaller cards to fit more on screen</div>
                         </div>
                         <label class="toggle-switch">
-                            <input type="checkbox" id="compactViewToggle">
+                            <input type="checkbox" id="compactViewToggle" aria-labelledby="compactViewLabel">
                             <span class="toggle-slider"></span>
                         </label>
                     </div>
                     <div class="toggle-row">
                         <div class="toggle-info">
-                            <div class="toggle-label">Animations</div>
+                            <div class="toggle-label" id="animationsLabel">Animations</div>
                             <div class="toggle-desc">Enable smooth transitions and effects</div>
                         </div>
                         <label class="toggle-switch">
-                            <input type="checkbox" id="animationsToggle" checked>
+                            <input type="checkbox" id="animationsToggle" checked aria-labelledby="animationsLabel">
                             <span class="toggle-slider"></span>
                         </label>
                     </div>
@@ -666,7 +694,7 @@
                             </svg>
                         </div>
                     </div>
-                    <input type="file" id="importFile" accept=".json" hidden>
+                    <input type="file" id="importFile" accept=".json" hidden aria-label="Import watchlist file">
                 </div>
 
                 <div class="settings-section">
@@ -690,7 +718,7 @@
                             </svg>
                         </div>
                     </div>
-                    <div class="info-box warning" style="margin-top: 12px;">
+                    <div class="info-box warning info-box-spaced-sm">
                         <p><strong>Warning:</strong> Clearing data cannot be undone. Make sure to export your library first if you want to keep a backup.</p>
                     </div>
                 </div>
@@ -698,30 +726,32 @@
 
             <!-- About Tab -->
             <div class="settings-tab-content" id="tab-about">
-                <div class="settings-section" style="text-align: center; padding: 20px 0;">
-                    <div style="font-size: 4rem; margin-bottom: 16px;">🎬</div>
-                    <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.8rem; margin-bottom: 8px; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">WatchVault</h2>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Your Personal Cinema Tracker</p>
+                <div class="settings-section about-hero">
+                    <div class="about-logo">
+                        <img src="assets/logo.png" alt="WatchVault logo">
+                    </div>
+                    <h2 class="about-title">WatchVault</h2>
+                    <p class="about-subtitle">Your Personal Cinema Tracker</p>
                 </div>
 
                 <div class="settings-section">
                     <h3 class="settings-section-title">Features</h3>
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-glass); border-radius: var(--radius-sm);">
-                            <span style="font-size: 1.2rem;">📊</span>
-                            <span style="color: var(--text-secondary); font-size: 0.85rem;">Track movies, shows, anime & more</span>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <span class="about-feature-icon">📊</span>
+                            <span class="about-feature-text">Track movies, shows, anime &amp; more</span>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-glass); border-radius: var(--radius-sm);">
-                            <span style="font-size: 1.2rem;">☁️</span>
-                            <span style="color: var(--text-secondary); font-size: 0.85rem;">GitHub sync for cloud backup</span>
+                        <div class="about-feature">
+                            <span class="about-feature-icon">☁️</span>
+                            <span class="about-feature-text">GitHub sync for cloud backup</span>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-glass); border-radius: var(--radius-sm);">
-                            <span style="font-size: 1.2rem;">🎨</span>
-                            <span style="color: var(--text-secondary); font-size: 0.85rem;">TMDB integration for posters</span>
+                        <div class="about-feature">
+                            <span class="about-feature-icon">🎨</span>
+                            <span class="about-feature-text">TMDB integration for posters</span>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-glass); border-radius: var(--radius-sm);">
-                            <span style="font-size: 1.2rem;">📱</span>
-                            <span style="color: var(--text-secondary); font-size: 0.85rem;">Fully responsive design</span>
+                        <div class="about-feature">
+                            <span class="about-feature-icon">📱</span>
+                            <span class="about-feature-text">Fully responsive design</span>
                         </div>
                     </div>
                 </div>

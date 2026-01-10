@@ -22,6 +22,12 @@
                 this.selectedOverview = '';
                 this.tmdbOverviewPending = new Set();
                 this.tmdbOverviewFetchActive = false;
+                this.tmdbOverviewQueue = [];
+                this.tmdbOverviewQueueIds = new Set();
+                this.tmdbOverviewCache = new Map();
+                this.tmdbRateLimitMs = 300;
+                this.tmdbKeyInvalid = false;
+                this.tmdbKeyErrorShown = false;
 
                 // Preferences
                 this.autoSync = localStorage.getItem('watchvault_autosync') !== 'false';
@@ -92,6 +98,7 @@
                 this.priorityInput = document.getElementById('priorityInput');
                 this.dateCompletedRow = document.getElementById('dateCompletedRow');
                 this.tmdbResults = document.getElementById('tmdbResults');
+                this.categoryToggleBtns = document.querySelectorAll('.category-toggle');
 
                 this.settingsPanel = document.getElementById('settingsPanel');
                 this.settingsBackdrop = document.getElementById('settingsBackdrop');
@@ -187,8 +194,14 @@
                 });
                 this.itemForm?.addEventListener('submit', (e) => this.handleSubmit(e));
 
+                this.categoryToggleBtns.forEach(btn => {
+                    btn.addEventListener('click', () => this.setCategory(btn.dataset.category));
+                });
+
+                this.itemCategory?.addEventListener('change', (e) => this.setCategory(e.target.value));
+
                 this.itemStatus?.addEventListener('change', (e) => {
-                    this.dateCompletedRow.style.display = e.target.value === 'watched' ? 'grid' : 'none';
+                    this.dateCompletedRow.classList.toggle('is-hidden', e.target.value !== 'watched');
                     if (e.target.value === 'watched' && !this.itemDateCompleted.value) {
                         this.itemDateCompleted.value = new Date().toISOString().split('T')[0];
                     }
@@ -494,15 +507,15 @@
 
                 if (this.items.length === 0) {
                     this.cardsGrid.innerHTML = '';
-                    this.emptyState.style.display = 'block';
+                    this.emptyState.classList.remove('is-hidden');
                     return;
                 }
 
-                this.emptyState.style.display = 'none';
+                this.emptyState.classList.add('is-hidden');
 
                 if (filtered.length === 0) {
                     this.cardsGrid.innerHTML = `
-                        <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-state empty-state-full">
                             <div class="empty-icon">🔍</div>
                             <h2 class="empty-title">No Results</h2>
                             <p class="empty-text">Try adjusting your search or filters</p>
@@ -513,7 +526,7 @@
 
                 this.cardsGrid.innerHTML = filtered.map((item, index) => this.renderCard(item, index)).join('');
                 this.bindCardEvents();
-                if (this.viewMode === 'list' && this.tmdbKey) {
+                if (this.tmdbKey) {
                     this.ensureTmdbOverviews(filtered);
                 }
             }
@@ -574,11 +587,11 @@
                         ${listTags ? `<div class="list-detail full"><div class="list-detail-label">Tags</div><div class="list-detail-value"><div class="list-tags">${listTags}</div></div></div>` : ''}
                     </div>
                 `;
-                const listPremise = item.overview
+                const premiseBlock = item.overview
                     ? `
-                        <div class="list-premise">
-                            <div class="list-premise-label">Premise</div>
-                            <p class="list-premise-text">${this.escapeHtml(item.overview)}</p>
+                        <div class="premise-block">
+                            <div class="premise-label">Premise</div>
+                            <p class="premise-text">${this.escapeHtml(item.overview)}</p>
                         </div>
                       `
                     : '';
@@ -609,7 +622,7 @@
                         </div>
                         <div class="card-body">
                             ${listDetails}
-                            ${listPremise}
+                            ${premiseBlock}
                             ${item.notes ? `<p class="card-notes">${this.escapeHtml(item.notes)}</p>` : ''}
                             ${tags}
                             <div class="card-actions">
@@ -704,23 +717,32 @@
             }
 
             async ensureTmdbOverviews(items) {
-                if (this.tmdbOverviewFetchActive || !this.tmdbKey) return;
+                if (!this.tmdbKey || this.tmdbKeyInvalid) return;
 
-                const pending = items.filter(item =>
-                    item.tmdbId && !item.overview && !this.tmdbOverviewPending.has(item.tmdbId)
-                );
+                items.forEach(item => this.queueTmdbOverview(item));
 
-                if (pending.length === 0) return;
+                if (this.tmdbOverviewFetchActive || this.tmdbOverviewQueue.length === 0) {
+                    return;
+                }
 
                 this.tmdbOverviewFetchActive = true;
                 let updated = false;
 
                 try {
-                    for (const item of pending) {
+                    while (this.tmdbOverviewQueue.length > 0) {
+                        const item = this.tmdbOverviewQueue.shift();
+                        const tmdbId = item.tmdbId;
+                        this.tmdbOverviewQueueIds.delete(tmdbId);
+
                         const overview = await this.fetchTmdbOverview(item);
                         if (overview) {
+                            this.tmdbOverviewCache.set(tmdbId, overview);
                             item.overview = overview;
                             updated = true;
+                        }
+
+                        if (this.tmdbOverviewQueue.length > 0) {
+                            await this.sleep(this.tmdbRateLimitMs);
                         }
                     }
                 } finally {
@@ -740,10 +762,27 @@
                 this.tmdbOverviewPending.add(item.tmdbId);
 
                 try {
+                    const cached = this.tmdbOverviewCache.get(item.tmdbId);
+                    if (cached) return cached;
+
                     const type = this.getTmdbTypeForItem(item);
                     const response = await fetch(
                         `https://api.themoviedb.org/3/${type}/${item.tmdbId}?api_key=${this.tmdbKey}`
                     );
+
+                    if (response.status === 401 || response.status === 403) {
+                        this.tmdbKeyInvalid = true;
+                        if (!this.tmdbKeyErrorShown) {
+                            this.showToast('TMDB API key is invalid or unauthorized', 'error');
+                            this.tmdbKeyErrorShown = true;
+                        }
+                        return '';
+                    }
+
+                    if (response.status === 429) {
+                        this.tmdbRateLimitMs = Math.min(this.tmdbRateLimitMs + 200, 1200);
+                        return '';
+                    }
 
                     if (!response.ok) return '';
 
@@ -755,6 +794,23 @@
                 } finally {
                     this.tmdbOverviewPending.delete(item.tmdbId);
                 }
+            }
+
+            queueTmdbOverview(item) {
+                if (!item.tmdbId || item.overview) return;
+                if (this.tmdbOverviewPending.has(item.tmdbId)) return;
+                if (this.tmdbOverviewQueueIds.has(item.tmdbId)) return;
+                if (this.tmdbOverviewCache.has(item.tmdbId)) {
+                    item.overview = this.tmdbOverviewCache.get(item.tmdbId);
+                    return;
+                }
+
+                this.tmdbOverviewQueueIds.add(item.tmdbId);
+                this.tmdbOverviewQueue.push(item);
+            }
+
+            sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
             }
 
             setViewMode(view) {
@@ -785,11 +841,13 @@
                 this.selectedTmdbId = item?.tmdbId || '';
                 this.selectedOverview = item?.overview || '';
                 this.tmdbResults?.classList.remove('active');
+                const defaultCategory = localStorage.getItem('watchvault_defaultcategory') || 'movie';
+                const defaultStatus = localStorage.getItem('watchvault_defaultstatus') || 'towatch';
 
                 if (item) {
                     this.itemTitle.value = item.title;
-                    this.itemCategory.value = item.category;
                     this.itemStatus.value = item.status;
+                    this.setCategory(item.category);
                     this.itemYear.value = item.year || '';
                     this.itemRating.value = item.rating || '';
                     this.itemTags.value = item.tags?.join(', ') || '';
@@ -799,9 +857,14 @@
                     this.itemPoster.value = item.poster || '';
                     this.itemTmdbId.value = item.tmdbId || '';
 
-                    this.dateCompletedRow.style.display = item.status === 'watched' ? 'grid' : 'none';
+                    this.dateCompletedRow.classList.toggle('is-hidden', item.status !== 'watched');
                 } else {
-                    this.dateCompletedRow.style.display = 'none';
+                    this.itemStatus.value = defaultStatus;
+                    this.setCategory(defaultCategory);
+                    this.dateCompletedRow.classList.toggle('is-hidden', defaultStatus !== 'watched');
+                    if (defaultStatus === 'watched' && !this.itemDateCompleted.value) {
+                        this.itemDateCompleted.value = new Date().toISOString().split('T')[0];
+                    }
                 }
 
                 this.itemModal.classList.add('active');
@@ -820,6 +883,19 @@
                 this.priorityInput?.querySelectorAll('.priority-star').forEach((star, index) => {
                     star.classList.toggle('active', index < value);
                     star.setAttribute('aria-checked', index < value);
+                });
+            }
+
+            setCategory(value) {
+                const nextCategory = value || 'movie';
+                if (this.itemCategory) {
+                    this.itemCategory.value = nextCategory;
+                }
+
+                this.categoryToggleBtns.forEach(btn => {
+                    const isActive = btn.dataset.category === nextCategory;
+                    btn.classList.toggle('active', isActive);
+                    btn.setAttribute('aria-checked', isActive);
                 });
             }
 
@@ -1059,6 +1135,8 @@
                 this.repoName = this.repoNameInput.value.trim();
                 this.dataPath = this.dataPathInput.value.trim() || 'data/watchlist.json';
                 this.tmdbKey = this.tmdbKeyInput.value.trim();
+                this.tmdbKeyInvalid = false;
+                this.tmdbKeyErrorShown = false;
 
                 localStorage.setItem('watchvault_token', this.token);
                 localStorage.setItem('watchvault_repo', this.repoName);
