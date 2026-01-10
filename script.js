@@ -7,6 +7,8 @@
                 this.searchQuery = '';
                 this.editingId = null;
                 this.priority = 0;
+                this.scrollTicking = false;
+                this.scrollThreshold = 320;
 
                 // GitHub Config - Default to your repo
                 this.token = localStorage.getItem('watchvault_token') || '';
@@ -43,6 +45,7 @@
                 this.loadPreferences();
                 await this.loadData();
                 this.hideLoading();
+                this.updateBackToTop();
             }
 
             loadPreferences() {
@@ -78,6 +81,7 @@
                 this.loadingOverlay = document.getElementById('loadingOverlay');
                 this.toastContainer = document.getElementById('toastContainer');
                 this.mobileMenu = document.getElementById('mobileMenu');
+                this.backToTopBtn = document.getElementById('backToTop');
 
                 this.itemModal = document.getElementById('itemModal');
                 this.itemForm = document.getElementById('itemForm');
@@ -257,9 +261,16 @@
                 this.clearDataBtn?.addEventListener('click', () => this.clearAllData());
 
                 // Preference toggles
-                this.autoSyncToggle?.addEventListener('change', (e) => {
-                    localStorage.setItem('watchvault_autosync', e.target.checked);
-                    this.autoSync = e.target.checked;
+                this.autoSyncToggle?.addEventListener('change', async (e) => {
+                    const enabled = e.target.checked;
+                    localStorage.setItem('watchvault_autosync', enabled);
+                    this.autoSync = enabled;
+
+                    if (enabled) {
+                        await this.saveData({ forceSync: true });
+                    } else {
+                        this.updateSyncStatus(this.token && this.repoName ? 'manual' : 'local');
+                    }
                 });
                 this.showDatesToggle?.addEventListener('change', (e) => {
                     localStorage.setItem('watchvault_showdates', e.target.checked);
@@ -304,6 +315,12 @@
                     });
                 });
 
+                if (this.backToTopBtn) {
+                    this.backToTopBtn.addEventListener('click', () => this.scrollToTop());
+                    window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
+                    window.addEventListener('resize', () => this.handleScroll(), { passive: true });
+                }
+
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         this.closeModal();
@@ -327,6 +344,32 @@
                 this.hamburgerBtn?.classList.remove('active');
                 this.mobileMenu?.classList.remove('active');
                 document.body.style.overflow = '';
+            }
+
+            handleScroll() {
+                if (this.scrollTicking) return;
+                this.scrollTicking = true;
+
+                window.requestAnimationFrame(() => {
+                    this.updateBackToTop();
+                    this.scrollTicking = false;
+                });
+            }
+
+            updateBackToTop() {
+                if (!this.backToTopBtn) return;
+
+                const doc = document.documentElement;
+                const scrollTop = window.scrollY || doc.scrollTop || 0;
+                const scrollHeight = doc.scrollHeight - doc.clientHeight;
+                const progress = scrollHeight > 0 ? Math.min(scrollTop / scrollHeight, 1) : 0;
+
+                this.backToTopBtn.style.setProperty('--scroll-progress', `${Math.round(progress * 100)}%`);
+                this.backToTopBtn.classList.toggle('visible', scrollTop > this.scrollThreshold);
+            }
+
+            scrollToTop() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
             async handleTmdbSearch(query) {
@@ -408,11 +451,11 @@
                             const content = atob(data.content);
                             this.items = JSON.parse(content);
                             this.updateTokenDisplay(true);
-                            this.updateSyncStatus('synced');
+                            this.updateSyncStatus(this.autoSync ? 'synced' : 'manual');
                             this.render();
                             return;
                         } else if (response.status === 404) {
-                            this.updateSyncStatus('synced');
+                            this.updateSyncStatus(this.autoSync ? 'synced' : 'manual');
                         }
                     } catch (error) {
                         console.error('GitHub load error:', error);
@@ -432,51 +475,55 @@
                 this.render();
             }
 
-            async saveData() {
+            async saveData({ forceSync = false } = {}) {
                 localStorage.setItem('watchvault_items', JSON.stringify(this.items));
 
-                if (this.token && this.repoName) {
-                    try {
-                        this.updateSyncStatus('syncing');
+                const shouldSync = this.token && this.repoName && (this.autoSync || forceSync);
+                if (!shouldSync) {
+                    this.updateSyncStatus(this.token && this.repoName ? 'manual' : 'local');
+                    return;
+                }
 
-                        const content = btoa(unescape(encodeURIComponent(JSON.stringify(this.items, null, 2))));
-                        const payload = {
-                            message: `Update watchlist - ${new Date().toISOString()}`,
-                            content: content,
-                            branch: 'main'
-                        };
+                try {
+                    this.updateSyncStatus('syncing');
 
-                        if (this.fileSha) {
-                            payload.sha = this.fileSha;
-                        }
+                    const content = btoa(unescape(encodeURIComponent(JSON.stringify(this.items, null, 2))));
+                    const payload = {
+                        message: `Update watchlist - ${new Date().toISOString()}`,
+                        content: content,
+                        branch: 'main'
+                    };
 
-                        const response = await fetch(
-                            `https://api.github.com/repos/${this.repoName}/contents/${this.dataPath}`,
-                            {
-                                method: 'PUT',
-                                headers: {
-                                    'Authorization': `token ${this.token}`,
-                                    'Content-Type': 'application/json',
-                                    'Accept': 'application/vnd.github.v3+json'
-                                },
-                                body: JSON.stringify(payload)
-                            }
-                        );
-
-                        if (response.ok) {
-                            const data = await response.json();
-                            this.fileSha = data.content.sha;
-                            this.updateSyncStatus('synced');
-                        } else {
-                            const errorData = await response.json();
-                            console.error('GitHub API Error:', errorData);
-                            throw new Error(errorData.message || 'Sync failed');
-                        }
-                    } catch (error) {
-                        console.error('GitHub sync error:', error);
-                        this.updateSyncStatus('error');
-                        this.showToast('Saved locally, GitHub sync failed', 'error');
+                    if (this.fileSha) {
+                        payload.sha = this.fileSha;
                     }
+
+                    const response = await fetch(
+                        `https://api.github.com/repos/${this.repoName}/contents/${this.dataPath}`,
+                        {
+                            method: 'PUT',
+                            headers: {
+                                'Authorization': `token ${this.token}`,
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/vnd.github.v3+json'
+                            },
+                            body: JSON.stringify(payload)
+                        }
+                    );
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.fileSha = data.content.sha;
+                        this.updateSyncStatus(this.autoSync ? 'synced' : 'manual');
+                    } else {
+                        const errorData = await response.json();
+                        console.error('GitHub API Error:', errorData);
+                        throw new Error(errorData.message || 'Sync failed');
+                    }
+                } catch (error) {
+                    console.error('GitHub sync error:', error);
+                    this.updateSyncStatus('error');
+                    this.showToast('Saved locally, GitHub sync failed', 'error');
                 }
             }
 
@@ -491,6 +538,13 @@
                     case 'syncing':
                         this.syncDot.classList.add('syncing');
                         this.syncText.textContent = 'Syncing...';
+                        break;
+                    case 'manual':
+                        this.syncDot.classList.add('manual');
+                        this.syncText.textContent = 'Manual';
+                        break;
+                    case 'local':
+                        this.syncText.textContent = 'Local Only';
                         break;
                     case 'error':
                         this.syncText.textContent = 'Sync Error';
@@ -535,6 +589,8 @@
                 const statusLabels = { towatch: 'To Watch', watching: 'Watching', watched: 'Watched' };
                 const categoryIcons = { movie: '🎬', tv: '📺', anime: '🎌', documentary: '🎥', other: '✨' };
 
+                const showDates = this.showDates;
+
                 const stars = Array(5).fill(0).map((_, i) =>
                     `<span class="star ${i < item.priority ? 'filled' : ''}">★</span>`
                 ).join('');
@@ -544,7 +600,7 @@
 
                 const posterUrl = item.poster ? `https://image.tmdb.org/t/p/w200${item.poster}` : '';
 
-                const dateCompleted = item.dateCompleted
+                const dateCompleted = showDates && item.dateCompleted
                     ? `<div class="date-completed">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="20 6 9 17 4 12"></polyline>
@@ -559,6 +615,12 @@
                     ? (item.dateCompleted || item.updatedAt || item.createdAt)
                     : (item.updatedAt || item.createdAt);
                 const updatedValue = updatedDate ? this.formatDate(updatedDate) : 'N/A';
+                const updatedDetail = showDates ? `
+                        <div class="list-detail">
+                            <div class="list-detail-label">${updatedLabel}</div>
+                            <div class="list-detail-value">${updatedValue}</div>
+                        </div>
+                    ` : '';
                 const listTags = item.tags?.length
                     ? item.tags.map(t => `<span class="tag">${this.escapeHtml(t)}</span>`).join('')
                     : '';
@@ -580,10 +642,7 @@
                             <div class="list-detail-label">Season/Episode</div>
                             <div class="list-detail-value">${item.season ? this.escapeHtml(item.season) : 'N/A'}</div>
                         </div>
-                        <div class="list-detail">
-                            <div class="list-detail-label">${updatedLabel}</div>
-                            <div class="list-detail-value">${updatedValue}</div>
-                        </div>
+                        ${updatedDetail}
                         ${listTags ? `<div class="list-detail full"><div class="list-detail-label">Tags</div><div class="list-detail-value"><div class="list-tags">${listTags}</div></div></div>` : ''}
                     </div>
                 `;
@@ -1147,7 +1206,7 @@
                     this.showToast('Syncing with GitHub...');
                     this.fileSha = null;
                     await this.loadData();
-                    await this.saveData();
+                    await this.saveData({ forceSync: true });
                     this.updateConnectionCard();
                     this.showToast('Settings saved and synced!');
                 } else {
