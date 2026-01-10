@@ -1,1 +1,36 @@
-
+[
+  {
+    "id": "wv_1768040405604_ifki8dv85",
+    "title": "True Detective",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2014",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/cuV2O5ZyDLHSOWzg3nLVljp1ubw.jpg",
+    "tmdbId": "46648",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T10:20:05.604Z",
+    "updatedAt": "2026-01-10T10:20:05.604Z"
+  },
+  {
+    "id": "wv_1768040340566_5ie2n9825",
+    "title": "Game of Thrones",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2011",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg",
+    "tmdbId": "1399",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T10:19:00.567Z",
+    "updatedAt": "2026-01-10T10:19:00.567Z"
+  }
+]
