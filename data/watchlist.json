@@ -1,5 +1,22 @@
 [
   {
+    "id": "wv_1768063863502_gqc81naem",
+    "title": "Black Summer",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2019",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/d27fZpY8jSZDOs1k0JCL0RY0b94.jpg",
+    "tmdbId": "88052",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T16:51:03.502Z",
+    "updatedAt": "2026-01-10T16:51:03.502Z"
+  },
+  {
     "id": "wv_1768063845894_atgvoaoxk",
     "title": "Z Nation",
     "category": "tv",
