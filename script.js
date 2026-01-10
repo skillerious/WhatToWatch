@@ -19,6 +19,9 @@
                 this.tmdbSearchTimeout = null;
                 this.selectedPoster = '';
                 this.selectedTmdbId = '';
+                this.selectedOverview = '';
+                this.tmdbOverviewPending = new Set();
+                this.tmdbOverviewFetchActive = false;
 
                 // Preferences
                 this.autoSync = localStorage.getItem('watchvault_autosync') !== 'false';
@@ -336,7 +339,8 @@
 
                                 return `
                                     <div class="tmdb-result-item" data-title="${this.escapeHtml(title)}"
-                                         data-year="${year}" data-poster="${item.poster_path || ''}" data-tmdb-id="${item.id}">
+                                         data-year="${year}" data-poster="${item.poster_path || ''}" data-tmdb-id="${item.id}"
+                                         data-overview="${encodeURIComponent(item.overview || '')}">
                                         <div class="tmdb-result-poster">
                                             ${poster ? `<img src="${poster}" alt="">` : '🎬'}
                                         </div>
@@ -354,6 +358,7 @@
                                     this.itemYear.value = item.dataset.year;
                                     this.selectedPoster = item.dataset.poster;
                                     this.selectedTmdbId = item.dataset.tmdbId;
+                                    this.selectedOverview = item.dataset.overview ? decodeURIComponent(item.dataset.overview) : '';
                                     this.itemPoster.value = this.selectedPoster;
                                     this.itemTmdbId.value = this.selectedTmdbId;
                                     this.tmdbResults.classList.remove('active');
@@ -508,6 +513,9 @@
 
                 this.cardsGrid.innerHTML = filtered.map((item, index) => this.renderCard(item, index)).join('');
                 this.bindCardEvents();
+                if (this.viewMode === 'list' && this.tmdbKey) {
+                    this.ensureTmdbOverviews(filtered);
+                }
             }
 
             renderCard(item, index) {
@@ -533,6 +541,47 @@
                     : '';
 
                 const ratingDisplay = item.rating ? `<span>⭐ ${item.rating}/10</span>` : '';
+                const updatedLabel = item.status === 'watched' ? 'Completed' : 'Updated';
+                const updatedDate = item.status === 'watched'
+                    ? (item.dateCompleted || item.updatedAt || item.createdAt)
+                    : (item.updatedAt || item.createdAt);
+                const updatedValue = updatedDate ? this.formatDate(updatedDate) : 'N/A';
+                const listTags = item.tags?.length
+                    ? item.tags.map(t => `<span class="tag">${this.escapeHtml(t)}</span>`).join('')
+                    : '';
+                const listDetails = `
+                    <div class="list-details">
+                        <div class="list-detail">
+                            <div class="list-detail-label">Year</div>
+                            <div class="list-detail-value">${item.year ? this.escapeHtml(item.year) : 'N/A'}</div>
+                        </div>
+                        <div class="list-detail">
+                            <div class="list-detail-label">Rating</div>
+                            <div class="list-detail-value">${item.rating ? `${item.rating}/10` : 'Unrated'}</div>
+                        </div>
+                        <div class="list-detail">
+                            <div class="list-detail-label">Priority</div>
+                            <div class="list-detail-value">${item.priority ? `${item.priority}/5` : 'None'}</div>
+                        </div>
+                        <div class="list-detail">
+                            <div class="list-detail-label">Season/Episode</div>
+                            <div class="list-detail-value">${item.season ? this.escapeHtml(item.season) : 'N/A'}</div>
+                        </div>
+                        <div class="list-detail">
+                            <div class="list-detail-label">${updatedLabel}</div>
+                            <div class="list-detail-value">${updatedValue}</div>
+                        </div>
+                        ${listTags ? `<div class="list-detail full"><div class="list-detail-label">Tags</div><div class="list-detail-value"><div class="list-tags">${listTags}</div></div></div>` : ''}
+                    </div>
+                `;
+                const listPremise = item.overview
+                    ? `
+                        <div class="list-premise">
+                            <div class="list-premise-label">Premise</div>
+                            <p class="list-premise-text">${this.escapeHtml(item.overview)}</p>
+                        </div>
+                      `
+                    : '';
 
                 return `
                     <article class="item-card" style="animation-delay: ${index * 0.03}s" data-id="${item.id}">
@@ -559,6 +608,8 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            ${listDetails}
+                            ${listPremise}
                             ${item.notes ? `<p class="card-notes">${this.escapeHtml(item.notes)}</p>` : ''}
                             ${tags}
                             <div class="card-actions">
@@ -648,6 +699,64 @@
                 document.getElementById('countOther').textContent = this.items.filter(i => i.category === 'other').length;
             }
 
+            getTmdbTypeForItem(item) {
+                return ['tv', 'anime'].includes(item.category) ? 'tv' : 'movie';
+            }
+
+            async ensureTmdbOverviews(items) {
+                if (this.tmdbOverviewFetchActive || !this.tmdbKey) return;
+
+                const pending = items.filter(item =>
+                    item.tmdbId && !item.overview && !this.tmdbOverviewPending.has(item.tmdbId)
+                );
+
+                if (pending.length === 0) return;
+
+                this.tmdbOverviewFetchActive = true;
+                let updated = false;
+
+                try {
+                    for (const item of pending) {
+                        const overview = await this.fetchTmdbOverview(item);
+                        if (overview) {
+                            item.overview = overview;
+                            updated = true;
+                        }
+                    }
+                } finally {
+                    this.tmdbOverviewFetchActive = false;
+                }
+
+                if (updated) {
+                    await this.saveData();
+                    this.render();
+                }
+            }
+
+            async fetchTmdbOverview(item) {
+                if (!item.tmdbId || !this.tmdbKey) return '';
+
+                if (this.tmdbOverviewPending.has(item.tmdbId)) return '';
+                this.tmdbOverviewPending.add(item.tmdbId);
+
+                try {
+                    const type = this.getTmdbTypeForItem(item);
+                    const response = await fetch(
+                        `https://api.themoviedb.org/3/${type}/${item.tmdbId}?api_key=${this.tmdbKey}`
+                    );
+
+                    if (!response.ok) return '';
+
+                    const data = await response.json();
+                    return data.overview || '';
+                } catch (error) {
+                    console.error('TMDB detail error:', error);
+                    return '';
+                } finally {
+                    this.tmdbOverviewPending.delete(item.tmdbId);
+                }
+            }
+
             setViewMode(view) {
                 const nextView = view === 'list' ? 'list' : 'grid';
                 this.viewMode = nextView;
@@ -674,6 +783,7 @@
                 this.setPriority(item?.priority || 0);
                 this.selectedPoster = item?.poster || '';
                 this.selectedTmdbId = item?.tmdbId || '';
+                this.selectedOverview = item?.overview || '';
                 this.tmdbResults?.classList.remove('active');
 
                 if (item) {
@@ -733,6 +843,7 @@
                     notes: this.itemNotes.value.trim(),
                     poster: this.itemPoster.value || this.selectedPoster,
                     tmdbId: this.itemTmdbId.value || this.selectedTmdbId,
+                    overview: this.selectedOverview || existingItem?.overview || '',
                     season: this.itemSeason.value.trim(),
                     dateCompleted: status === 'watched' ? (this.itemDateCompleted.value || new Date().toISOString().split('T')[0]) : null,
                     createdAt: existingItem?.createdAt || new Date().toISOString(),
