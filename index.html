@@ -580,7 +580,7 @@
             gap: 20px;
         }
 
-        /* Item Card - Enhanced with Poster */
+        /* Item Card */
         .item-card {
             background: var(--bg-card);
             border: 1px solid var(--border-glass);
@@ -714,7 +714,6 @@
             gap: 4px;
         }
 
-        /* Date Completed Badge */
         .date-completed {
             display: flex;
             align-items: center;
@@ -803,7 +802,6 @@
             color: var(--accent-green);
         }
 
-        /* Priority Stars */
         .priority-stars {
             display: flex;
             gap: 2px;
@@ -1030,6 +1028,9 @@
             background: rgba(255, 255, 255, 0.05);
             overflow: hidden;
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .tmdb-result-poster img {
@@ -1849,7 +1850,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="repoName">Repository</label>
-                    <input type="text" class="form-input" id="repoName" placeholder="username/WhatToWatch">
+                    <input type="text" class="form-input" id="repoName" placeholder="skillerious/WhatToWatch" value="skillerious/WhatToWatch">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="dataPath">Data File Path</label>
@@ -1868,17 +1869,17 @@
                     <p>1. Go to <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">GitHub Tokens</a></p>
                     <p>2. Generate new token (classic)</p>
                     <p>3. Select <strong>repo</strong> scope</p>
-                    <p>4. Enter your repo as: username/repo</p>
+                    <p>4. Paste token above and click Save & Sync</p>
                 </div>
             </div>
             <div class="settings-section">
-                <h3 class="settings-section-title">TMDB API (Optional)</h3>
+                <h3 class="settings-section-title">TMDB API (For Posters)</h3>
                 <div class="form-group">
                     <label class="form-label" for="tmdbKey">TMDB API Key</label>
                     <input type="password" class="form-input" id="tmdbKey" placeholder="Your TMDB API key">
                 </div>
                 <div class="info-box">
-                    <p>Get a free API key at <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">TMDB</a> for movie posters and auto-complete.</p>
+                    <p>Get a free API key at <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">TMDB</a> for movie posters and auto-complete search.</p>
                 </div>
             </div>
             <div class="settings-section">
@@ -1908,7 +1909,7 @@
     <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
     <script>
-        // WatchVault - Enhanced Application
+        // WatchVault - Enhanced Application with GitHub Sync
         class WatchVault {
             constructor() {
                 this.items = [];
@@ -1918,9 +1919,9 @@
                 this.editingId = null;
                 this.priority = 0;
 
-                // GitHub Config
+                // GitHub Config - Default to your repo
                 this.token = localStorage.getItem('watchvault_token') || '';
-                this.repoName = localStorage.getItem('watchvault_repo') || '';
+                this.repoName = localStorage.getItem('watchvault_repo') || 'skillerious/WhatToWatch';
                 this.dataPath = localStorage.getItem('watchvault_datapath') || 'data/watchlist.json';
                 this.fileSha = null;
 
@@ -1941,7 +1942,6 @@
             }
 
             cacheElements() {
-                // Buttons
                 this.addBtn = document.getElementById('addBtn');
                 this.fabBtn = document.getElementById('fabBtn');
                 this.emptyAddBtn = document.getElementById('emptyAddBtn');
@@ -1957,19 +1957,16 @@
                 this.mobileAddBtn = document.getElementById('mobileAddBtn');
                 this.mobileSettingsBtn = document.getElementById('mobileSettingsBtn');
 
-                // Containers
                 this.cardsGrid = document.getElementById('cardsGrid');
                 this.emptyState = document.getElementById('emptyState');
                 this.loadingOverlay = document.getElementById('loadingOverlay');
                 this.toastContainer = document.getElementById('toastContainer');
                 this.mobileMenu = document.getElementById('mobileMenu');
 
-                // Modal
                 this.itemModal = document.getElementById('itemModal');
                 this.itemForm = document.getElementById('itemForm');
                 this.modalTitle = document.getElementById('modalTitle');
 
-                // Form inputs
                 this.itemTitle = document.getElementById('itemTitle');
                 this.itemCategory = document.getElementById('itemCategory');
                 this.itemStatus = document.getElementById('itemStatus');
@@ -1986,7 +1983,6 @@
                 this.dateCompletedRow = document.getElementById('dateCompletedRow');
                 this.tmdbResults = document.getElementById('tmdbResults');
 
-                // Settings
                 this.settingsPanel = document.getElementById('settingsPanel');
                 this.settingsBackdrop = document.getElementById('settingsBackdrop');
                 this.githubToken = document.getElementById('githubToken');
@@ -1997,19 +1993,16 @@
                 this.tokenStatus = document.getElementById('tokenStatus');
                 this.importFile = document.getElementById('importFile');
 
-                // Sync indicator
                 this.syncIndicator = document.getElementById('syncIndicator');
                 this.syncDot = document.getElementById('syncDot');
                 this.syncText = document.getElementById('syncText');
 
-                // Search & Filters
                 this.searchInput = document.getElementById('searchInput');
                 this.filterBtns = document.querySelectorAll('.filter-btn');
                 this.categoryPills = document.querySelectorAll('.category-pill');
             }
 
             bindEvents() {
-                // Add buttons
                 [this.addBtn, this.fabBtn, this.emptyAddBtn, this.mobileAddBtn].forEach(btn => {
                     btn?.addEventListener('click', () => {
                         this.closeMobileMenu();
@@ -2017,11 +2010,9 @@
                     });
                 });
 
-                // Hamburger menu
-                this.hamburgerBtn.addEventListener('click', () => this.toggleMobileMenu());
+                this.hamburgerBtn?.addEventListener('click', () => this.toggleMobileMenu());
 
-                // Mobile menu items
-                this.mobileSettingsBtn.addEventListener('click', () => {
+                this.mobileSettingsBtn?.addEventListener('click', () => {
                     this.closeMobileMenu();
                     this.openSettings();
                 });
@@ -2032,8 +2023,6 @@
                         btn.classList.add('active');
                         this.currentFilter = btn.dataset.mobileFilter;
                         this.render();
-
-                        // Update desktop filters too
                         this.filterBtns.forEach(b => {
                             b.classList.toggle('active', b.dataset.filter === this.currentFilter);
                         });
@@ -2045,32 +2034,27 @@
                         this.currentCategory = btn.dataset.mobileCategory;
                         this.render();
                         this.closeMobileMenu();
-
-                        // Update desktop category pills
                         this.categoryPills.forEach(p => {
                             p.classList.toggle('active', p.dataset.category === this.currentCategory);
                         });
                     });
                 });
 
-                // Modal
-                this.modalClose.addEventListener('click', () => this.closeModal());
-                this.cancelBtn.addEventListener('click', () => this.closeModal());
-                this.itemModal.addEventListener('click', (e) => {
+                this.modalClose?.addEventListener('click', () => this.closeModal());
+                this.cancelBtn?.addEventListener('click', () => this.closeModal());
+                this.itemModal?.addEventListener('click', (e) => {
                     if (e.target === this.itemModal) this.closeModal();
                 });
-                this.itemForm.addEventListener('submit', (e) => this.handleSubmit(e));
+                this.itemForm?.addEventListener('submit', (e) => this.handleSubmit(e));
 
-                // Status change shows/hides date completed
-                this.itemStatus.addEventListener('change', (e) => {
+                this.itemStatus?.addEventListener('change', (e) => {
                     this.dateCompletedRow.style.display = e.target.value === 'watched' ? 'grid' : 'none';
                     if (e.target.value === 'watched' && !this.itemDateCompleted.value) {
                         this.itemDateCompleted.value = new Date().toISOString().split('T')[0];
                     }
                 });
 
-                // Priority stars
-                this.priorityInput.querySelectorAll('.priority-star').forEach(star => {
+                this.priorityInput?.querySelectorAll('.priority-star').forEach(star => {
                     star.addEventListener('click', () => this.setPriority(parseInt(star.dataset.value)));
                     star.addEventListener('keydown', (e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -2080,30 +2064,27 @@
                     });
                 });
 
-                // TMDB search
-                this.itemTitle.addEventListener('input', (e) => this.handleTmdbSearch(e.target.value));
-                this.itemTitle.addEventListener('focus', () => {
-                    if (this.tmdbResults.children.length > 0) {
+                this.itemTitle?.addEventListener('input', (e) => this.handleTmdbSearch(e.target.value));
+                this.itemTitle?.addEventListener('focus', () => {
+                    if (this.tmdbResults?.children.length > 0) {
                         this.tmdbResults.classList.add('active');
                     }
                 });
                 document.addEventListener('click', (e) => {
                     if (!e.target.closest('.tmdb-search-container')) {
-                        this.tmdbResults.classList.remove('active');
+                        this.tmdbResults?.classList.remove('active');
                     }
                 });
 
-                // Settings
-                this.settingsBtn.addEventListener('click', () => this.openSettings());
-                this.settingsClose.addEventListener('click', () => this.closeSettings());
-                this.settingsBackdrop.addEventListener('click', () => this.closeSettings());
-                this.saveTokenBtn.addEventListener('click', () => this.saveSettings());
-                this.exportBtn.addEventListener('click', () => this.exportData());
-                this.importBtn.addEventListener('click', () => this.importFile.click());
-                this.importFile.addEventListener('change', (e) => this.handleImport(e));
+                this.settingsBtn?.addEventListener('click', () => this.openSettings());
+                this.settingsClose?.addEventListener('click', () => this.closeSettings());
+                this.settingsBackdrop?.addEventListener('click', () => this.closeSettings());
+                this.saveTokenBtn?.addEventListener('click', () => this.saveSettings());
+                this.exportBtn?.addEventListener('click', () => this.exportData());
+                this.importBtn?.addEventListener('click', () => this.importFile?.click());
+                this.importFile?.addEventListener('change', (e) => this.handleImport(e));
 
-                // Search & Filter
-                this.searchInput.addEventListener('input', (e) => {
+                this.searchInput?.addEventListener('input', (e) => {
                     this.searchQuery = e.target.value.toLowerCase();
                     this.render();
                 });
@@ -2126,14 +2107,13 @@
                     });
                 });
 
-                // Keyboard shortcuts
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         this.closeModal();
                         this.closeSettings();
                         this.closeMobileMenu();
                     }
-                    if (e.key === 'n' && (e.ctrlKey || e.metaKey) && !this.itemModal.classList.contains('active')) {
+                    if (e.key === 'n' && (e.ctrlKey || e.metaKey) && !this.itemModal?.classList.contains('active')) {
                         e.preventDefault();
                         this.openModal();
                     }
@@ -2141,20 +2121,20 @@
             }
 
             toggleMobileMenu() {
-                this.hamburgerBtn.classList.toggle('active');
-                this.mobileMenu.classList.toggle('active');
-                document.body.style.overflow = this.mobileMenu.classList.contains('active') ? 'hidden' : '';
+                this.hamburgerBtn?.classList.toggle('active');
+                this.mobileMenu?.classList.toggle('active');
+                document.body.style.overflow = this.mobileMenu?.classList.contains('active') ? 'hidden' : '';
             }
 
             closeMobileMenu() {
-                this.hamburgerBtn.classList.remove('active');
-                this.mobileMenu.classList.remove('active');
+                this.hamburgerBtn?.classList.remove('active');
+                this.mobileMenu?.classList.remove('active');
                 document.body.style.overflow = '';
             }
 
             async handleTmdbSearch(query) {
                 if (!this.tmdbKey || query.length < 2) {
-                    this.tmdbResults.classList.remove('active');
+                    this.tmdbResults?.classList.remove('active');
                     return;
                 }
 
@@ -2171,15 +2151,11 @@
                             this.tmdbResults.innerHTML = data.results.slice(0, 6).map(item => {
                                 const title = item.title || item.name;
                                 const year = (item.release_date || item.first_air_date || '').split('-')[0];
-                                const poster = item.poster_path
-                                    ? `https://image.tmdb.org/t/p/w92${item.poster_path}`
-                                    : '';
+                                const poster = item.poster_path ? `https://image.tmdb.org/t/p/w92${item.poster_path}` : '';
 
                                 return `
                                     <div class="tmdb-result-item" data-title="${this.escapeHtml(title)}"
-                                         data-year="${year}"
-                                         data-poster="${item.poster_path || ''}"
-                                         data-tmdb-id="${item.id}">
+                                         data-year="${year}" data-poster="${item.poster_path || ''}" data-tmdb-id="${item.id}">
                                         <div class="tmdb-result-poster">
                                             ${poster ? `<img src="${poster}" alt="">` : '🎬'}
                                         </div>
@@ -2214,7 +2190,6 @@
             }
 
             async loadData() {
-                // Try GitHub first
                 if (this.token && this.repoName) {
                     try {
                         this.updateSyncStatus('syncing');
@@ -2238,7 +2213,6 @@
                             this.render();
                             return;
                         } else if (response.status === 404) {
-                            // File doesn't exist yet, that's okay
                             this.updateSyncStatus('synced');
                         }
                     } catch (error) {
@@ -2247,7 +2221,6 @@
                     }
                 }
 
-                // Fallback to localStorage
                 const stored = localStorage.getItem('watchvault_items');
                 if (stored) {
                     this.items = JSON.parse(stored);
@@ -2261,10 +2234,8 @@
             }
 
             async saveData() {
-                // Always save to localStorage
                 localStorage.setItem('watchvault_items', JSON.stringify(this.items));
 
-                // Sync to GitHub if configured
                 if (this.token && this.repoName) {
                     try {
                         this.updateSyncStatus('syncing');
@@ -2298,7 +2269,9 @@
                             this.fileSha = data.content.sha;
                             this.updateSyncStatus('synced');
                         } else {
-                            throw new Error('Sync failed');
+                            const errorData = await response.json();
+                            console.error('GitHub API Error:', errorData);
+                            throw new Error(errorData.message || 'Sync failed');
                         }
                     } catch (error) {
                         console.error('GitHub sync error:', error);
@@ -2309,6 +2282,7 @@
             }
 
             updateSyncStatus(status) {
+                if (!this.syncDot) return;
                 this.syncDot.className = 'sync-dot';
                 switch (status) {
                     case 'synced':
@@ -2366,9 +2340,7 @@
                 const tags = item.tags?.length ?
                     `<div class="card-tags">${item.tags.slice(0, 3).map(t => `<span class="tag">${this.escapeHtml(t)}</span>`).join('')}</div>` : '';
 
-                const posterUrl = item.poster
-                    ? `https://image.tmdb.org/t/p/w200${item.poster}`
-                    : '';
+                const posterUrl = item.poster ? `https://image.tmdb.org/t/p/w200${item.poster}` : '';
 
                 const dateCompleted = item.dateCompleted
                     ? `<div class="date-completed">
@@ -2379,9 +2351,7 @@
                        </div>`
                     : '';
 
-                const ratingDisplay = item.rating
-                    ? `<span>⭐ ${item.rating}/10</span>`
-                    : '';
+                const ratingDisplay = item.rating ? `<span>⭐ ${item.rating}/10</span>` : '';
 
                 return `
                     <article class="item-card" style="animation-delay: ${index * 0.03}s" data-id="${item.id}">
@@ -2468,7 +2438,6 @@
 
                     return matchesFilter && matchesCategory && matchesSearch;
                 }).sort((a, b) => {
-                    // Watched items sorted by completion date, others by priority then creation
                     if (a.status === 'watched' && b.status === 'watched') {
                         return new Date(b.dateCompleted || 0) - new Date(a.dateCompleted || 0);
                     }
@@ -2506,7 +2475,7 @@
                 this.setPriority(item?.priority || 0);
                 this.selectedPoster = item?.poster || '';
                 this.selectedTmdbId = item?.tmdbId || '';
-                this.tmdbResults.classList.remove('active');
+                this.tmdbResults?.classList.remove('active');
 
                 if (item) {
                     this.itemTitle.value = item.title;
@@ -2532,14 +2501,14 @@
             }
 
             closeModal() {
-                this.itemModal.classList.remove('active');
+                this.itemModal?.classList.remove('active');
                 document.body.style.overflow = '';
                 this.editingId = null;
             }
 
             setPriority(value) {
                 this.priority = value;
-                this.priorityInput.querySelectorAll('.priority-star').forEach((star, index) => {
+                this.priorityInput?.querySelectorAll('.priority-star').forEach((star, index) => {
                     star.classList.toggle('active', index < value);
                     star.setAttribute('aria-checked', index < value);
                 });
@@ -2548,10 +2517,7 @@
             async handleSubmit(e) {
                 e.preventDefault();
 
-                const tags = this.itemTags.value
-                    .split(',')
-                    .map(t => t.trim().toLowerCase())
-                    .filter(t => t);
+                const tags = this.itemTags.value.split(',').map(t => t.trim().toLowerCase()).filter(t => t);
 
                 const status = this.itemStatus.value;
                 const existingItem = this.editingId ? this.items.find(i => i.id === this.editingId) : null;
@@ -2604,7 +2570,6 @@
                 item.status = newStatus;
                 item.updatedAt = new Date().toISOString();
 
-                // Set date completed when marked as watched
                 if (newStatus === 'watched' && !item.dateCompleted) {
                     item.dateCompleted = new Date().toISOString().split('T')[0];
                 } else if (newStatus !== 'watched') {
@@ -2632,14 +2597,14 @@
                 this.repoNameInput.value = this.repoName;
                 this.dataPathInput.value = this.dataPath;
                 this.tmdbKeyInput.value = this.tmdbKey;
-                this.settingsPanel.classList.add('active');
-                this.settingsBackdrop.classList.add('active');
+                this.settingsPanel?.classList.add('active');
+                this.settingsBackdrop?.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
 
             closeSettings() {
-                this.settingsPanel.classList.remove('active');
-                this.settingsBackdrop.classList.remove('active');
+                this.settingsPanel?.classList.remove('active');
+                this.settingsBackdrop?.classList.remove('active');
                 document.body.style.overflow = '';
             }
 
@@ -2656,7 +2621,7 @@
 
                 if (this.token && this.repoName) {
                     this.showToast('Syncing with GitHub...');
-                    this.fileSha = null; // Reset SHA to fetch fresh
+                    this.fileSha = null;
                     await this.loadData();
                     await this.saveData();
                     this.showToast('Settings saved and synced!');
@@ -2671,11 +2636,11 @@
 
             updateTokenDisplay(hasToken) {
                 if (hasToken && this.repoName) {
-                    this.tokenDisplay.classList.remove('not-set');
-                    this.tokenStatus.textContent = 'Connected';
+                    this.tokenDisplay?.classList.remove('not-set');
+                    if (this.tokenStatus) this.tokenStatus.textContent = 'Connected';
                 } else {
-                    this.tokenDisplay.classList.add('not-set');
-                    this.tokenStatus.textContent = 'Not configured';
+                    this.tokenDisplay?.classList.add('not-set');
+                    if (this.tokenStatus) this.tokenStatus.textContent = 'Not configured';
                 }
             }
 
@@ -2704,7 +2669,6 @@
                     const text = await file.text();
                     const data = JSON.parse(text);
 
-                    // Handle both old format (array) and new format (object with items)
                     const items = Array.isArray(data) ? data : (data.items || []);
 
                     if (!Array.isArray(items)) {
@@ -2732,13 +2696,13 @@
                     <span>${type === 'success' ? '✓' : '⚠'}</span>
                     <span>${message}</span>
                 `;
-                this.toastContainer.appendChild(toast);
+                this.toastContainer?.appendChild(toast);
                 setTimeout(() => toast.remove(), 3000);
             }
 
             hideLoading() {
                 setTimeout(() => {
-                    this.loadingOverlay.classList.add('hidden');
+                    this.loadingOverlay?.classList.add('hidden');
                 }, 400);
             }
 
