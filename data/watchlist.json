@@ -1,5 +1,22 @@
 [
   {
+    "id": "wv_1768064636683_stgx9km77",
+    "title": "Breaking Bad",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2008",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg",
+    "tmdbId": "1396",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T17:03:56.683Z",
+    "updatedAt": "2026-01-10T17:03:56.683Z"
+  },
+  {
     "id": "wv_1768063936387_66p2adod7",
     "title": "Supernatural",
     "category": "tv",
