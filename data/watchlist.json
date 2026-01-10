@@ -1,5 +1,23 @@
 [
   {
+    "id": "wv_1768072559043_06zdmhfgu",
+    "title": "The Last of Us",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2023",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg",
+    "tmdbId": "100088",
+    "overview": "Twenty years after modern civilization has been destroyed, Joel, a hardened survivor, is hired to smuggle Ellie, a 14-year-old girl, out of an oppressive quarantine zone. What starts as a small job soon becomes a brutal, heartbreaking journey, as they both must traverse the United States and depend on each other for survival.",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T19:15:59.043Z",
+    "updatedAt": "2026-01-10T19:15:59.043Z"
+  },
+  {
     "id": "wv_1768072541590_lxnemrm7r",
     "title": "Band of Brothers",
     "category": "tv",
