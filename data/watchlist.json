@@ -1,5 +1,23 @@
 [
   {
+    "id": "wv_1768066492770_mxhz4h4sg",
+    "title": "The X-Files",
+    "category": "tv",
+    "status": "towatch",
+    "year": "1993",
+    "priority": 5,
+    "rating": 10,
+    "tags": [],
+    "notes": "",
+    "poster": "/rcBx0p8h51LHceyhquYMxbspJQu.jpg",
+    "tmdbId": "4087",
+    "overview": "The exploits of FBI Special Agents Fox Mulder and Dana Scully who investigate X-Files: marginalized, unsolved cases involving paranormal phenomena. Mulder believes in the existence of aliens and the paranormal while Scully, a skeptic, is assigned to make scientific analyses of Mulder's discoveries that debunk Mulder's work and thus return him to mainstream cases.",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T17:34:52.770Z",
+    "updatedAt": "2026-01-10T17:34:52.770Z"
+  },
+  {
     "id": "wv_1768066444952_etb31rzul",
     "title": "The Man in the High Castle",
     "category": "tv",
