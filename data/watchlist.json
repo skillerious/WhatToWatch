@@ -1,5 +1,23 @@
 [
   {
+    "id": "wv_1768073245258_svv8nkqjo",
+    "title": "Chernobyl",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2019",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg",
+    "tmdbId": "87108",
+    "overview": "The true story of one of the worst man-made catastrophes in history: the catastrophic nuclear accident at Chernobyl. A tale of the brave men and women who sacrificed to save Europe from unimaginable disaster.",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T19:27:25.258Z",
+    "updatedAt": "2026-01-10T19:27:25.258Z"
+  },
+  {
     "id": "wv_1768073172148_7v4kltrsu",
     "title": "Westworld",
     "category": "tv",
