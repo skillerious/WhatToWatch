@@ -1,5 +1,22 @@
 [
   {
+    "id": "wv_1768062987998_3qbq2zzkg",
+    "title": "Deadwood",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2004",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/fWwxYAuqY4Na7fKI3Qq2nFWCwG8.jpg",
+    "tmdbId": "1406",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T16:36:27.998Z",
+    "updatedAt": "2026-01-10T16:36:27.998Z"
+  },
+  {
     "id": "wv_1768062914170_bqo7pl3nf",
     "title": "Hunters",
     "category": "tv",
