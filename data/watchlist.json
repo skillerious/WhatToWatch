@@ -1,5 +1,23 @@
 [
   {
+    "id": "wv_1768070925370_6frcpa2yb",
+    "title": "The Sopranos",
+    "category": "tv",
+    "status": "towatch",
+    "year": "1999",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/rTc7ZXdroqjkKivFPvCPX0Ru7uw.jpg",
+    "tmdbId": "1398",
+    "overview": "The story of New Jersey-based Italian-American mobster Tony Soprano and the difficulties he faces as he tries to balance the conflicting requirements of his home life and the criminal organization he heads. Those difficulties are often highlighted through his ongoing professional relationship with psychiatrist Jennifer Melfi. The show features Tony's family members and Mafia associates in prominent roles and story arcs, most notably his wife Carmela and his cousin and protégé Christopher Moltisanti.",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T18:48:45.370Z",
+    "updatedAt": "2026-01-10T18:48:45.370Z"
+  },
+  {
     "id": "wv_1768070919342_uuaigci1y",
     "title": "The Shield",
     "category": "tv",
