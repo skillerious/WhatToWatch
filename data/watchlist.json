@@ -1,5 +1,23 @@
 [
   {
+    "id": "wv_1768072671684_ao8u2lmp2",
+    "title": "Firefly",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2002",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/vZcKsy4sGAvWMVqLluwYuoi11Kj.jpg",
+    "tmdbId": "1437",
+    "overview": "In the year 2517, after the arrival of humans in a new star system, follow the adventures of the renegade crew of Serenity, a \"Firefly-class\" spaceship.",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T19:17:51.684Z",
+    "updatedAt": "2026-01-10T19:17:51.684Z"
+  },
+  {
     "id": "wv_1768072659871_y4fa94aqu",
     "title": "House of the Dragon",
     "category": "tv",
