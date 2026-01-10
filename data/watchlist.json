@@ -1,5 +1,22 @@
 [
   {
+    "id": "wv_1768062686749_3tnpuxojs",
+    "title": "Vikings",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2013",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg",
+    "tmdbId": "44217",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T16:31:26.749Z",
+    "updatedAt": "2026-01-10T16:31:26.749Z"
+  },
+  {
     "id": "wv_1768040405604_ifki8dv85",
     "title": "True Detective",
     "category": "tv",
