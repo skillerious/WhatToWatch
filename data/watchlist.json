@@ -1,5 +1,22 @@
 [
   {
+    "id": "wv_1768063926850_lga3achn6",
+    "title": "The Mandalorian",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2019",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg",
+    "tmdbId": "82856",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T16:52:06.850Z",
+    "updatedAt": "2026-01-10T16:52:06.850Z"
+  },
+  {
     "id": "wv_1768063902401_egadb5wfo",
     "title": "Dexter",
     "category": "tv",
