@@ -69,7 +69,7 @@
     "dateCompleted": null,
     "createdAt": "2026-01-10T17:04:11.325Z",
     "updatedAt": "2026-01-10T17:04:11.325Z",
-    "overview": "Six years before Saul Goodman meets Walter White. We meet him when the man who will become Saul Goodman is known as Jimmy McGill, a small-time lawyer searching for his destiny, and, more immediately, hustling to make ends meet. Working alongside, and, often, against Jimmy, is ÃÂ¢ÃÂÃÂfixerÃÂ¢ÃÂÃÂ Mike Ehrmantraut. The series tracks JimmyÃÂ¢ÃÂÃÂs transformation into Saul Goodman, the man who puts ÃÂ¢ÃÂÃÂcriminalÃÂ¢ÃÂÃÂ in ÃÂ¢ÃÂÃÂcriminal lawyer\"."
+    "overview": "Six years before Saul Goodman meets Walter White. We meet him when the man who will become Saul Goodman is known as Jimmy McGill, a small-time lawyer searching for his destiny, and, more immediately, hustling to make ends meet. Working alongside, and, often, against Jimmy, is ÃÂÃÂ¢ÃÂÃÂÃÂÃÂfixerÃÂÃÂ¢ÃÂÃÂÃÂÃÂ Mike Ehrmantraut. The series tracks JimmyÃÂÃÂ¢ÃÂÃÂÃÂÃÂs transformation into Saul Goodman, the man who puts ÃÂÃÂ¢ÃÂÃÂÃÂÃÂcriminalÃÂÃÂ¢ÃÂÃÂÃÂÃÂ in ÃÂÃÂ¢ÃÂÃÂÃÂÃÂcriminal lawyer\"."
   },
   {
     "id": "wv_1768064636683_stgx9km77",
@@ -185,17 +185,17 @@
     "category": "tv",
     "status": "towatch",
     "year": "2014",
-    "priority": 0,
-    "rating": null,
+    "priority": 5,
+    "rating": 10,
     "tags": [],
     "notes": "",
     "poster": "/gXfeDMkEcHoYBvtkbU11g3F81b.jpg",
     "tmdbId": "61345",
+    "overview": "Three years after the zombie virus has gutted the country, a team of everyday heroes must transport the only known survivor of the plague from New York to California, where the last functioning viral lab waits for his blood.",
     "season": "",
     "dateCompleted": null,
     "createdAt": "2026-01-10T16:50:45.894Z",
-    "updatedAt": "2026-01-10T16:50:45.894Z",
-    "overview": "Three years after the zombie virus has gutted the country, a team of everyday heroes must transport the only known survivor of the plague from New York to California, where the last functioning viral lab waits for his blood."
+    "updatedAt": "2026-01-10T17:27:04.873Z"
   },
   {
     "id": "wv_1768062999385_1z5i9gabc",
