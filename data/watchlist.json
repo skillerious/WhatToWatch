@@ -1,5 +1,22 @@
 [
   {
+    "id": "wv_1768063936387_66p2adod7",
+    "title": "Supernatural",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2005",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/u40gJarLPlIkwouKlzGdobQOV9k.jpg",
+    "tmdbId": "1622",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T16:52:16.387Z",
+    "updatedAt": "2026-01-10T16:52:16.387Z"
+  },
+  {
     "id": "wv_1768063926850_lga3achn6",
     "title": "The Mandalorian",
     "category": "tv",
