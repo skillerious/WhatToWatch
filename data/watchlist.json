@@ -1,5 +1,22 @@
 [
   {
+    "id": "wv_1768063902401_egadb5wfo",
+    "title": "Dexter",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2006",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/q8dWfc4JwQuv3HayIZeO84jAXED.jpg",
+    "tmdbId": "1405",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T16:51:42.401Z",
+    "updatedAt": "2026-01-10T16:51:42.401Z"
+  },
+  {
     "id": "wv_1768063887941_w0k73najq",
     "title": "The Walking Dead",
     "category": "tv",
