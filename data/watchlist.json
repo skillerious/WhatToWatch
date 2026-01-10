@@ -1,5 +1,23 @@
 [
   {
+    "id": "wv_1768072899521_4p4syar09",
+    "title": "The Walking Dead: Dead City",
+    "category": "tv",
+    "status": "towatch",
+    "year": "2023",
+    "priority": 0,
+    "rating": null,
+    "tags": [],
+    "notes": "",
+    "poster": "/wq3vuQzQgbS83zX3malAFWMsSwX.jpg",
+    "tmdbId": "194583",
+    "overview": "Maggie and Negan travel to post-apocalyptic Manhattan - long ago cut off from the mainland. The crumbling city is filled with the dead and denizens who have made it a world full of anarchy, danger, beauty, and terror.",
+    "season": "",
+    "dateCompleted": null,
+    "createdAt": "2026-01-10T19:21:39.521Z",
+    "updatedAt": "2026-01-10T19:21:39.521Z"
+  },
+  {
     "id": "wv_1768072882124_vmizsr1l4",
     "title": "Andor",
     "category": "tv",
