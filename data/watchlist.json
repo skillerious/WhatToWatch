@@ -723,7 +723,7 @@
     "id": "wv_1768063863502_gqc81naem",
     "title": "Black Summer",
     "category": "tv",
-    "status": "watching",
+    "status": "watched",
     "year": "2019",
     "priority": 0,
     "rating": null,
@@ -732,9 +732,9 @@
     "poster": "/d27fZpY8jSZDOs1k0JCL0RY0b94.jpg",
     "tmdbId": "88052",
     "season": "",
-    "dateCompleted": null,
+    "dateCompleted": "2026-01-20",
     "createdAt": "2026-01-10T16:51:03.502Z",
-    "updatedAt": "2026-01-20T20:49:00.158Z",
+    "updatedAt": "2026-01-20T20:49:05.122Z",
     "overview": "In the dark, early days of a zombie apocalypse, complete strangers band together to find the strength they need to survive and get back to loved ones."
   },
   {
