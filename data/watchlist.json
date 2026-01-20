@@ -741,7 +741,7 @@
     "id": "wv_1768063845894_atgvoaoxk",
     "title": "Z Nation",
     "category": "tv",
-    "status": "watching",
+    "status": "watched",
     "year": "2014",
     "priority": 5,
     "rating": 10,
@@ -751,9 +751,9 @@
     "tmdbId": "61345",
     "overview": "Three years after the zombie virus has gutted the country, a team of everyday heroes must transport the only known survivor of the plague from New York to California, where the last functioning viral lab waits for his blood.",
     "season": "",
-    "dateCompleted": null,
+    "dateCompleted": "2026-01-20",
     "createdAt": "2026-01-10T16:50:45.894Z",
-    "updatedAt": "2026-01-20T20:48:18.972Z"
+    "updatedAt": "2026-01-20T20:48:19.859Z"
   },
   {
     "id": "wv_1768062999385_1z5i9gabc",
