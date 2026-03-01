@@ -75,7 +75,7 @@
     "id": "wv_1768073245258_svv8nkqjo",
     "title": "Chernobyl",
     "category": "tv",
-    "status": "watching",
+    "status": "watched",
     "year": "2019",
     "priority": 0,
     "rating": null,
@@ -85,9 +85,9 @@
     "tmdbId": "87108",
     "overview": "The true story of one of the worst man-made catastrophes in history: the catastrophic nuclear accident at Chernobyl. A tale of the brave men and women who sacrificed to save Europe from unimaginable disaster.",
     "season": "",
-    "dateCompleted": null,
+    "dateCompleted": "2026-03-01",
     "createdAt": "2026-01-10T19:27:25.258Z",
-    "updatedAt": "2026-03-01T16:06:14.471Z"
+    "updatedAt": "2026-03-01T16:06:17.783Z"
   },
   {
     "id": "wv_1768073172148_7v4kltrsu",
