@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A cinematic, responsive Unreal Engine 5 level-building guide for Night of the Living Pins." />
+  <title>Night of the Living Pins — UE5 Level Build Bible</title>
+  <style>
+    :root{
+      color-scheme:dark;
+      --bg:#05070b;
+      --bg2:#0a0f16;
+      --ink:#edf5ff;
+      --muted:#a9b7c9;
+      --soft:#728097;
+      --panel:rgba(13,18,27,.72);
+      --panel2:rgba(18,25,37,.86);
+      --glass:rgba(255,255,255,.055);
+      --line:rgba(255,255,255,.115);
+      --line2:rgba(152,255,190,.24);
+      --acid:#9dffbb;
+      --mint:#55e5a4;
+      --cyan:#78d7ff;
+      --blue:#7da9ff;
+      --violet:#b59cff;
+      --amber:#ffd37d;
+      --orange:#ff9d62;
+      --red:#ff5e76;
+      --black:#030407;
+      --radius:24px;
+      --radius2:34px;
+      --shadow:0 28px 90px rgba(0,0,0,.55);
+      --shadow2:0 18px 50px rgba(0,0,0,.34);
+      --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+      --sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      --sidebar:318px;
+      --topbar:68px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:92px}
+    body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden}
+    body:before{content:"";position:fixed;inset:0;z-index:-4;background:
+      radial-gradient(circle at 10% -10%,rgba(125,169,255,.28),transparent 34%),
+      radial-gradient(circle at 92% 2%,rgba(157,255,187,.16),transparent 30%),
+      radial-gradient(circle at 55% 92%,rgba(255,94,118,.14),transparent 40%),
+      linear-gradient(180deg,#040509 0%,#07101a 46%,#04070d 100%)}
+    body:after{content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;background:
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+      background-size:46px 46px;mask-image:linear-gradient(to bottom,#000 10%,transparent 85%);opacity:.9}
+    .noise{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E")}
+    .fog{position:fixed;inset:auto -20% -16% -20%;height:42vh;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center,rgba(157,255,187,.12),transparent 63%);filter:blur(32px);animation:fogDrift 11s ease-in-out infinite alternate}
+    @keyframes fogDrift{from{transform:translateX(-2%)}to{transform:translateX(2%)}}
+    a{color:inherit}
+    ::selection{background:rgba(157,255,187,.34);color:#fff}
+    .skip-link{position:absolute;left:18px;top:-80px;padding:12px 14px;background:#0d1421;border:1px solid var(--line);border-radius:14px;z-index:99;text-decoration:none}.skip-link:focus{top:18px}
+    .app{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);gap:24px;max-width:1680px;margin:0 auto;padding:22px;position:relative}
+    .mobilebar{display:none;position:sticky;top:0;z-index:60;min-height:var(--topbar);align-items:center;justify-content:space-between;padding:12px 14px;margin:-22px -22px 18px;background:rgba(5,7,11,.76);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+    .hamburger,.iconbtn{border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--ink);border-radius:15px;padding:10px 12px;font-weight:900;cursor:pointer}.hamburger{display:flex;align-items:center;gap:9px}.hamburger span{display:grid;gap:4px}.hamburger i{display:block;width:18px;height:2px;border-radius:999px;background:var(--ink)}
+    aside{position:sticky;top:22px;height:calc(100vh - 44px);overflow:auto;border:1px solid var(--line);border-radius:var(--radius2);background:linear-gradient(180deg,rgba(12,18,28,.86),rgba(5,8,13,.72));box-shadow:var(--shadow);backdrop-filter:blur(22px);padding:18px;scrollbar-width:thin;scrollbar-color:rgba(157,255,187,.35) transparent}
+    .brand{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:14px}
+    .emblem{width:56px;height:56px;border-radius:20px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 18%,#fff 0 7%,transparent 8%),linear-gradient(145deg,#f7faf3 0%,#d9e1dc 42%,#ff5e76 43% 52%,#dde8df 53% 72%,#18202b 73%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),0 14px 32px rgba(125,169,255,.22),0 0 28px rgba(157,255,187,.14)}
+    .emblem:before{content:"";position:absolute;left:50%;top:10px;width:20px;height:34px;transform:translateX(-50%) rotate(-8deg);border-radius:14px 14px 8px 8px;background:linear-gradient(#fafafa,#ced8d2 48%,#ff5e76 49% 58%,#e6eee8 59%,#9faea4);filter:drop-shadow(0 8px 18px rgba(0,0,0,.36))}.emblem:after{content:"";position:absolute;left:10px;right:10px;bottom:9px;height:10px;background:rgba(157,255,187,.2);filter:blur(8px)}
+    .brand h1{margin:0;font-size:15px;line-height:1.05;letter-spacing:.35px}.brand p{margin:6px 0 0;font-size:12px;color:var(--soft)}
+    .progressBox{border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:22px;padding:14px;margin-bottom:16px}.progressTop{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;margin-bottom:10px}.progressBar{height:11px;border-radius:999px;background:rgba(255,255,255,.075);overflow:hidden}.progressFill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--acid),var(--cyan),var(--blue));box-shadow:0 0 20px rgba(157,255,187,.42);transition:width .28s ease}.miniStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.miniStats div{padding:9px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.075);text-align:center}.miniStats strong{display:block;color:var(--ink);font-size:15px}.miniStats span{display:block;color:var(--soft);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+    .searchWrap{position:relative;margin-bottom:12px}.searchWrap input{width:100%;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--ink);border-radius:16px;padding:12px 14px 12px 38px;outline:none}.searchWrap svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.6}.searchWrap input:focus{border-color:rgba(157,255,187,.42);box-shadow:0 0 0 4px rgba(157,255,187,.08)}
+    nav{display:grid;gap:5px}.navLink{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--muted);padding:10px 11px;border-radius:15px;border:1px solid transparent;font-size:13px;transition:.18s ease}.navLink b{min-width:25px;color:var(--acid);font-size:11px;letter-spacing:.6px}.navLink:hover,.navLink.active{color:var(--ink);background:rgba(125,169,255,.10);border-color:rgba(125,169,255,.20);transform:translateX(2px)}
+    .sideActions{display:grid;gap:8px;margin-top:16px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));color:var(--ink);border-radius:16px;padding:12px 14px;font-weight:850;font-size:13px;text-decoration:none;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.22);transition:.16s ease}.btn:hover{transform:translateY(-1px);border-color:rgba(157,255,187,.34)}.btn.primary{background:linear-gradient(135deg,rgba(157,255,187,.22),rgba(125,169,255,.18));border-color:rgba(157,255,187,.34)}.btn.ghost{background:rgba(255,255,255,.035);box-shadow:none}.btn.danger{border-color:rgba(255,94,118,.25);background:rgba(255,94,118,.08)}
+    main{min-width:0}.hero{position:relative;min-height:680px;border:1px solid var(--line);border-radius:42px;overflow:hidden;background:linear-gradient(180deg,rgba(6,8,13,.20),rgba(6,8,13,.92)),#08101a;box-shadow:var(--shadow);isolation:isolate}.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 52%,rgba(157,255,187,.16),transparent 17%),radial-gradient(circle at 74% 22%,rgba(255,94,118,.13),transparent 22%),linear-gradient(90deg,rgba(125,169,255,.13),transparent 38%,rgba(157,255,187,.07));z-index:-1}.hero:after{content:"";position:absolute;left:50%;bottom:-18%;width:min(58%,720px);height:94%;transform:translateX(-50%) perspective(640px) rotateX(61deg);transform-origin:bottom;background:linear-gradient(90deg,rgba(122,69,28,.16),rgba(255,255,255,.18),rgba(122,69,28,.16)),repeating-linear-gradient(90deg,rgba(0,0,0,.42) 0 2px,transparent 2px 34px),repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 84px);border-left:1px solid rgba(255,255,255,.16);border-right:1px solid rgba(255,255,255,.16);box-shadow:0 -20px 100px rgba(157,255,187,.10),inset 0 0 80px rgba(255,211,125,.08);opacity:.9}.heroGrid{position:absolute;inset:0;background:linear-gradient(90deg,transparent 0 21%,rgba(255,255,255,.05) 21.1% 21.4%,transparent 21.5% 78.5%,rgba(255,255,255,.05) 78.6% 78.9%,transparent 79%),repeating-linear-gradient(90deg,rgba(255,255,255,.026) 0 1px,transparent 1px 60px);transform:perspective(760px) rotateX(62deg) translateY(220px) scaleY(1.6);transform-origin:bottom;opacity:.65}.heroContent{position:relative;z-index:3;padding:clamp(28px,5vw,66px);max-width:1020px}.eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(157,255,187,.28);background:rgba(157,255,187,.09);color:var(--acid);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.7px}.pulse{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 0 0 rgba(157,255,187,.6);animation:pulse 1.8s infinite}@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(157,255,187,0)}}
+    .hero h2{font-size:clamp(42px,7vw,94px);line-height:.88;letter-spacing:-3px;max-width:980px;margin:22px 0 16px;text-wrap:balance}.hero h2 span{display:inline-block;color:var(--acid);text-shadow:0 0 38px rgba(157,255,187,.24)}.heroLead{max-width:820px;color:var(--muted);font-size:clamp(16px,1.6vw,19px);line-height:1.8;margin:0 0 24px}.heroActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.heroMetrics{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:12px;margin-top:36px;max-width:900px}.metric{border:1px solid var(--line);background:rgba(5,8,13,.58);backdrop-filter:blur(10px);border-radius:22px;padding:17px}.metric strong{display:block;font-size:27px}.metric span{display:block;color:var(--soft);font-size:12px;margin-top:2px}.pinRack{position:absolute;right:7%;top:39%;z-index:2;display:grid;grid-template-columns:repeat(4,26px);gap:12px;transform:perspective(550px) rotateX(7deg);opacity:.82}.pin{width:21px;height:54px;border-radius:14px 14px 8px 8px;background:linear-gradient(#fafff7,#c9d5cc 44%,#ff5e76 45% 54%,#e5efe7 55%,#818d86);box-shadow:0 0 25px rgba(157,255,187,.23);animation:twitch 4.2s ease-in-out infinite}.pin:nth-child(2n){animation-delay:.4s}.pin:nth-child(3n){animation-delay:1.2s}@keyframes twitch{0%,94%,100%{transform:rotate(0)}95%{transform:rotate(3deg)}97%{transform:rotate(-2deg)}}.heroSign{position:absolute;right:clamp(24px,5vw,72px);top:clamp(24px,5vw,70px);z-index:3;border:1px solid rgba(255,94,118,.36);background:rgba(255,94,118,.08);color:#ffd7df;border-radius:18px;padding:11px 14px;font-weight:950;letter-spacing:1px;box-shadow:0 0 30px rgba(255,94,118,.16)}
+    .card{margin-top:24px;border:1px solid var(--line);border-radius:34px;background:linear-gradient(180deg,rgba(14,21,32,.84),rgba(7,11,17,.74));box-shadow:var(--shadow2);overflow:hidden}.sectionHead{display:grid;grid-template-columns:54px 1fr auto;gap:18px;align-items:start;padding:32px 34px 20px}.sectionNum{height:54px;border-radius:18px;display:grid;place-items:center;border:1px solid rgba(157,255,187,.25);background:rgba(157,255,187,.09);color:var(--acid);font-weight:950}.sectionTitle h2{margin:0;font-size:clamp(26px,3.3vw,44px);letter-spacing:-1.2px}.sectionTitle p{margin:9px 0 0;color:var(--muted);line-height:1.72;max-width:960px}.sectionBody{padding:0 34px 34px}.tagRow{display:flex;gap:8px;flex-wrap:wrap}.tag{font-size:11px;font-weight:900;color:var(--muted);border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:999px;padding:8px 10px}.tag.good{color:var(--acid);border-color:rgba(157,255,187,.26)}.tag.warn{color:var(--amber);border-color:rgba(255,211,125,.26)}
+    .grid{display:grid;gap:16px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.tile{position:relative;border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:24px;padding:20px;overflow:hidden}.tile:before{content:"";position:absolute;inset:-1px;pointer-events:none;background:linear-gradient(135deg,rgba(157,255,187,.10),transparent 40%,rgba(125,169,255,.08));opacity:.55}.tile>*{position:relative}.tile h3{margin:0 0 10px;font-size:18px}.tile p{margin:0;color:var(--muted);line-height:1.65}.tile ul,.tile ol{margin:12px 0 0;padding-left:20px;color:var(--muted);line-height:1.75}.tile li+li{margin-top:5px}.tile .big{font-size:38px;font-weight:950;letter-spacing:-1px}.callout{border:1px solid rgba(157,255,187,.25);background:linear-gradient(135deg,rgba(157,255,187,.10),rgba(125,169,255,.07));border-radius:24px;padding:20px;color:var(--muted);line-height:1.72}.callout strong{color:var(--ink)}.warning{border-color:rgba(255,211,125,.32);background:linear-gradient(135deg,rgba(255,211,125,.10),rgba(255,94,118,.07))}
+    .codeBlock{position:relative;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:#070a10;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}.codeTop{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.08);padding:11px 13px;background:rgba(255,255,255,.04);color:var(--soft);font-size:12px;font-weight:850}.copyBtn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--ink);border-radius:12px;padding:7px 10px;cursor:pointer;font-weight:900;font-size:12px}.copyBtn:hover{border-color:rgba(157,255,187,.34)}pre{margin:0;overflow:auto;padding:18px 20px;color:#d9e8ff;font-size:13px;line-height:1.65;tab-size:2}.kbd{font-family:var(--mono);font-size:.9em;border:1px solid rgba(255,255,255,.15);border-bottom-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);padding:2px 6px;border-radius:7px;color:var(--ink)}
+    .tableWrap{overflow:auto;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.035)}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;border-bottom:1px solid rgba(255,255,255,.075);padding:13px 14px;color:var(--muted);vertical-align:top}th{color:var(--ink);font-size:12px;text-transform:uppercase;letter-spacing:.7px;background:rgba(255,255,255,.045)}td code{color:#cfe5ff}tr:last-child td{border-bottom:0}.statusPill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 8px;background:rgba(157,255,187,.08);border:1px solid rgba(157,255,187,.2);color:var(--acid);font-size:11px;font-weight:900}
+    .diagramWrap{position:relative;border:1px solid var(--line);border-radius:28px;background:radial-gradient(circle at 50% 20%,rgba(157,255,187,.08),transparent 30%),rgba(255,255,255,.035);padding:20px;overflow:hidden}.diagramWrap svg{width:100%;height:auto;display:block;filter:drop-shadow(0 20px 45px rgba(0,0,0,.28))}.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.legend span{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:7px 9px;background:rgba(0,0,0,.18)}.dot{width:9px;height:9px;border-radius:50%;background:var(--acid)}.dot.blue{background:var(--blue)}.dot.red{background:var(--red)}.dot.amber{background:var(--amber)}
+    .heroBackdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.32;filter:saturate(1.14) contrast(1.05);z-index:0}.heroBackdrop~.heroGrid{z-index:1}.diagramTitle{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px}.diagramTitle strong{display:block;font-size:18px}.diagramTitle span{display:block;color:var(--soft);font-size:12px;text-transform:uppercase;letter-spacing:.7px;margin-top:3px}.diagramNote{color:var(--muted);font-size:13px;line-height:1.6;max-width:760px}.diagramGrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:16px}.diagramStack{display:grid;gap:10px}.flowDiagram{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;align-items:stretch}.flowNode,.specNode{position:relative;border:1px solid var(--line);background:rgba(0,0,0,.20);border-radius:18px;padding:14px;min-height:112px}.flowNode:after{content:"";position:absolute;right:-11px;top:50%;width:12px;height:2px;background:rgba(157,255,187,.36)}.flowNode:last-child:after{display:none}.flowNode b,.specNode b{display:block;color:var(--ink);font-size:13px}.flowNode span,.specNode span{display:block;color:var(--soft);font-size:12px;line-height:1.45;margin-top:6px}.specGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.assetBoard{position:relative;min-height:480px;border:1px solid var(--line);border-radius:28px;overflow:hidden;background:#05070b}.assetBoard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.06) contrast(1.04)}.assetBoard:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,4,7,.72),rgba(3,4,7,.18) 48%,rgba(3,4,7,.62)),linear-gradient(0deg,rgba(3,4,7,.66),transparent 42%,rgba(3,4,7,.28));pointer-events:none}.assetLabel{position:absolute;z-index:2;max-width:230px;border:1px solid rgba(157,255,187,.28);background:rgba(5,8,13,.78);backdrop-filter:blur(10px);border-radius:18px;padding:12px;box-shadow:var(--shadow2)}.assetLabel b{display:block;color:var(--acid);font-size:12px;text-transform:uppercase;letter-spacing:.7px}.assetLabel span{display:block;color:var(--muted);font-size:12px;line-height:1.5;margin-top:5px}.assetLabel:before{content:"";position:absolute;width:58px;height:1px;background:rgba(157,255,187,.48);top:50%}.assetLabel.left:before{right:-58px}.assetLabel.right:before{left:-58px}.artThumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.artThumb{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:rgba(255,255,255,.04)}.artThumb img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}.artThumb.pin img{aspect-ratio:16/13;object-fit:cover;object-position:50% 15%}.artThumb div{padding:13px}.artThumb h3{margin:0 0 6px;font-size:15px}.artThumb p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.blueprintPanel{border:1px solid rgba(125,169,255,.22);background:linear-gradient(135deg,rgba(125,169,255,.08),rgba(157,255,187,.05));border-radius:24px;padding:16px}.stackLayer{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:16px;padding:12px}.stackLayer strong{color:var(--ink);font-size:13px}.stackLayer span{color:var(--muted);font-size:12px;line-height:1.45}.miniBar{height:12px;border-radius:999px;background:linear-gradient(90deg,var(--acid),var(--cyan),var(--blue));box-shadow:0 0 20px rgba(157,255,187,.22)}.miniBar.red{background:linear-gradient(90deg,var(--red),var(--orange),var(--amber))}.miniBar.cold{background:linear-gradient(90deg,var(--blue),var(--cyan),var(--acid))}.miniBar.dark{background:linear-gradient(90deg,#151b24,#384454,#0c1018)}.diagramChecklist{display:grid;gap:8px}.diagramChecklist li{list-style:none;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035);padding:10px 12px;color:var(--muted);line-height:1.45}.diagramChecklist li strong{color:var(--ink)}
+    .diagramWrap>svg{display:none}.precisionDiagram{position:relative;border:1px solid rgba(255,255,255,.12);border-radius:24px;background:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),radial-gradient(circle at 70% 12%,rgba(157,255,187,.10),transparent 32%),rgba(4,7,12,.72);background-size:36px 36px,36px 36px,auto,auto;padding:18px;overflow:hidden}.precisionDiagram+.legend{margin-top:14px}.planGrid{display:grid;grid-template-columns:minmax(104px,.9fr) minmax(280px,4fr) minmax(104px,.95fr) minmax(76px,.65fr);grid-template-rows:64px 48px 150px 48px 64px;gap:8px;min-height:382px}.planCell{border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.045);display:grid;place-items:center;text-align:center;padding:10px;color:var(--muted);font-size:12px;line-height:1.35}.planCell strong{display:block;color:var(--ink);font-size:13px;margin-bottom:3px}.planCell small{display:block;color:var(--soft);font-size:11px}.approachCell{grid-column:1;grid-row:3;background:rgba(125,169,255,.12);border-color:rgba(125,169,255,.30)}.laneCell{grid-column:2;grid-row:3;position:relative;background:linear-gradient(90deg,#5f351b,#c18a43 48%,#6d3d20);border-color:rgba(255,211,125,.35);overflow:hidden}.laneCell:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.20) 0 1px,transparent 1px 44px),linear-gradient(0deg,rgba(255,255,255,.06),transparent 42%,rgba(0,0,0,.10));pointer-events:none}.laneCell>*{position:relative}.gutterTop{grid-column:2;grid-row:2;background:rgba(0,0,0,.30)}.gutterBottom{grid-column:2;grid-row:4;background:rgba(0,0,0,.30)}.sideTop{grid-column:1/5;grid-row:1;background:rgba(120,215,255,.08);border-color:rgba(120,215,255,.22)}.sideBottom{grid-column:1/5;grid-row:5;background:rgba(120,215,255,.06);border-color:rgba(120,215,255,.18)}.pinDeckCell{grid-column:3;grid-row:2/5;background:rgba(157,255,187,.10);border-color:rgba(157,255,187,.28)}.machineCell{grid-column:4;grid-row:1/6;background:rgba(255,94,118,.10);border-color:rgba(255,94,118,.30)}.centreLine{position:absolute;left:0;right:0;top:50%;height:2px;background:rgba(157,255,187,.55);box-shadow:0 0 18px rgba(157,255,187,.30)}.aimArrows{display:flex;gap:18px;justify-content:center;margin-top:18px}.aimArrows i{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:18px solid var(--amber);filter:drop-shadow(0 0 10px rgba(255,211,125,.26))}.pinRackMini{display:grid;grid-template-columns:repeat(4,16px);grid-auto-rows:16px;gap:7px;justify-content:center;align-content:center}.pinDot{width:15px;height:15px;border-radius:50%;background:#edf5ff;border:2px solid var(--red);box-shadow:0 0 14px rgba(157,255,187,.20)}.rackGap{visibility:hidden}.axisStrip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.axisStrip span{border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(0,0,0,.20);padding:9px 10px;color:var(--muted);font-size:12px}.axisStrip strong{color:var(--ink)}.flowClean{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.flowClean .flowNode{min-height:132px;border-color:rgba(157,255,187,.22);display:grid;grid-template-rows:auto 1fr}.stateMachine{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}.stateNode{border:1px solid rgba(157,255,187,.24);border-radius:16px;background:rgba(0,0,0,.22);padding:14px;min-height:124px;position:relative}.stateNode:after{content:"";position:absolute;right:-10px;top:50%;width:10px;height:2px;background:rgba(157,255,187,.5)}.stateNode:last-child:after{display:none}.stateNode b{display:block;color:var(--ink);font-size:13px}.stateNode span{display:block;margin-top:7px;color:var(--muted);font-size:12px;line-height:1.45}.controlGesture{display:grid;grid-template-columns:minmax(220px,1.1fr) minmax(260px,.9fr);gap:16px;align-items:stretch}.gestureLane{position:relative;min-height:360px;border:1px solid rgba(255,211,125,.25);border-radius:22px;background:linear-gradient(90deg,rgba(0,0,0,.38) 0 10%,#6d3d20 10% 90%,rgba(0,0,0,.38) 90%);overflow:hidden}.gestureLane:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 48px),linear-gradient(90deg,rgba(0,0,0,.38),transparent 18%,transparent 82%,rgba(0,0,0,.38));pointer-events:none}.playerPuck{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);width:70px;height:34px;border-radius:999px;background:linear-gradient(135deg,var(--acid),var(--cyan));box-shadow:0 0 26px rgba(157,255,187,.35)}.dragVector{position:absolute;left:50%;bottom:74px;width:4px;height:160px;background:linear-gradient(var(--acid),rgba(157,255,187,.1));transform:translateX(-50%) rotate(-13deg);transform-origin:bottom;border-radius:999px}.dragVector:after{content:"";position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:18px solid var(--acid)}.steerRibbon{position:absolute;left:20%;right:20%;top:44%;height:56px;border-top:3px dashed rgba(120,215,255,.72);border-radius:50%;transform:rotate(-2deg)}.gestureNote{position:absolute;border:1px solid rgba(255,255,255,.14);background:rgba(5,8,13,.78);border-radius:14px;padding:10px;color:var(--muted);font-size:12px;line-height:1.35;max-width:180px}.gestureNote strong{display:block;color:var(--ink);font-size:12px;margin-bottom:2px}.inputSpec{display:grid;gap:10px}.inputSpec div{border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.045);padding:13px;color:var(--muted);font-size:12px;line-height:1.45}.inputSpec strong{display:block;color:var(--ink);font-size:13px;margin-bottom:4px}.tokenGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.tokenGrid span{border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(0,0,0,.18);padding:11px;color:var(--muted);font-size:12px;line-height:1.4}.tokenGrid code{display:block;color:#cfe5ff;margin-bottom:4px}.layerRows{display:grid;gap:10px}.layerRow{display:grid;grid-template-columns:150px 1fr 120px;gap:10px;align-items:center;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.04);padding:12px;color:var(--muted);font-size:12px}.layerRow b{color:var(--ink)}.layerTrack{height:14px;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--acid),var(--amber),var(--red));box-shadow:0 0 18px rgba(157,255,187,.16)}.layerTrack.dim{background:linear-gradient(90deg,#101722,#293647,#111722)}.layerTrack.hot{background:linear-gradient(90deg,var(--orange),var(--red))}.variantGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.variantCard{border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.045);padding:15px;min-height:122px}.variantCard b{display:block;color:var(--ink);margin-bottom:7px}.variantCard span{color:var(--muted);font-size:12px;line-height:1.5}.variantCard.core{border-color:rgba(157,255,187,.28);background:rgba(157,255,187,.07)}
+    .mission{display:grid;gap:13px}.step{display:grid;grid-template-columns:46px 1fr auto;gap:14px;align-items:start;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.04);padding:16px}.stepNum{height:46px;border-radius:16px;display:grid;place-items:center;background:rgba(125,169,255,.10);border:1px solid rgba(125,169,255,.22);color:var(--cyan);font-weight:950}.step h3{margin:0 0 5px}.step p{margin:0;color:var(--muted);line-height:1.55}.step input{appearance:none;width:24px;height:24px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.2);cursor:pointer;position:relative}.step input:checked{background:linear-gradient(135deg,var(--acid),var(--blue));border-color:transparent}.step input:checked:after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#04100a;font-weight:950}.step.done{border-color:rgba(157,255,187,.28);background:rgba(157,255,187,.055)}
+    .imageCard{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;min-height:100%}.imageFrame{aspect-ratio:16/9;background:linear-gradient(135deg,rgba(157,255,187,.10),rgba(125,169,255,.10));display:grid;place-items:center;overflow:hidden}.imageFrame img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}.imageCard:hover img{transform:scale(1.025)}.imageContent{padding:16px}.imageContent h3{margin:0 0 8px}.imageContent p{margin:0;color:var(--muted);line-height:1.58}.imageContent a{display:inline-flex;margin-top:12px;color:var(--acid);font-weight:900;text-decoration:none}.imageContent a:hover{text-decoration:underline}.fallback{padding:20px;text-align:center;color:var(--muted)}
+    .cardsSearchHidden{display:none!important}.pillGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.pillBox{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:18px;padding:14px}.pillBox strong{display:block}.pillBox span{color:var(--soft);font-size:12px;display:block;margin-top:3px}.recipe{display:grid;grid-template-columns:1fr 1fr;gap:16px}.swatch{height:14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(90deg,#05070b,#10202b,#6c3429,#9dffbb)}.swatch.red{background:linear-gradient(90deg,#05070b,#1d1014,#ff5e76,#ffd37d)}.swatch.cold{background:linear-gradient(90deg,#05070b,#0c1724,#78d7ff,#9dffbb)}
+    .tabs{border:1px solid var(--line);border-radius:24px;overflow:hidden;background:rgba(255,255,255,.035)}.tabButtons{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--line);background:rgba(255,255,255,.035)}.tabButtons button{flex:1;min-width:140px;border:0;border-right:1px solid var(--line);background:transparent;color:var(--muted);padding:14px;font-weight:950;cursor:pointer}.tabButtons button.active{color:var(--ink);background:rgba(157,255,187,.08)}.tabPanel{display:none;padding:20px}.tabPanel.active{display:block}.tabPanel p{color:var(--muted);line-height:1.68}.tabPanel h3{margin-top:0}
+    .footer{margin:26px 0 0;border:1px solid var(--line);border-radius:28px;background:rgba(255,255,255,.045);padding:24px;color:var(--muted);line-height:1.7}.footer strong{color:var(--ink)}.topBtn{position:fixed;right:22px;bottom:22px;z-index:70;border:1px solid var(--line);background:rgba(8,12,18,.78);backdrop-filter:blur(14px);color:var(--ink);border-radius:999px;padding:12px 14px;cursor:pointer;box-shadow:var(--shadow2);display:none}.topBtn.show{display:inline-flex}
+    @media (max-width:1200px){:root{--sidebar:286px}.grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}.heroMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}.recipe{grid-template-columns:1fr}.sectionHead{grid-template-columns:50px 1fr}.sectionHead .tagRow{grid-column:1/-1}.pinRack{opacity:.42}.diagramGrid{grid-template-columns:1fr}.flowDiagram,.flowClean{grid-template-columns:repeat(3,minmax(0,1fr))}.flowNode:after,.stateNode:after{display:none}.stateMachine{grid-template-columns:repeat(3,minmax(0,1fr))}.controlGesture{grid-template-columns:1fr}.variantGrid{grid-template-columns:1fr}}
+    @media (max-width:900px){.app{display:block;padding:18px;width:100%;max-width:100vw;margin:0;overflow:hidden}.mobilebar{display:flex;width:calc(100% + 36px);justify-content:flex-start;gap:10px}aside{position:fixed;top:0;bottom:0;left:0;height:100vh;width:min(88vw,360px);z-index:90;border-radius:0 28px 28px 0;transform:translateX(-105%);transition:transform .25s ease}body.navOpen aside{transform:translateX(0)}body.navOpen:before{filter:blur(2px)}.hero{min-height:620px;border-radius:32px;max-width:100%}.heroSign{display:none}.heroContent{padding:32px}.grid.two,.grid.three,.grid.four{grid-template-columns:1fr}.sectionHead{padding:26px 22px 14px}.sectionBody{padding:0 22px 24px}.card{border-radius:28px;max-width:100%}.pinRack{display:none}.step{grid-template-columns:42px 1fr}.step input{grid-column:1/-1;justify-self:start}.hero h2{letter-spacing:-2px}.artThumbs,.flowDiagram,.flowClean,.specGrid,.stateMachine{grid-template-columns:1fr}.planGrid{grid-template-columns:1fr;grid-template-rows:none;min-height:auto}.planCell,.approachCell,.laneCell,.gutterTop,.gutterBottom,.sideTop,.sideBottom,.pinDeckCell,.machineCell{grid-column:auto;grid-row:auto;min-height:72px}.laneCell{min-height:160px}.axisStrip{grid-template-columns:1fr}.layerRow{grid-template-columns:1fr}.assetBoard{min-height:560px}.assetLabel{position:relative;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;margin:10px;max-width:none}.assetLabel:before{display:none}.assetBoard{display:grid;align-content:end;gap:0}.assetBoard img,.assetBoard:after{position:absolute}}
+    @media (max-width:560px){.app{padding:12px}.mobilebar{margin:-12px -12px 12px;width:calc(100% + 24px)}.hero{min-height:590px;border-radius:26px}.heroContent{padding:24px}.hero h2{font-size:36px;line-height:1;letter-spacing:0;text-wrap:wrap;overflow-wrap:break-word}.heroLead{font-size:15px;line-height:1.65}.heroActions .btn{width:100%}.heroMetrics{grid-template-columns:1fr}.sectionNum{display:none}.sectionHead{grid-template-columns:1fr}.tile{padding:16px}.mission .step{grid-template-columns:1fr}.stepNum{width:46px}.tabButtons button{min-width:100%;border-right:0;border-bottom:1px solid var(--line)}table{font-size:13px}.footer{font-size:14px}.diagramWrap{padding:14px}.diagramTitle{display:block}.assetBoard{min-height:620px}.stackLayer{grid-template-columns:1fr}}
+    @media print{body{background:#fff;color:#111}.noise,.fog,aside,.mobilebar,.topBtn,.heroGrid,.hero:after,.hero:before,.pinRack,.heroSign{display:none!important}.app{display:block;max-width:100%;padding:0}.card,.hero,.tile,.callout,.codeBlock,.imageCard{box-shadow:none;background:#fff;color:#111;border-color:#ddd}.hero{min-height:auto}.heroLead,.sectionTitle p,.tile p,.tile li,td,.footer,.callout{color:#333}.btn,.copyBtn{display:none!important}pre{white-space:pre-wrap;color:#111;background:#f5f5f5}a{color:#0645ad}}
+    @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <div class="noise"></div><div class="fog"></div>
+  <a class="skip-link" href="#main">Skip to guide</a>
+  <div class="app">
+    <div class="mobilebar">
+      <button class="hamburger" id="openNav" aria-label="Open navigation"><span><i></i><i></i><i></i></span> Guide Menu</button>
+      <button class="iconbtn" id="mobilePrint" title="Print guide">Print</button>
+    </div>
+
+    <aside id="sidebar" aria-label="Guide navigation">
+      <div class="brand">
+        <div class="emblem" aria-hidden="true"></div>
+        <div><h1>Night of the Living Pins</h1><p>UE5 Level Build Bible</p></div>
+      </div>
+
+      <div class="progressBox">
+        <div class="progressTop"><span>Build progress</span><strong id="progressLabel">0%</strong></div>
+        <div class="progressBar"><div class="progressFill" id="progressFill"></div></div>
+        <div class="miniStats">
+          <div><strong id="doneCount">0</strong><span>Done</span></div>
+          <div><strong id="totalCount">0</strong><span>Tasks</span></div>
+          <div><strong>UE5</strong><span>Ready</span></div>
+        </div>
+      </div>
+
+      <div class="searchWrap">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 21-4.3-4.3m2.3-5.2a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="guideSearch" type="search" placeholder="Search this guide…" />
+      </div>
+
+      <nav id="toc">
+        <a class="navLink" href="#overview"><b>00</b> Vision</a>
+        <a class="navLink" href="#artref"><b>AR</b> Artwork Ref</a>
+        <a class="navLink" href="#setup"><b>01</b> Project Setup</a>
+        <a class="navLink" href="#scale"><b>02</b> Scale Plan</a>
+        <a class="navLink" href="#blockout"><b>03</b> Blockout</a>
+        <a class="navLink" href="#markers"><b>04</b> Gameplay Markers</a>
+        <a class="navLink" href="#controls"><b>IN</b> Mouse Controls</a>
+        <a class="navLink" href="#lighting"><b>05</b> Lighting</a>
+        <a class="navLink" href="#atmosphere"><b>06</b> Fog & Post</a>
+        <a class="navLink" href="#materials"><b>07</b> Materials</a>
+        <a class="navLink" href="#dressing"><b>08</b> Set Dressing</a>
+        <a class="navLink" href="#screens"><b>09</b> UE5 Screens</a>
+        <a class="navLink" href="#reuse"><b>10</b> Reuse System</a>
+        <a class="navLink" href="#checklist"><b>11</b> Checklist</a>
+        <a class="navLink" href="#resources"><b>12</b> Resources</a>
+      </nav>
+
+      <div class="sideActions">
+        <a class="btn primary" href="#checklist">Continue Build</a>
+        <button class="btn ghost" id="collapseDone">Hide completed tasks</button>
+        <button class="btn ghost" id="printBtn">Print / save PDF</button>
+        <button class="btn danger" id="resetProgress">Reset progress</button>
+      </div>
+    </aside>
+
+    <main id="main">
+      <header class="hero" id="overview">
+        <img class="heroBackdrop" src="assets/loading1.png" alt="" aria-hidden="true" />
+        <div class="heroGrid"></div>
+        <div class="heroSign">LANE 13</div>
+        <div class="pinRack" aria-hidden="true">
+          <div></div><div></div><div></div><div class="pin"></div>
+          <div></div><div></div><div class="pin"></div><div class="pin"></div>
+          <div></div><div class="pin"></div><div class="pin"></div><div class="pin"></div>
+          <div class="pin"></div><div class="pin"></div><div class="pin"></div><div class="pin"></div>
+        </div>
+        <div class="heroContent">
+          <div class="eyebrow"><span class="pulse"></span> first playable level template</div>
+          <h2>Build a haunted arcade bowling lane that feels <span>playable, spooky, and reusable.</span></h2>
+          <p class="heroLead">This is your visual production guide for the first level of <strong>Night of the Living Pins</strong>. The goal is not just to make a nice room. The goal is to build a clean UE5 template with sensible scale, lighting, triggers, markers, art zones, and reusable structure for future levels.</p>
+          <div class="heroActions">
+            <a class="btn primary" href="#setup">Start the build</a>
+            <a class="btn" href="#scale">View lane plan</a>
+            <a class="btn" href="#controls">Mouse controls</a>
+            <a class="btn" href="#screens">UE5 screenshot aids</a>
+          </div>
+          <div class="heroMetrics">
+            <div class="metric"><strong>18.29m</strong><span>Foul line to head pin</span></div>
+            <div class="metric"><strong>106cm</strong><span>Core lane width</span></div>
+            <div class="metric"><strong>10</strong><span>Pin target points</span></div>
+            <div class="metric"><strong>1</strong><span>Reusable template level</span></div>
+          </div>
+        </div>
+      </header>
+
+      <section class="card searchable" id="artref" data-title="artwork reference zombie pins loading screen palette focal points logo horror bowling lane character art">
+        <div class="sectionHead"><div class="sectionNum">AR</div><div class="sectionTitle"><h2>Artwork reference: what the level should feel like</h2><p>Use the supplied artwork as the visual north star. The level should read as a playable bowling lane first, then as a crowded arcade-horror scene with undead staff, cracked living pins, green ectoplasm, orange neon, moonlit blue shadows, and a dangerous back-machine focal point.</p></div><div class="tagRow"><span class="tag good">Local assets</span><span class="tag">Art bible</span></div></div>
+        <div class="sectionBody">
+          <div class="diagramGrid">
+            <div class="assetBoard" aria-label="Annotated artwork reference board">
+              <img src="assets/loading3.png" alt="Night of the Living Pins loading artwork with zombie bowling lane scene" loading="lazy" />
+              <div class="assetLabel left" style="left:24px;top:28px"><b>Cold exterior moon</b><span>Use blue light through broken windows so the alley feels connected to the graveyard outside.</span></div>
+              <div class="assetLabel right" style="right:26px;top:82px"><b>Neon signage layer</b><span>Orange and green signs create readable silhouettes without turning the whole scene one color.</span></div>
+              <div class="assetLabel left" style="left:34px;bottom:96px"><b>Clear lane read</b><span>Keep a central ball path visible even when the sides are busy with props, fog, and enemies.</span></div>
+              <div class="assetLabel right" style="right:36px;bottom:112px"><b>Hero pin threat</b><span>The living pins are the identity of the game. Backlight them, give them eye glow, and keep their faces readable.</span></div>
+            </div>
+            <div class="diagramStack">
+              <div class="blueprintPanel">
+                <div class="diagramTitle"><div><strong>Visual priority order</strong><span>From gameplay to dressing</span></div></div>
+                <ol class="diagramChecklist">
+                  <li><strong>1. Ball path:</strong> approach, foul line, lane boards, arrows, gutters, and pin rack must read in one glance.</li>
+                  <li><strong>2. Pin deck:</strong> zombie pins, back machine, green fog, and red danger light form the horror target.</li>
+                  <li><strong>3. Side story:</strong> arcade cabinets, scoreboards, staff zombies, posters, shoes, and broken signs sit outside the clean play path.</li>
+                  <li><strong>4. Ceiling depth:</strong> hanging cables, missing panels, flickering tubes, and fan shadows create height without blocking aim.</li>
+                  <li><strong>5. FX polish:</strong> sparks, slime, dust, steam, and debris should support impact moments, not hide the ball.</li>
+                </ol>
+              </div>
+              <div class="blueprintPanel">
+                <div class="diagramTitle"><div><strong>Palette split</strong><span>Use as lighting targets</span></div></div>
+                <div class="stackLayer"><div class="miniBar cold"></div><span><strong>Moon/shadow range</strong> blue-black shadows, window shafts, exterior graveyard silhouettes.</span></div>
+                <div class="stackLayer"><div class="miniBar"></div><span><strong>Ectoplasm range</strong> sickly green eyes, fog, ball energy, slime streaks, and pin glow.</span></div>
+                <div class="stackLayer"><div class="miniBar red"></div><span><strong>Neon/danger range</strong> orange signs, red warning bulbs, sparks, and hot back-machine accents.</span></div>
+                <div class="stackLayer"><div class="miniBar dark"></div><span><strong>Material range</strong> wet wood, stained concrete, rusty steel, cracked ceramic, dirty white pin paint.</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="artThumbs" style="margin-top:16px">
+            <article class="artThumb"><img src="assets/loading1.png" alt="Wide key art with logo, bowling lane, zombies, and living pin" loading="lazy"><div><h3>Key art: lane chase</h3><p>Use for hero composition, ball impact energy, lane reflections, logo treatment, and foreground threat scale.</p></div></article>
+            <article class="artThumb"><img src="assets/loading2.png" alt="Wide loading art with ball strike and zombie pins" loading="lazy"><div><h3>Impact art: strike burst</h3><p>Use for VFX timing, debris arcs, green energy, crowd pressure, and pin collapse silhouettes.</p></div></article>
+            <article class="artThumb pin"><img src="assets/pin-example.png" alt="Zombie bowling pin character reference" loading="lazy"><div><h3>Zombie pin model target</h3><p>Cracked ceramic, red band, exposed skull face, glowing eyes, slime, chipped base, and asymmetrical damage.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="setup" data-title="project setup folders map editor outliner content browser">
+        <div class="sectionHead"><div class="sectionNum">01</div><div class="sectionTitle"><h2>Set the project up like a real game from day one</h2><p>A tidy level is easier to art-direct, easier to hook up to C++, and much easier to duplicate for future stages. This folder structure gives you a clean base before you place a single cube.</p></div><div class="tagRow"><span class="tag good">C++ friendly</span><span class="tag">UE5 blank project</span></div></div>
+        <div class="sectionBody grid two">
+          <div class="tile"><h3>Content Browser folders</h3><p>Create this structure under <strong>Content</strong>. Do it now, before your test assets pile up.</p><div class="codeBlock"><div class="codeTop"><span>Content folder layout</span><button class="copyBtn">Copy</button></div><pre><code>Content/
+  NightOfTheLivingPins/
+    Maps/
+    Blueprints/
+    CppHelpers/
+    Materials/
+      Instances/
+      Decals/
+    Meshes/
+      Blockout/
+      Environment/
+      Gameplay/
+    Props/
+    Lighting/
+    FX/
+    Audio/
+    UI/
+    Dev/
+      Screenshots/
+      Notes/</code></pre></div></div>
+          <div class="tile"><h3>Level and Outliner folders</h3><p>Create the map as <code>L_BowlingAlley_Template</code>. In the Outliner, create folders that match the way you will think while building.</p><div class="codeBlock"><div class="codeTop"><span>Outliner folders</span><button class="copyBtn">Copy</button></div><pre><code>00_BLOCKOUT
+01_LANE_CORE
+02_WALLS_CEILING
+03_LIGHTING
+04_PROPS_DRESSING
+05_GAMEPLAY_MARKERS
+06_COLLISION_TRIGGERS
+07_FX
+08_AUDIO
+09_CAMERAS</code></pre></div></div>
+          <div class="callout"><strong>Beginner rule:</strong> every actor you add should go into a folder immediately. If you keep the Outliner tidy now, future Robin will thank you when C++ spawners, triggers, cameras, and VFX start arriving.</div>
+          <div class="callout warning"><strong>Save habit:</strong> save the level after each major pass. Use names like <code>L_BowlingAlley_Template</code>, then duplicate later to <code>L_Lane13_Prototype</code> so the clean template is never damaged.</div>
+          <div class="diagramWrap" style="grid-column:1/-1">
+            <div class="diagramTitle"><div><strong>Project structure pipeline</strong><span>How the folders support gameplay</span></div><p class="diagramNote">Build the level as a chain of clean containers. Each stage feeds the next one, so art, collision, markers, and code hooks do not become tangled.</p></div>
+            <div class="flowDiagram">
+              <div class="flowNode"><b>Content folders</b><span>Maps, Blueprints, Materials, Meshes, FX, Audio, UI, and Dev notes stay separated.</span></div>
+              <div class="flowNode"><b>Template map</b><span><code>L_BowlingAlley_Template</code> stores the clean reusable shell before one-off gameplay is added.</span></div>
+              <div class="flowNode"><b>Outliner folders</b><span>Blockout, lighting, props, triggers, markers, cameras, FX, and audio are grouped in-scene.</span></div>
+              <div class="flowNode"><b>Named actors</b><span>Every important object gets a stable prefix: <code>SM_</code>, <code>BP_</code>, <code>TP_</code>, <code>TV_</code>, <code>LI_</code>.</span></div>
+              <div class="flowNode"><b>C++ access</b><span>Spawner and manager classes can find tagged actors without hard-coded mystery coordinates.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="scale" data-title="scale coordinates lane dimensions top down diagram centimeters unreal axis x y z">
+        <div class="sectionHead"><div class="sectionNum">02</div><div class="sectionTitle"><h2>Use a simple coordinate system that makes gameplay painless</h2><p>In this guide, the ball travels along positive X. Y is left/right, and Z is up. This matches the way UE represents forward, side, and height values in the editor.</p></div><div class="tagRow"><span class="tag good">X = lane direction</span><span class="tag">cm units</span></div></div>
+        <div class="sectionBody">
+          <div class="diagramWrap">
+            <div class="diagramTitle"><div><strong>Aligned lane coordinate plan</strong><span>Top-down UE5 layout</span></div><p class="diagramNote">The visible diagram is now built on a strict grid: approach, gutters, lane core, pin deck, and back machine each occupy their own aligned cells.</p></div>
+            <div class="precisionDiagram">
+              <div class="planGrid">
+                <div class="planCell sideTop"><strong>Side wall / story band</strong><small>posters, broken windows, arcade glow</small></div>
+                <div class="planCell approachCell"><strong>Approach</strong><small>X=-450 to 0<br>player lane-space Y moves here</small></div>
+                <div class="planCell gutterTop"><strong>Left gutter</strong><small>lower collision channel</small></div>
+                <div class="planCell laneCell"><div class="centreLine"></div><strong>Main lane core</strong><small>X=0 foul line -> X=1829 head pin<br>Y=0 centre line, width 106cm</small><div class="aimArrows"><i></i><i></i><i></i><i></i></div></div>
+                <div class="planCell gutterBottom"><strong>Right gutter</strong><small>gutter trigger volume</small></div>
+                <div class="planCell pinDeckCell"><strong>Pin deck</strong><small>10 target points</small><div class="pinRackMini"><span class="pinDot"></span><span class="rackGap"></span><span class="rackGap"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="rackGap"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span></div></div>
+                <div class="planCell machineCell"><strong>Back machine</strong><small>danger silhouette and pit trigger</small></div>
+                <div class="planCell sideBottom"><strong>Side wall / camera band</strong><small>lights, cables, enemy silhouettes, readable negative space</small></div>
+              </div>
+              <div class="axisStrip"><span><strong>X axis:</strong> ball travels forward down-lane.</span><span><strong>Y axis:</strong> left/right lane position.</span><span><strong>Z axis:</strong> height and camera clearance.</span><span><strong>Rule:</strong> markers first, props second.</span></div>
+            </div>
+            <svg viewBox="0 0 1180 620" role="img" aria-label="Top-down bowling lane plan with coordinate markers">
+              <defs>
+                <linearGradient id="laneGrad" x1="0" x2="1"><stop offset="0" stop-color="#7c4b28"/><stop offset=".48" stop-color="#c79650"/><stop offset="1" stop-color="#5c351e"/></linearGradient>
+                <linearGradient id="gutterGrad" x1="0" x2="1"><stop offset="0" stop-color="#131922"/><stop offset="1" stop-color="#303b48"/></linearGradient>
+                <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <rect x="20" y="26" width="1140" height="568" rx="28" fill="#070b12" stroke="rgba(255,255,255,.14)"/>
+              <rect x="70" y="120" width="190" height="380" rx="14" fill="rgba(125,169,255,.08)" stroke="rgba(125,169,255,.28)"/>
+              <text x="165" y="104" fill="#a9b7c9" text-anchor="middle" font-size="18" font-weight="700">Approach</text>
+              <rect x="260" y="174" width="680" height="272" rx="10" fill="url(#gutterGrad)" stroke="rgba(255,255,255,.12)"/>
+              <rect x="260" y="213" width="680" height="194" rx="6" fill="url(#laneGrad)" stroke="rgba(255,255,255,.28)"/>
+              <line x1="260" y1="116" x2="260" y2="504" stroke="#ff5e76" stroke-width="4" stroke-dasharray="10 8"/>
+              <text x="260" y="545" fill="#ffb2be" text-anchor="middle" font-size="16" font-weight="800">X=0 Foul line</text>
+              <rect x="940" y="158" width="112" height="304" rx="14" fill="rgba(157,255,187,.08)" stroke="rgba(157,255,187,.28)"/>
+              <text x="996" y="142" fill="#a9b7c9" text-anchor="middle" font-size="18" font-weight="700">Pin deck</text>
+              <rect x="1052" y="82" width="48" height="456" rx="12" fill="rgba(255,94,118,.13)" stroke="rgba(255,94,118,.32)"/>
+              <text x="1076" y="63" fill="#ffd7df" text-anchor="middle" font-size="16" font-weight="900">Back machine</text>
+              <line x1="940" y1="213" x2="940" y2="407" stroke="#9dffbb" stroke-width="3" stroke-dasharray="8 8"/>
+              <text x="940" y="545" fill="#9dffbb" text-anchor="middle" font-size="16" font-weight="900">X=1829 Head pin</text>
+              <g fill="#eaf5ed" stroke="#ff5e76" stroke-width="3" filter="url(#glow)">
+                <circle cx="940" cy="310" r="9"/>
+                <circle cx="958" cy="292" r="9"/><circle cx="958" cy="328" r="9"/>
+                <circle cx="976" cy="274" r="9"/><circle cx="976" cy="310" r="9"/><circle cx="976" cy="346" r="9"/>
+                <circle cx="994" cy="256" r="9"/><circle cx="994" cy="292" r="9"/><circle cx="994" cy="328" r="9"/><circle cx="994" cy="364" r="9"/>
+              </g>
+              <g stroke="rgba(255,255,255,.18)"><line x1="70" y1="310" x2="1100" y2="310"/><line x1="600" y1="82" x2="600" y2="538"/></g>
+              <text x="605" y="305" fill="#728097" font-size="13">Y=0 centre line</text>
+              <text x="72" y="558" fill="#7da9ff" font-size="14" font-weight="900">Ball spawn: X=-250, Y=0, Z=45</text>
+              <text x="434" y="190" fill="#ffd37d" font-size="14" font-weight="900">Lane arrows around X=450</text>
+              <g fill="#ffd37d"><polygon points="430,308 444,300 444,316"/><polygon points="470,308 484,300 484,316"/><polygon points="510,308 524,300 524,316"/><polygon points="550,308 564,300 564,316"/></g>
+            </svg>
+            <div class="legend"><span><i class="dot"></i>Pin targets</span><span><i class="dot blue"></i>Player/ball area</span><span><i class="dot red"></i>Danger/back machine</span><span><i class="dot amber"></i>Aiming arrows</span></div>
+          </div>
+          <div class="grid three" style="margin-top:16px">
+            <div class="tile"><h3>Coordinate choices</h3><ul><li><strong>X</strong> runs from the foul line to the pins.</li><li><strong>Y</strong> is the lane width.</li><li><strong>Z</strong> is height.</li></ul></div>
+            <div class="tile"><h3>Gameplay-safe scale</h3><ul><li>Use real lane length for credibility.</li><li>Use a wider room for camera readability.</li><li>Keep the lane itself clean enough to read.</li></ul></div>
+            <div class="tile"><h3>Template thinking</h3><ul><li>Markers first.</li><li>Props later.</li><li>Lighting before detail spam.</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="blockout" data-title="blockout cubes transforms walls ceiling gutters rails approach pin deck back wall">
+        <div class="sectionHead"><div class="sectionNum">03</div><div class="sectionTitle"><h2>Block out the full lane with exact transforms</h2><p>Use cubes first. Do not worry about final meshes yet. The important thing is to make the scene playable, understandable, and easy to iterate.</p></div><div class="tagRow"><span class="tag good">Place Actors → Shapes → Cube</span><span class="tag warn">Save often</span></div></div>
+        <div class="sectionBody">
+          <div class="tableWrap">
+            <table>
+              <thead><tr><th>Actor name</th><th>Location X/Y/Z</th><th>Scale X/Y/Z</th><th>Purpose</th></tr></thead>
+              <tbody>
+                <tr><td><code>SM_Blockout_Approach</code></td><td>-225 / 0 / 0</td><td>4.5 / 3.5 / 0.08</td><td>Player launch area before the foul line.</td></tr>
+                <tr><td><code>SM_Blockout_LaneSurface</code></td><td>914.5 / 0 / 0</td><td>18.29 / 1.06 / 0.06</td><td>Main playable bowling lane.</td></tr>
+                <tr><td><code>SM_Blockout_Gutter_L</code></td><td>914.5 / -65 / -4</td><td>18.29 / 0.24 / 0.06</td><td>Left gutter, slightly lowered.</td></tr>
+                <tr><td><code>SM_Blockout_Gutter_R</code></td><td>914.5 / 65 / -4</td><td>18.29 / 0.24 / 0.06</td><td>Right gutter, slightly lowered.</td></tr>
+                <tr><td><code>SM_Blockout_Rail_L</code></td><td>914.5 / -84 / 8</td><td>18.29 / 0.12 / 0.14</td><td>Left capping rail.</td></tr>
+                <tr><td><code>SM_Blockout_Rail_R</code></td><td>914.5 / 84 / 8</td><td>18.29 / 0.12 / 0.14</td><td>Right capping rail.</td></tr>
+                <tr><td><code>SM_Blockout_PinDeck</code></td><td>1935 / 0 / 0</td><td>2.1 / 1.8 / 0.08</td><td>Pin and boss-threat area.</td></tr>
+                <tr><td><code>SM_Blockout_BackWall</code></td><td>2150 / 0 / 150</td><td>0.25 / 6.5 / 3.0</td><td>Back wall / pinsetter backdrop.</td></tr>
+                <tr><td><code>SM_Blockout_Wall_L</code></td><td>850 / -300 / 140</td><td>27.0 / 0.20 / 2.8</td><td>Left environment boundary.</td></tr>
+                <tr><td><code>SM_Blockout_Wall_R</code></td><td>850 / 300 / 140</td><td>27.0 / 0.20 / 2.8</td><td>Right environment boundary.</td></tr>
+                <tr><td><code>SM_Blockout_Ceiling</code></td><td>850 / 0 / 300</td><td>27.0 / 6.5 / 0.15</td><td>Low oppressive ceiling.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="diagramWrap" style="margin-top:16px">
+            <div class="diagramTitle"><div><strong>Blockout volume diagram</strong><span>Side elevation plus play-space bands</span></div><p class="diagramNote">Use this to check the greybox before dressing. The lane can stay physically accurate while the room around it becomes wider, taller, and more theatrical for horror readability.</p></div>
+            <div class="precisionDiagram">
+              <div class="layerRows">
+                <div class="layerRow"><b>Ceiling band</b><div class="layerTrack dim"></div><span>Z=300, lights and wires</span></div>
+                <div class="layerRow"><b>Camera volume</b><div class="layerTrack"></div><span>clear view down lane</span></div>
+                <div class="layerRow"><b>Side walls</b><div class="layerTrack dim"></div><span>wide enough for horror props</span></div>
+                <div class="layerRow"><b>Lane surface</b><div class="layerTrack"></div><span>18.29m core gameplay path</span></div>
+                <div class="layerRow"><b>Gutters/collision</b><div class="layerTrack hot"></div><span>lowered, simple trigger volumes</span></div>
+              </div>
+              <div class="planGrid" style="margin-top:14px">
+                <div class="planCell sideTop"><strong>Ceiling fixtures</strong><small>rect lights, missing tiles, cables</small></div>
+                <div class="planCell approachCell"><strong>Approach block</strong><small>SM_Blockout_Approach</small></div>
+                <div class="planCell gutterTop"><strong>Gutter L</strong><small>lower Z, simple collision</small></div>
+                <div class="planCell laneCell"><div class="centreLine"></div><strong>Lane surface block</strong><small>single clean physics test path</small></div>
+                <div class="planCell gutterBottom"><strong>Gutter R</strong><small>trigger, not messy mesh collision</small></div>
+                <div class="planCell pinDeckCell"><strong>Pin deck block</strong><small>pin rack and pit trigger</small></div>
+                <div class="planCell machineCell"><strong>Back wall</strong><small>pinsetter silhouette</small></div>
+                <div class="planCell sideBottom"><strong>Floor/wall boundary</strong><small>room scale can be theatrical; lane scale stays accurate</small></div>
+              </div>
+            </div>
+            <svg viewBox="0 0 1180 560" role="img" aria-label="Detailed blockout side elevation diagram">
+              <defs>
+                <linearGradient id="woodBand" x1="0" x2="1"><stop offset="0" stop-color="#6b3f21"/><stop offset=".5" stop-color="#c28a45"/><stop offset="1" stop-color="#4b2b1a"/></linearGradient>
+                <linearGradient id="wallBand" x1="0" x2="1"><stop offset="0" stop-color="#182130"/><stop offset="1" stop-color="#0a0f18"/></linearGradient>
+              </defs>
+              <rect x="24" y="24" width="1132" height="512" rx="24" fill="#070b12" stroke="rgba(255,255,255,.14)"/>
+              <rect x="92" y="92" width="1016" height="272" rx="18" fill="url(#wallBand)" stroke="rgba(125,169,255,.18)"/>
+              <rect x="92" y="82" width="1016" height="34" rx="8" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/>
+              <text x="600" y="74" fill="#a9b7c9" text-anchor="middle" font-size="15" font-weight="800">SM_Blockout_Ceiling  |  Z=300  |  low, oppressive, good for flicker lights</text>
+              <rect x="92" y="350" width="1016" height="44" rx="8" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.14)"/>
+              <rect x="225" y="340" width="690" height="30" rx="6" fill="url(#woodBand)" stroke="rgba(255,211,125,.34)"/>
+              <rect x="225" y="371" width="690" height="20" rx="4" fill="rgba(0,0,0,.34)" stroke="rgba(255,255,255,.10)"/>
+              <rect x="93" y="340" width="132" height="34" rx="7" fill="rgba(125,169,255,.16)" stroke="rgba(125,169,255,.34)"/>
+              <rect x="915" y="332" width="110" height="48" rx="7" fill="rgba(157,255,187,.12)" stroke="rgba(157,255,187,.34)"/>
+              <rect x="1025" y="236" width="74" height="146" rx="10" fill="rgba(255,94,118,.12)" stroke="rgba(255,94,118,.34)"/>
+              <line x1="225" y1="322" x2="225" y2="406" stroke="#ff5e76" stroke-width="3" stroke-dasharray="8 8"/>
+              <line x1="915" y1="314" x2="915" y2="410" stroke="#9dffbb" stroke-width="3" stroke-dasharray="8 8"/>
+              <line x1="225" y1="438" x2="915" y2="438" stroke="#ffd37d" stroke-width="3"/>
+              <path d="M225 438 l12 -8 M225 438 l12 8 M915 438 l-12 -8 M915 438 l-12 8" stroke="#ffd37d" stroke-width="3" fill="none"/>
+              <text x="570" y="430" fill="#ffd37d" text-anchor="middle" font-size="15" font-weight="900">18.29m playable lane core</text>
+              <text x="158" y="416" fill="#7da9ff" text-anchor="middle" font-size="14" font-weight="900">Approach</text>
+              <text x="158" y="436" fill="#a9b7c9" text-anchor="middle" font-size="12">launch + aim</text>
+              <text x="570" y="318" fill="#ffd37d" text-anchor="middle" font-size="14" font-weight="900">SM_Blockout_LaneSurface</text>
+              <text x="970" y="414" fill="#9dffbb" text-anchor="middle" font-size="14" font-weight="900">Pin deck</text>
+              <text x="1062" y="222" fill="#ffd7df" text-anchor="middle" font-size="14" font-weight="900">Back machine</text>
+              <g stroke="rgba(255,255,255,.18)" stroke-dasharray="4 8">
+                <line x1="92" y1="164" x2="1108" y2="164"/>
+                <line x1="92" y1="236" x2="1108" y2="236"/>
+                <line x1="92" y1="300" x2="1108" y2="300"/>
+              </g>
+              <g fill="rgba(157,255,187,.12)" stroke="rgba(157,255,187,.28)">
+                <rect x="290" y="142" width="76" height="24" rx="7"/><rect x="462" y="142" width="76" height="24" rx="7"/><rect x="634" y="142" width="76" height="24" rx="7"/><rect x="806" y="142" width="76" height="24" rx="7"/>
+              </g>
+              <text x="548" y="134" fill="#9dffbb" text-anchor="middle" font-size="13" font-weight="900">Rect lights hang in ceiling band, not in player path</text>
+              <circle cx="170" cy="306" r="18" fill="#111823" stroke="#78d7ff" stroke-width="3"/>
+              <text x="170" y="312" fill="#78d7ff" text-anchor="middle" font-size="16" font-weight="950">B</text>
+              <path d="M188 304 C370 276 552 274 868 304" fill="none" stroke="#78d7ff" stroke-width="3" stroke-dasharray="8 8"/>
+              <text x="500" y="268" fill="#78d7ff" text-anchor="middle" font-size="13" font-weight="900">Temporary physics ball test path</text>
+              <g fill="#eaf5ed" stroke="#ff5e76" stroke-width="2">
+                <circle cx="915" cy="316" r="7"/><circle cx="931" cy="307" r="7"/><circle cx="931" cy="325" r="7"/><circle cx="947" cy="298" r="7"/><circle cx="947" cy="316" r="7"/><circle cx="947" cy="334" r="7"/>
+              </g>
+              <text x="98" y="482" fill="#a9b7c9" font-size="13">Greybox pass checks: no props on centre path, gutters lower than lane, pin deck visible, camera clears ceiling, back machine framed behind pins.</text>
+            </svg>
+            <div class="legend"><span><i class="dot blue"></i>Ball path</span><span><i class="dot amber"></i>Playable lane</span><span><i class="dot"></i>Light band</span><span><i class="dot red"></i>Danger focal point</span></div>
+          </div>
+          <div class="grid two" style="margin-top:16px">
+            <div class="callout"><strong>Art direction note:</strong> keep the lane clear in the middle. Make the horror live beside the lane, above the lane, behind the pins, and around the approach.</div>
+            <div class="callout warning"><strong>Collision note:</strong> do not rely on messy art meshes for collision while prototyping. Add simple Blocking Volumes and Trigger Volumes so gameplay stays predictable.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="markers" data-title="target points gameplay markers ball spawn camera pin positions triggers collision volume gutter">
+        <div class="sectionHead"><div class="sectionNum">04</div><div class="sectionTitle"><h2>Add gameplay markers before you add final gameplay</h2><p>Markers are the bridge between the level and your future C++ code. They let you spawn balls, pins, cameras, scare events, and enemies without hard-coding weird coordinates later.</p></div><div class="tagRow"><span class="tag good">Target Point actors</span><span class="tag">C++ hooks</span></div></div>
+        <div class="sectionBody grid two">
+          <div class="tile"><h3>Pin target points</h3><p>Create 10 Target Point actors in <code>05_GAMEPLAY_MARKERS / PinSpots</code>. Use these names and positions.</p><div class="codeBlock"><div class="codeTop"><span>Pin rack coordinates</span><button class="copyBtn">Copy</button></div><pre><code>TP_Pin_01: X=1829.0  Y=0.0    Z=0
+TP_Pin_02: X=1855.4  Y=-15.2  Z=0
+TP_Pin_03: X=1855.4  Y=15.2   Z=0
+TP_Pin_04: X=1881.8  Y=-30.4  Z=0
+TP_Pin_05: X=1881.8  Y=0.0    Z=0
+TP_Pin_06: X=1881.8  Y=30.4   Z=0
+TP_Pin_07: X=1908.2  Y=-45.6  Z=0
+TP_Pin_08: X=1908.2  Y=-15.2  Z=0
+TP_Pin_09: X=1908.2  Y=15.2   Z=0
+TP_Pin_10: X=1908.2  Y=45.6   Z=0</code></pre></div></div>
+          <div class="tile"><h3>Core gameplay hooks</h3><p>These give your future code useful named points. Add actor tags like <code>BallSpawn</code>, <code>MainCamera</code>, and <code>ScarePoint</code>.</p><div class="codeBlock"><div class="codeTop"><span>Gameplay marker list</span><button class="copyBtn">Copy</button></div><pre><code>TP_BallSpawn:              X=-250  Y=0     Z=45
+TP_PlayerStart:            X=-380  Y=0     Z=90
+TP_Camera_Main:            X=-620  Y=0     Z=180
+TP_Camera_LowLane:         X=-250  Y=-120  Z=65
+TP_PinCamera:              X=1700  Y=0     Z=120
+TP_ZombieSpawn_L:          X=1200  Y=-230  Z=0
+TP_ZombieSpawn_R:          X=1200  Y=230   Z=0
+TP_ScarePoint_BackMachine: X=2050  Y=0     Z=90</code></pre></div></div>
+          <div class="tile"><h3>Trigger volumes</h3><ul><li><code>TV_Gutter_L</code> detects gutter balls.</li><li><code>TV_Gutter_R</code> detects gutter balls.</li><li><code>TV_Pit</code> detects when the ball reaches the back.</li><li><code>TV_Approach</code> can enable aiming/charging.</li></ul></div>
+          <div class="tile"><h3>Future C++ class map</h3><ul><li><code>ANOLPBowlingBall</code></li><li><code>ANOLPPinBase</code></li><li><code>ANOLPPinRackSpawner</code></li><li><code>ANOLPGutterTrigger</code></li><li><code>ANOLPLevelLaneManager</code></li></ul></div>
+          <div class="diagramWrap" style="grid-column:1/-1">
+            <div class="diagramTitle"><div><strong>Gameplay marker dependency map</strong><span>Level actors -> code hooks</span></div><p class="diagramNote">Place these before final art. The goal is that code can ask the level for named points and volumes instead of guessing where the ball, pins, camera, scare event, and enemies should be.</p></div>
+            <div class="precisionDiagram">
+              <div class="planGrid">
+                <div class="planCell sideTop"><strong>Cameras</strong><small>TP_Camera_Main, TP_Camera_LowLane, TP_PinCamera</small></div>
+                <div class="planCell approachCell"><strong>Spawn/aim</strong><small>TP_PlayerStart<br>TP_BallSpawn<br>TV_Approach</small></div>
+                <div class="planCell gutterTop"><strong>TV_Gutter_L</strong><small>left gutter ball detection</small></div>
+                <div class="planCell laneCell"><div class="centreLine"></div><strong>Ball path</strong><small>ANOLPBowlingBall follows lane forward vector</small><div class="aimArrows"><i></i><i></i><i></i></div></div>
+                <div class="planCell gutterBottom"><strong>TV_Gutter_R</strong><small>right gutter ball detection</small></div>
+                <div class="planCell pinDeckCell"><strong>Pin target points</strong><small>TP_Pin_01 to TP_Pin_10</small><div class="pinRackMini"><span class="pinDot"></span><span class="rackGap"></span><span class="rackGap"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="rackGap"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span></div></div>
+                <div class="planCell machineCell"><strong>Back hooks</strong><small>TV_Pit<br>TP_ScarePoint_BackMachine</small></div>
+                <div class="planCell sideBottom"><strong>Enemy spawn hooks</strong><small>TP_ZombieSpawn_L and TP_ZombieSpawn_R stay outside the clean play lane</small></div>
+              </div>
+              <div class="axisStrip"><span><strong>Manager:</strong> ANOLPLevelLaneManager</span><span><strong>Spawner:</strong> ANOLPPinRackSpawner</span><span><strong>Trigger:</strong> ANOLPGutterTrigger</span><span><strong>Rule:</strong> use tags and Target Points, not magic numbers.</span></div>
+            </div>
+            <svg viewBox="0 0 1180 620" role="img" aria-label="Gameplay marker and trigger dependency map">
+              <defs>
+                <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#9dffbb"/></marker>
+              </defs>
+              <rect x="22" y="24" width="1136" height="568" rx="26" fill="#070b12" stroke="rgba(255,255,255,.14)"/>
+              <rect x="76" y="250" width="840" height="134" rx="16" fill="rgba(255,211,125,.10)" stroke="rgba(255,211,125,.28)"/>
+              <rect x="76" y="214" width="840" height="34" rx="10" fill="rgba(0,0,0,.28)" stroke="rgba(255,255,255,.10)"/>
+              <rect x="76" y="386" width="840" height="34" rx="10" fill="rgba(0,0,0,.28)" stroke="rgba(255,255,255,.10)"/>
+              <rect x="76" y="250" width="150" height="134" rx="14" fill="rgba(125,169,255,.10)" stroke="rgba(125,169,255,.28)"/>
+              <line x1="226" y1="198" x2="226" y2="438" stroke="#ff5e76" stroke-width="3" stroke-dasharray="8 8"/>
+              <rect x="916" y="226" width="100" height="182" rx="16" fill="rgba(157,255,187,.10)" stroke="rgba(157,255,187,.28)"/>
+              <rect x="1016" y="178" width="74" height="276" rx="16" fill="rgba(255,94,118,.10)" stroke="rgba(255,94,118,.28)"/>
+              <text x="151" y="202" fill="#7da9ff" font-size="14" text-anchor="middle" font-weight="900">TV_Approach</text>
+              <text x="226" y="462" fill="#ffb2be" font-size="14" text-anchor="middle" font-weight="900">foul line</text>
+              <text x="496" y="238" fill="#ffd37d" font-size="14" text-anchor="middle" font-weight="900">TV_Gutter_L</text>
+              <text x="496" y="443" fill="#ffd37d" font-size="14" text-anchor="middle" font-weight="900">TV_Gutter_R</text>
+              <text x="966" y="204" fill="#9dffbb" font-size="14" text-anchor="middle" font-weight="900">TV_Pit</text>
+              <text x="1053" y="160" fill="#ffd7df" font-size="14" text-anchor="middle" font-weight="900">Scare/back machine</text>
+              <circle cx="150" cy="318" r="20" fill="#101927" stroke="#78d7ff" stroke-width="4"/><text x="150" y="324" fill="#78d7ff" text-anchor="middle" font-size="18" font-weight="950">B</text>
+              <text x="150" y="354" fill="#a9b7c9" font-size="12" text-anchor="middle">TP_BallSpawn</text>
+              <circle cx="102" cy="476" r="13" fill="#101927" stroke="#7da9ff" stroke-width="3"/><text x="102" y="504" fill="#a9b7c9" font-size="12" text-anchor="middle">PlayerStart</text>
+              <circle cx="126" cy="112" r="13" fill="#101927" stroke="#7da9ff" stroke-width="3"/><text x="126" y="92" fill="#a9b7c9" font-size="12" text-anchor="middle">Camera_Main</text>
+              <circle cx="486" cy="166" r="13" fill="#101927" stroke="#78d7ff" stroke-width="3"/><text x="486" y="146" fill="#a9b7c9" font-size="12" text-anchor="middle">Camera_LowLane</text>
+              <circle cx="860" cy="150" r="13" fill="#101927" stroke="#78d7ff" stroke-width="3"/><text x="860" y="130" fill="#a9b7c9" font-size="12" text-anchor="middle">PinCamera</text>
+              <g fill="#eaf5ed" stroke="#ff5e76" stroke-width="3">
+                <circle cx="935" cy="318" r="8"/>
+                <circle cx="954" cy="300" r="8"/><circle cx="954" cy="336" r="8"/>
+                <circle cx="973" cy="282" r="8"/><circle cx="973" cy="318" r="8"/><circle cx="973" cy="354" r="8"/>
+                <circle cx="992" cy="264" r="8"/><circle cx="992" cy="300" r="8"/><circle cx="992" cy="336" r="8"/><circle cx="992" cy="372" r="8"/>
+              </g>
+              <text x="972" y="424" fill="#ffb2be" font-size="12" text-anchor="middle">TP_Pin_01-10</text>
+              <circle cx="708" cy="178" r="13" fill="#101927" stroke="#9dffbb" stroke-width="3"/><text x="708" y="156" fill="#a9b7c9" font-size="12" text-anchor="middle">ZombieSpawn_L</text>
+              <circle cx="708" cy="482" r="13" fill="#101927" stroke="#9dffbb" stroke-width="3"/><text x="708" y="510" fill="#a9b7c9" font-size="12" text-anchor="middle">ZombieSpawn_R</text>
+              <path d="M170 318 C340 288 590 286 916 318" fill="none" stroke="#78d7ff" stroke-width="3" stroke-dasharray="8 8" marker-end="url(#arrowHead)"/>
+              <path d="M935 318 C1080 304 1092 238 1054 202" fill="none" stroke="#ff5e76" stroke-width="3" stroke-dasharray="7 7"/>
+              <path d="M708 178 C812 194 872 236 928 292" fill="none" stroke="#9dffbb" stroke-width="2" stroke-dasharray="5 7"/>
+              <path d="M708 482 C812 466 872 424 928 354" fill="none" stroke="#9dffbb" stroke-width="2" stroke-dasharray="5 7"/>
+              <g transform="translate(70 38)">
+                <rect x="0" y="0" width="386" height="78" rx="16" fill="rgba(255,255,255,.045)" stroke="rgba(255,255,255,.12)"/>
+                <text x="18" y="28" fill="#edf5ff" font-size="14" font-weight="900">Manager lookup flow</text>
+                <text x="18" y="52" fill="#a9b7c9" font-size="12">ANOLPLevelLaneManager -> tagged Target Points -> spawners, cameras, triggers, scare events</text>
+              </g>
+              <g transform="translate(486 38)">
+                <rect x="0" y="0" width="444" height="78" rx="16" fill="rgba(255,255,255,.045)" stroke="rgba(255,255,255,.12)"/>
+                <text x="18" y="28" fill="#edf5ff" font-size="14" font-weight="900">Collision rule</text>
+                <text x="18" y="52" fill="#a9b7c9" font-size="12">Use simple Trigger Volumes for gameplay state; art meshes can be messy without breaking logic.</text>
+              </g>
+            </svg>
+            <div class="legend"><span><i class="dot blue"></i>Ball/camera path</span><span><i class="dot"></i>Enemy/spawn hooks</span><span><i class="dot red"></i>Pin and scare hooks</span><span><i class="dot amber"></i>Trigger volumes</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="controls" data-title="mouse controls input state machine drag power aim yaw steer post release ue5 blueprint c++ enhanced input">
+        <div class="sectionHead"><div class="sectionNum">IN</div><div class="sectionTitle"><h2>Mouse-only control design, with the right technical language</h2><p>The whole game can be controlled with the mouse. The player slides left and right before the throw, holds the left mouse button to enter an aiming/charging gesture, drags upward for power, drags left or right for direction, releases to launch, then lightly steers the ball with mouse movement while it travels down the lane.</p></div><div class="tagRow"><span class="tag good">Mouse only</span><span class="tag">UE5 input lingo</span><span class="tag">Future ChatGPT ready</span></div></div>
+        <div class="sectionBody">
+          <div class="diagramWrap">
+            <div class="diagramTitle"><div><strong>Mouse gesture diagram</strong><span>Position, charge, aim, release, steer</span></div><p class="diagramNote">Think of the controls as a small input state machine. Before the throw, mouse X controls the player lane position. While the left button is held, the drag vector controls power and aim yaw. After release, mouse X becomes a light steering input.</p></div>
+            <div class="precisionDiagram controlGesture">
+              <div class="gestureLane">
+                <div class="centreLine"></div>
+                <div class="aimArrows" style="position:absolute;left:0;right:0;top:43%"><i></i><i></i><i></i></div>
+                <div class="steerRibbon"></div>
+                <div class="dragVector"></div>
+                <div class="playerPuck" aria-hidden="true"></div>
+                <div class="gestureNote" style="left:18px;bottom:26px"><strong>Positioning</strong>Mouse left/right maps to lane-space Y before the throw.</div>
+                <div class="gestureNote" style="right:18px;bottom:110px"><strong>Hold + drag</strong>Up sets power. Left/right sets throw direction.</div>
+                <div class="gestureNote" style="left:18px;top:26px"><strong>Release</strong>Ball launches with selected power and yaw.</div>
+                <div class="gestureNote" style="right:18px;top:58px"><strong>Steering</strong>After launch, mouse X applies a small lateral force.</div>
+              </div>
+              <div class="inputSpec">
+                <div><strong>Pre-throw movement</strong><code>MouseDeltaX -> DesiredLaneY</code><br>Move the player/ball spawn left and right across a clamped lane range.</div>
+                <div><strong>Power gesture</strong><code>Power01 = Clamp(DragUpPixels / MaxPowerDragPixels, 0, 1)</code><br>Dragging upward farther gives more launch speed.</div>
+                <div><strong>Aim direction</strong><code>AimYawDegrees = Clamp(DragRightPixels / MaxAimDragPixels, -MaxYaw, MaxYaw)</code><br>Left/right while held creates the slash direction: <code>\</code> or <code>/</code>.</div>
+                <div><strong>Launch</strong><code>ForwardVector.RotateYaw(AimYaw) * LaunchSpeed</code><br>Release left mouse to apply impulse or set velocity.</div>
+                <div><strong>Post-release steering</strong><code>SteerInput = Clamp(MouseDeltaX / SteerSensitivity, -1, 1)</code><br>Apply a weak lateral force/torque, much weaker than the launch impulse.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid two" style="margin-top:16px">
+            <div class="tile"><h3>Plain English control loop</h3><ol><li>Move the mouse left or right to choose where the player stands on the approach.</li><li>Press and hold the left mouse button to start the throw gesture.</li><li>Drag upward to increase power.</li><li>While still holding, drag left or right to angle the throw.</li><li>Release the left mouse button to launch the ball.</li><li>After release, keep moving the mouse left or right to gently steer the ball.</li></ol></div>
+            <div class="tile"><h3>Technical version</h3><p>This is a <strong>mouse-only lane-space throw mechanic</strong> using a <strong>pre-launch lateral positioning state</strong>, a <strong>click-and-drag charge/aim gesture</strong>, a <strong>launch impulse</strong>, and a <strong>post-launch steering assist</strong>. The important variables are player lane Y, drag vector, normalized power, aim yaw, launch speed, steering input, and steering force.</p></div>
+          </div>
+
+          <div class="diagramWrap" style="margin-top:16px">
+            <div class="diagramTitle"><div><strong>Input state machine</strong><span>Use these names in Blueprint or C++</span></div><p class="diagramNote">These state names are the lingo that will help ChatGPT understand what you want later. Each state has one job, which keeps the control code easier to build and debug.</p></div>
+            <div class="precisionDiagram">
+              <div class="stateMachine">
+                <div class="stateNode"><b>Positioning</b><span>No button held. Mouse X moves the player/ball spawn left and right across the approach.</span></div>
+                <div class="stateNode"><b>Charging</b><span>Left mouse button is held. Store <code>DragStartScreenPos</code> and capture the cursor.</span></div>
+                <div class="stateNode"><b>Aiming</b><span>Use current drag vector to calculate <code>Power01</code> and <code>AimYawDegrees</code>.</span></div>
+                <div class="stateNode"><b>Launch</b><span>On mouse release, convert power and yaw into a forward launch vector.</span></div>
+                <div class="stateNode"><b>Steering</b><span>Ball is active. Mouse X applies weak lateral force or torque.</span></div>
+                <div class="stateNode"><b>Result</b><span>When the ball reaches pit or stops, score pins and reset for the next throw.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid two" style="margin-top:16px">
+            <div class="tile"><h3>Useful UE5 variable names</h3><div class="tokenGrid"><span><code>CurrentThrowState</code>Enum: Positioning, Charging, Aiming, Launched, Steering, Result.</span><span><code>DesiredLaneY</code>The player/ball lateral position in lane space.</span><span><code>MinLaneY / MaxLaneY</code>Clamp limits so the player cannot move outside the allowed approach area.</span><span><code>DragStartScreenPos</code>Mouse screen position when left button is pressed.</span><span><code>CurrentDragVector</code>Current mouse position minus drag start position.</span><span><code>Power01</code>Normalized throw power from 0 to 1.</span><span><code>AimYawDegrees</code>Launch angle left/right from the lane centre line.</span><span><code>MaxAimYawDegrees</code>Maximum allowed throw angle, for example 12 to 18 degrees.</span><span><code>LaunchSpeedMin / LaunchSpeedMax</code>Speed range created from power.</span><span><code>SteerStrength</code>How much control the player has after release.</span><span><code>SteerInput</code>Mouse X converted to -1 to +1.</span><span><code>BallForwardVelocity</code>Velocity down-lane after launch.</span></div></div>
+            <div class="tile"><h3>Blueprint/C++ event wording</h3><div class="codeBlock"><div class="codeTop"><span>Control event flow</span><button class="copyBtn">Copy</button></div><pre><code>OnMouseMove:
+  if State == Positioning:
+    DesiredLaneY += MouseDeltaX * PositionSensitivity
+    DesiredLaneY = Clamp(DesiredLaneY, MinLaneY, MaxLaneY)
+
+  if State == Steering:
+    SteerInput = Clamp(MouseDeltaX / SteerPixelsForFullInput, -1, 1)
+
+OnLeftMouseDown:
+  State = Charging
+  DragStartScreenPos = CurrentMouseScreenPos
+  CaptureMouse()
+
+OnMouseDragWhileHeld:
+  CurrentDragVector = CurrentMouseScreenPos - DragStartScreenPos
+  Power01 = Clamp(-CurrentDragVector.Y / MaxPowerDragPixels, 0, 1)
+  AimYawDegrees = Clamp(CurrentDragVector.X / MaxAimDragPixels, -1, 1) * MaxAimYawDegrees
+  State = Aiming
+
+OnLeftMouseUp:
+  LaunchDirection = LaneForwardVector rotated by AimYawDegrees
+  LaunchSpeed = Lerp(LaunchSpeedMin, LaunchSpeedMax, Power01)
+  LaunchBall(LaunchDirection, LaunchSpeed)
+  State = Steering</code></pre></div></div>
+          </div>
+
+          <div class="grid three" style="margin-top:16px">
+            <div class="tile"><h3>Physics wording</h3><ul><li><strong>Impulse:</strong> one strong push at launch.</li><li><strong>Velocity:</strong> directly setting ball movement speed.</li><li><strong>Lateral force:</strong> gentle side push after launch.</li><li><strong>Torque:</strong> spin-based steering, more physical but harder to tune.</li></ul></div>
+            <div class="tile"><h3>Tuning safeguards</h3><ul><li>Clamp lane position to allowed Y range.</li><li>Add a small deadzone to drag and steering.</li><li>Limit maximum aim yaw.</li><li>Make post-release steering subtle.</li><li>Disable steering after impact or when speed is too low.</li></ul></div>
+            <div class="tile"><h3>Future ChatGPT prompt</h3><p>Use this wording: <em>I need a UE5 C++ or Blueprint mouse-only bowling control system with states for Positioning, Charging, Aiming, Launch, Steering, and Result. Mouse X moves lane-space Y before launch. Left mouse drag up maps to normalized power, drag X maps to aim yaw, release applies launch impulse, and post-launch mouse X applies weak lateral steering.</em></p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="lighting" data-title="lighting lumen rect lights spot lights point lights horror flicker exposure emissive">
+        <div class="sectionHead"><div class="sectionNum">05</div><div class="sectionTitle"><h2>Make the lane spooky without making it unreadable</h2><p>The lighting target is a readable golden-brown lane surrounded by cold darkness, with dirty green and red accents around the pin deck. The player should always know where to aim.</p></div><div class="tagRow"><span class="tag good">Lumen ready</span><span class="tag">Rect lights</span></div></div>
+        <div class="sectionBody">
+          <div class="recipe">
+            <div class="tile"><h3>Primary lane recipe</h3><div class="swatch cold"></div><ul><li>Use 4–6 Rect Lights along the ceiling.</li><li>Keep them mostly cold white or slightly green.</li><li>Break one or two by lowering intensity or adding flicker.</li><li>Keep the lane reflection visible.</li></ul></div>
+            <div class="tile"><h3>Back-machine recipe</h3><div class="swatch red"></div><ul><li>Add a Spot Light behind the pins aimed forward.</li><li>Use red/green contrast, not pure red everywhere.</li><li>Let the pins silhouette against fog and machinery.</li><li>This is your horror focal point.</li></ul></div>
+          </div>
+          <div class="grid three" style="margin-top:16px">
+            <div class="tile"><h3>RectLight_Lane_01</h3><p><strong>Location:</strong> X=100, Y=0, Z=270<br><strong>Intensity:</strong> 150–400<br><strong>Width:</strong> 250<br><strong>Height:</strong> 20</p></div>
+            <div class="tile"><h3>Duplicate down-lane</h3><p>Place copies at X=450, 800, 1150, 1500, and 1850. Vary intensity so the lighting feels broken instead of perfectly even.</p></div>
+            <div class="tile"><h3>Pin deck light</h3><p><strong>SpotLight_BackMachine</strong><br>X=2080, Y=0, Z=180<br>Intensity 800–1500. Aim toward the pins.</p></div>
+          </div>
+          <div class="diagramWrap" style="margin-top:16px">
+            <div class="diagramTitle"><div><strong>Lighting rig diagram</strong><span>Readable lane, scary edges</span></div><p class="diagramNote">The lane surface gets a controllable light rhythm. Horror accents sit off-centre and behind the pins so the player can still aim while the environment feels hostile.</p></div>
+            <div class="precisionDiagram">
+              <div class="planGrid">
+                <div class="planCell sideTop"><strong>Cold window shafts</strong><small>blue moonlight through damaged side wall openings</small></div>
+                <div class="planCell approachCell"><strong>Soft approach key</strong><small>enough light for player/ball silhouette</small></div>
+                <div class="planCell gutterTop"><strong>Blue edge strip</strong><small>subtle gutter readability</small></div>
+                <div class="planCell laneCell"><div class="centreLine"></div><strong>Lane rect-light rhythm</strong><small>Rect 01 -> Rect 05, varied intensity, arrows visible</small><div class="aimArrows"><i></i><i></i><i></i></div></div>
+                <div class="planCell gutterBottom"><strong>Neon bounce</strong><small>orange signs, low intensity</small></div>
+                <div class="planCell pinDeckCell"><strong>Green pin glow</strong><small>eyes, slime, fog, readable head pin</small><div class="pinRackMini"><span class="pinDot"></span><span class="rackGap"></span><span class="rackGap"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="rackGap"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span></div></div>
+                <div class="planCell machineCell"><strong>Red rim danger</strong><small>SpotLight_BackMachine aimed forward</small></div>
+                <div class="planCell sideBottom"><strong>Exposure rule</strong><small>ball, arrows, gutters, and head pin stay readable after fog and bloom</small></div>
+              </div>
+              <div class="axisStrip"><span><strong>Cold:</strong> moon/window shafts.</span><span><strong>Green:</strong> supernatural pin deck.</span><span><strong>Orange:</strong> neon sign bounce.</span><span><strong>Red:</strong> back-machine danger only.</span></div>
+            </div>
+            <svg viewBox="0 0 1180 650" role="img" aria-label="Lighting placement diagram for haunted bowling lane">
+              <defs>
+                <radialGradient id="lightGlowGreen"><stop offset="0" stop-color="rgba(157,255,187,.72)"/><stop offset=".42" stop-color="rgba(157,255,187,.22)"/><stop offset="1" stop-color="rgba(157,255,187,0)"/></radialGradient>
+                <radialGradient id="lightGlowRed"><stop offset="0" stop-color="rgba(255,94,118,.65)"/><stop offset=".45" stop-color="rgba(255,94,118,.20)"/><stop offset="1" stop-color="rgba(255,94,118,0)"/></radialGradient>
+                <radialGradient id="lightGlowBlue"><stop offset="0" stop-color="rgba(120,215,255,.55)"/><stop offset=".48" stop-color="rgba(120,215,255,.16)"/><stop offset="1" stop-color="rgba(120,215,255,0)"/></radialGradient>
+              </defs>
+              <rect x="22" y="24" width="1136" height="598" rx="26" fill="#070b12" stroke="rgba(255,255,255,.14)"/>
+              <text x="590" y="62" fill="#edf5ff" text-anchor="middle" font-size="18" font-weight="950">Top-down lighting plan</text>
+              <rect x="126" y="242" width="816" height="184" rx="16" fill="rgba(255,211,125,.10)" stroke="rgba(255,211,125,.28)"/>
+              <rect x="126" y="202" width="816" height="36" rx="10" fill="rgba(0,0,0,.26)" stroke="rgba(255,255,255,.10)"/>
+              <rect x="126" y="430" width="816" height="36" rx="10" fill="rgba(0,0,0,.26)" stroke="rgba(255,255,255,.10)"/>
+              <rect x="942" y="220" width="112" height="244" rx="16" fill="rgba(157,255,187,.08)" stroke="rgba(157,255,187,.28)"/>
+              <rect x="1054" y="164" width="62" height="356" rx="16" fill="rgba(255,94,118,.09)" stroke="rgba(255,94,118,.30)"/>
+              <g>
+                <ellipse cx="220" cy="334" rx="120" ry="72" fill="url(#lightGlowBlue)"/>
+                <ellipse cx="360" cy="334" rx="120" ry="72" fill="url(#lightGlowGreen)"/>
+                <ellipse cx="500" cy="334" rx="120" ry="72" fill="url(#lightGlowBlue)"/>
+                <ellipse cx="640" cy="334" rx="120" ry="72" fill="url(#lightGlowGreen)"/>
+                <ellipse cx="780" cy="334" rx="120" ry="72" fill="url(#lightGlowBlue)"/>
+              </g>
+              <g fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.35)">
+                <rect x="168" y="160" width="108" height="24" rx="7"/><rect x="308" y="160" width="108" height="24" rx="7"/><rect x="448" y="160" width="108" height="24" rx="7"/><rect x="588" y="160" width="108" height="24" rx="7"/><rect x="728" y="160" width="108" height="24" rx="7"/>
+              </g>
+              <g fill="#a9b7c9" font-size="12" text-anchor="middle">
+                <text x="222" y="150">Rect 01</text><text x="362" y="150">Rect 02</text><text x="502" y="150">Rect 03</text><text x="642" y="150">Rect 04</text><text x="782" y="150">Rect 05</text>
+              </g>
+              <ellipse cx="1010" cy="334" rx="150" ry="156" fill="url(#lightGlowRed)"/>
+              <ellipse cx="960" cy="334" rx="122" ry="132" fill="url(#lightGlowGreen)"/>
+              <g fill="#eaf5ed" stroke="#ff5e76" stroke-width="3">
+                <circle cx="964" cy="334" r="8"/><circle cx="982" cy="316" r="8"/><circle cx="982" cy="352" r="8"/><circle cx="1000" cy="298" r="8"/><circle cx="1000" cy="334" r="8"/><circle cx="1000" cy="370" r="8"/>
+              </g>
+              <text x="1012" y="544" fill="#ffd7df" text-anchor="middle" font-size="14" font-weight="900">SpotLight_BackMachine red rim + green pin glow</text>
+              <path d="M56 176 C198 226 286 242 392 260" fill="none" stroke="#78d7ff" stroke-width="5" stroke-dasharray="10 10"/>
+              <path d="M56 496 C198 446 286 430 392 412" fill="none" stroke="#78d7ff" stroke-width="5" stroke-dasharray="10 10"/>
+              <text x="180" y="122" fill="#78d7ff" font-size="13" font-weight="900">Cold window shafts from left wall</text>
+              <text x="246" y="516" fill="#78d7ff" font-size="13" font-weight="900">Blue edge light catches wet boards</text>
+              <rect x="536" y="486" width="264" height="42" rx="12" fill="rgba(255,157,98,.12)" stroke="rgba(255,157,98,.34)"/>
+              <text x="668" y="512" fill="#ffbd91" text-anchor="middle" font-size="13" font-weight="900">Neon sign bounce: orange, low intensity</text>
+              <g transform="translate(76 548)">
+                <rect x="0" y="0" width="880" height="52" rx="16" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.11)"/>
+                <text x="18" y="22" fill="#edf5ff" font-size="13" font-weight="900">Exposure target</text>
+                <text x="18" y="40" fill="#a9b7c9" font-size="12">The lane arrows, ball silhouette, and head pin must stay readable after fog and bloom are enabled.</text>
+              </g>
+            </svg>
+            <div class="legend"><span><i class="dot blue"></i>Cold window/edge light</span><span><i class="dot"></i>Green supernatural glow</span><span><i class="dot red"></i>Danger backlight</span><span><i class="dot amber"></i>Neon bounce</span></div>
+          </div>
+          <div class="tabs" style="margin-top:16px">
+            <div class="tabButtons"><button class="active">Mood</button><button>Readability</button><button>Performance</button></div>
+            <div class="tabPanel active"><h3>Make it feel abandoned</h3><p>Use long shadow shapes, dead corners, low ceiling pools of light, and one strong back glow. The best horror lighting leaves some parts unseen, but never hides the gameplay lane itself.</p></div>
+            <div class="tabPanel"><h3>Keep the gameplay readable</h3><p>The ball path needs to read immediately. Use the foul line, target arrows, rails, and a subtle lane reflection to guide the eye toward the pins.</p></div>
+            <div class="tabPanel"><h3>Do not overdo dynamic lights</h3><p>Use dynamic lighting where it matters: flicker lights, emissive monitors, scare moments, and the pin machine. Keep unnecessary small lights out of the prototype until the gameplay is proven.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="atmosphere" data-title="volumetric fog post process exposure bloom vignette color grading atmosphere">
+        <div class="sectionHead"><div class="sectionNum">06</div><div class="sectionTitle"><h2>Fog and post process: cinematic, not muddy</h2><p>Atmosphere sells the abandoned horror feeling, but too much fog kills readability. Use fog as depth and beams, not as a grey blanket over the whole lane.</p></div><div class="tagRow"><span class="tag">Exponential Height Fog</span><span class="tag good">Post Process Volume</span></div></div>
+        <div class="sectionBody grid two">
+          <div class="tile"><h3>Fog starting values</h3><ul><li>Add <strong>Exponential Height Fog</strong>.</li><li>Enable <strong>Volumetric Fog</strong>.</li><li>Fog Density: <code>0.015–0.04</code>.</li><li>Height Falloff: <code>0.2–0.5</code>.</li><li>Keep low fog around the pin deck.</li></ul></div>
+          <div class="tile"><h3>Post Process starting values</h3><ul><li>Add a <strong>Post Process Volume</strong>.</li><li>Enable <strong>Infinite Extent</strong>.</li><li>Use controlled/manual exposure.</li><li>Vignette: <code>0.25–0.45</code>.</li><li>Subtle Bloom and Film Grain.</li></ul></div>
+          <div class="callout warning"><strong>Beginner trap:</strong> auto exposure can brighten the whole scene and destroy the horror mood. Tame exposure early so your lighting decisions actually stay visible.</div>
+          <div class="callout"><strong>Style target:</strong> shadows lean blue/green, lane wood stays dirty amber, back-machine danger uses red sparingly, and highlights feel like old fluorescent tubes.</div>
+          <div class="diagramWrap" style="grid-column:1/-1">
+            <div class="diagramTitle"><div><strong>Fog and post-process stack</strong><span>Depth without muddy gameplay</span></div><p class="diagramNote">Treat atmosphere as layered visibility control. The highest contrast stays on the playable lane and pin rack; heavier fog belongs at the back machine, floor edges, and distant wall openings.</p></div>
+            <div class="precisionDiagram">
+              <div class="layerRows">
+                <div class="layerRow"><b>Manual exposure</b><div class="layerTrack dim"></div><span>lock mood before judging lights</span></div>
+                <div class="layerRow"><b>Window beams</b><div class="layerTrack"></div><span>thin blue shafts, angled across top space</span></div>
+                <div class="layerRow"><b>Low floor fog</b><div class="layerTrack"></div><span>stronger near pin deck, lighter over centre lane</span></div>
+                <div class="layerRow"><b>Bloom targets</b><div class="layerTrack hot"></div><span>eyes, neon, sparks, warning bulbs only</span></div>
+                <div class="layerRow"><b>Vignette/grain</b><div class="layerTrack dim"></div><span>frame the lane, never hide gutter feedback</span></div>
+              </div>
+              <div class="axisStrip"><span><strong>Pass:</strong> ball, arrows, and head pin readable.</span><span><strong>Fail:</strong> lane becomes flat grey.</span><span><strong>Fix:</strong> move density behind pins.</span><span><strong>Goal:</strong> cinematic depth, not muddy gameplay.</span></div>
+            </div>
+            <div class="diagramGrid">
+              <svg viewBox="0 0 820 520" role="img" aria-label="Fog layer cross-section diagram">
+                <defs>
+                  <linearGradient id="fogFloor" x1="0" x2="1"><stop offset="0" stop-color="rgba(157,255,187,.04)"/><stop offset=".72" stop-color="rgba(157,255,187,.22)"/><stop offset="1" stop-color="rgba(157,255,187,.40)"/></linearGradient>
+                  <linearGradient id="fogHigh" x1="0" x2="1"><stop offset="0" stop-color="rgba(120,215,255,.20)"/><stop offset="1" stop-color="rgba(120,215,255,.04)"/></linearGradient>
+                </defs>
+                <rect x="18" y="22" width="784" height="476" rx="24" fill="#070b12" stroke="rgba(255,255,255,.14)"/>
+                <rect x="72" y="334" width="612" height="54" rx="10" fill="rgba(255,211,125,.12)" stroke="rgba(255,211,125,.28)"/>
+                <rect x="72" y="388" width="612" height="28" rx="8" fill="rgba(0,0,0,.36)" stroke="rgba(255,255,255,.10)"/>
+                <rect x="684" y="298" width="82" height="114" rx="12" fill="rgba(255,94,118,.10)" stroke="rgba(255,94,118,.28)"/>
+                <path d="M72 298 C220 270 406 286 684 278 L684 344 C424 360 248 360 72 342 Z" fill="url(#fogFloor)" stroke="rgba(157,255,187,.24)"/>
+                <path d="M84 130 C238 170 410 142 660 172 L660 220 C420 194 270 214 84 188 Z" fill="url(#fogHigh)" stroke="rgba(120,215,255,.22)"/>
+                <path d="M144 122 L360 330" stroke="#78d7ff" stroke-width="4" stroke-dasharray="10 8"/>
+                <path d="M242 118 L466 330" stroke="#78d7ff" stroke-width="4" stroke-dasharray="10 8"/>
+                <path d="M708 214 C646 250 622 288 620 344" stroke="#ff5e76" stroke-width="4" stroke-dasharray="8 8"/>
+                <text x="380" y="74" fill="#edf5ff" text-anchor="middle" font-size="17" font-weight="950">Side visibility pass</text>
+                <text x="232" y="246" fill="#78d7ff" font-size="13" font-weight="900">window beams: visible, thin, angled</text>
+                <text x="384" y="318" fill="#9dffbb" font-size="13" font-weight="900">low fog: strongest near pin deck and floor edges</text>
+                <text x="724" y="286" fill="#ffd7df" text-anchor="middle" font-size="13" font-weight="900">back glow</text>
+                <text x="370" y="438" fill="#ffd37d" text-anchor="middle" font-size="13" font-weight="900">lane contrast stays readable; do not blanket this area</text>
+                <g fill="#eaf5ed" stroke="#ff5e76" stroke-width="2">
+                  <circle cx="692" cy="322" r="7"/><circle cx="708" cy="310" r="7"/><circle cx="708" cy="334" r="7"/><circle cx="724" cy="298" r="7"/><circle cx="724" cy="322" r="7"/><circle cx="724" cy="346" r="7"/>
+                </g>
+              </svg>
+              <div class="diagramStack">
+                <div class="stackLayer"><div class="miniBar cold"></div><span><strong>Exposure:</strong> set Manual or carefully clamped Auto Exposure before judging any light value.</span></div>
+                <div class="stackLayer"><div class="miniBar"></div><span><strong>Volumetric fog:</strong> start subtle, then thicken only behind the pins and near floor/wall intersections.</span></div>
+                <div class="stackLayer"><div class="miniBar red"></div><span><strong>Bloom:</strong> reserve strong bloom for neon, eye glow, ball energy, and back-machine warning bulbs.</span></div>
+                <div class="stackLayer"><div class="miniBar dark"></div><span><strong>Vignette/grain:</strong> use enough to frame the lane, but not enough to hide gutter or pin feedback.</span></div>
+                <div class="blueprintPanel">
+                  <div class="diagramTitle"><div><strong>Fog placement rule</strong><span>Simple pass/fail test</span></div></div>
+                  <ul class="diagramChecklist">
+                    <li><strong>Pass:</strong> ball, arrows, foul line, gutters, and head pin are readable in a gameplay screenshot.</li>
+                    <li><strong>Fail:</strong> fog makes the lane flat grey or hides where the ball crossed into the gutter.</li>
+                    <li><strong>Fix:</strong> reduce density over the lane, keep fog denser behind the pins, and increase edge light contrast.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="materials" data-title="materials decals grime wood concrete metal rust blood dirty lane surface material instances">
+        <div class="sectionHead"><div class="sectionNum">07</div><div class="sectionTitle"><h2>Materials and decals that make the blockout look professional</h2><p>Use base materials for structure and decals for storytelling. Decals let you add grime, cracks, stains, and damage without building everything into the mesh.</p></div><div class="tagRow"><span class="tag good">Material instances</span><span class="tag">Decals</span></div></div>
+        <div class="sectionBody grid two">
+          <div class="tile"><h3>Base materials</h3><div class="codeBlock"><div class="codeTop"><span>Material list</span><button class="copyBtn">Copy</button></div><pre><code>M_Lane_RottenWood
+M_Gutter_DarkMetal
+M_Wall_StainedConcrete
+M_Ceiling_DirtyTiles
+M_Rail_RustyMetal
+M_FoulLine_DirtyPaint
+M_Emissive_SicklyGreen
+M_Emissive_RedExit
+M_Decal_Grime
+M_Decal_BloodSmear
+M_Decal_WaterDamage</code></pre></div></div>
+          <div class="tile"><h3>Material instance plan</h3><div class="codeBlock"><div class="codeTop"><span>Instances</span><button class="copyBtn">Copy</button></div><pre><code>MI_Lane_RottenWood_01
+MI_Lane_RottenWood_Wet
+MI_Concrete_GreenTint
+MI_Concrete_Moldy
+MI_Rust_Dark
+MI_ExitSign_Red
+MI_Monitor_GlitchGreen</code></pre></div></div>
+          <div class="tile"><h3>Where to use decals</h3><ul><li>Shoe scuffs near the approach.</li><li>Oil streaks and wear down the lane edges.</li><li>Water leaks on side walls and ceiling.</li><li>Blood drag marks near the back machine.</li><li>Handprints on ball return and scoring monitor.</li></ul></div>
+          <div class="tile"><h3>Where not to use decals</h3><ul><li>Do not cover the whole lane in blood.</li><li>Do not place high-contrast stains over aiming arrows.</li><li>Do not make all surfaces equally noisy.</li><li>Leave visual rest areas so the important props stand out.</li></ul></div>
+          <div class="diagramWrap" style="grid-column:1/-1">
+            <div class="diagramTitle"><div><strong>Material and decal layering diagram</strong><span>Build detail in readable passes</span></div><p class="diagramNote">The strongest detail goes at the edges and focal points. The centre of the lane gets controlled wear so the ball path, arrows, and pins remain legible.</p></div>
+            <div class="precisionDiagram">
+              <div class="planGrid">
+                <div class="planCell sideTop"><strong>Heavy side-wall decals</strong><small>mold, leaks, handprints, torn posters</small></div>
+                <div class="planCell approachCell"><strong>Approach wear</strong><small>shoe scuffs, dirty foul line, carpet grime</small></div>
+                <div class="planCell gutterTop"><strong>Edge grime</strong><small>oil, slime, chipped wood, water stains</small></div>
+                <div class="planCell laneCell"><div class="centreLine"></div><strong>Quiet centre path</strong><small>controlled boards, subtle oil sheen, arrows protected</small><div class="aimArrows"><i></i><i></i><i></i></div></div>
+                <div class="planCell gutterBottom"><strong>Edge damage</strong><small>cracks and debris stay outside aim line</small></div>
+                <div class="planCell pinDeckCell"><strong>Pin deck stains</strong><small>impact marks, slime, ceramic chips</small><div class="pinRackMini"><span class="pinDot"></span><span class="rackGap"></span><span class="rackGap"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="rackGap"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span></div></div>
+                <div class="planCell machineCell"><strong>High contrast damage</strong><small>blood, red paint, rust, sparks, warning stripes</small></div>
+                <div class="planCell sideBottom"><strong>Density rule</strong><small>quiet centre, medium lane edges, heavy back-machine storytelling</small></div>
+              </div>
+              <div class="axisStrip"><span><strong>Base:</strong> broad materials.</span><span><strong>Variation:</strong> roughness and dirt masks.</span><span><strong>Story:</strong> decals and stains.</span><span><strong>Impact:</strong> damage near the back.</span></div>
+            </div>
+            <div class="diagramGrid">
+              <svg viewBox="0 0 820 560" role="img" aria-label="Material and decal placement diagram">
+                <defs>
+                  <linearGradient id="matLane" x1="0" x2="1"><stop offset="0" stop-color="#4b2a17"/><stop offset=".22" stop-color="#9a6530"/><stop offset=".5" stop-color="#d39a50"/><stop offset=".78" stop-color="#8a5329"/><stop offset="1" stop-color="#3a2115"/></linearGradient>
+                  <pattern id="boardLines" width="44" height="12" patternUnits="userSpaceOnUse"><path d="M0 0 H44" stroke="rgba(255,255,255,.10)" stroke-width="1"/><path d="M0 0 V12" stroke="rgba(0,0,0,.18)" stroke-width="1"/></pattern>
+                </defs>
+                <rect x="18" y="22" width="784" height="514" rx="24" fill="#070b12" stroke="rgba(255,255,255,.14)"/>
+                <rect x="104" y="118" width="612" height="310" rx="16" fill="rgba(0,0,0,.36)" stroke="rgba(255,255,255,.12)"/>
+                <rect x="134" y="166" width="552" height="214" rx="10" fill="url(#matLane)" stroke="rgba(255,211,125,.34)"/>
+                <rect x="134" y="166" width="552" height="214" rx="10" fill="url(#boardLines)" opacity=".55"/>
+                <rect x="134" y="140" width="552" height="24" rx="7" fill="rgba(8,10,13,.80)" stroke="rgba(255,255,255,.12)"/>
+                <rect x="134" y="382" width="552" height="24" rx="7" fill="rgba(8,10,13,.80)" stroke="rgba(255,255,255,.12)"/>
+                <line x1="134" y1="273" x2="686" y2="273" stroke="rgba(157,255,187,.36)" stroke-width="2" stroke-dasharray="6 8"/>
+                <text x="410" y="94" fill="#edf5ff" text-anchor="middle" font-size="17" font-weight="950">Top-down decal density plan</text>
+                <text x="410" y="458" fill="#ffd37d" text-anchor="middle" font-size="13" font-weight="900">Centre path: subtle boards, oil sheen, faint scuffs only</text>
+                <g fill="rgba(255,94,118,.24)" stroke="rgba(255,94,118,.46)">
+                  <path d="M612 152 C644 144 660 164 672 188 C636 190 618 180 612 152Z"/>
+                  <path d="M610 390 C642 402 656 388 676 366 C640 360 618 366 610 390Z"/>
+                  <path d="M560 138 C570 118 596 118 612 132 C598 148 578 154 560 138Z"/>
+                </g>
+                <g stroke="#9dffbb" stroke-width="4" stroke-linecap="round">
+                  <path d="M642 202 C606 214 574 236 548 266"/>
+                  <path d="M646 320 C606 310 574 296 544 274"/>
+                </g>
+                <g fill="rgba(120,215,255,.18)" stroke="rgba(120,215,255,.38)">
+                  <rect x="108" y="138" width="54" height="272" rx="12"/>
+                  <rect x="658" y="138" width="54" height="272" rx="12"/>
+                </g>
+                <g fill="#ffd37d">
+                  <polygon points="300,273 318,264 318,282"/><polygon points="344,273 362,264 362,282"/><polygon points="388,273 406,264 406,282"/><polygon points="432,273 450,264 450,282"/>
+                </g>
+                <text x="134" y="126" fill="#78d7ff" font-size="12" font-weight="900">gutter grime allowed</text>
+                <text x="624" y="126" fill="#ffb2be" font-size="12" font-weight="900">heavy stains near danger</text>
+                <text x="404" y="252" fill="#a9b7c9" font-size="12" text-anchor="middle">aim arrows stay clean</text>
+                <g transform="translate(76 482)">
+                  <rect x="0" y="0" width="664" height="44" rx="14" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.11)"/>
+                  <text x="18" y="20" fill="#edf5ff" font-size="13" font-weight="900">Density rule</text>
+                  <text x="112" y="20" fill="#a9b7c9" font-size="12">quiet centre path, medium lane edges, heavy back-machine storytelling, noisy side walls.</text>
+                </g>
+              </svg>
+              <div class="diagramStack">
+                <div class="stackLayer"><div class="miniBar dark"></div><span><strong>Base material:</strong> rotten wood, concrete, metal, ceramic, rubber, and old plastic. Keep broad values simple.</span></div>
+                <div class="stackLayer"><div class="miniBar cold"></div><span><strong>Surface variation:</strong> roughness masks, wet strips, cracked boards, chipped paint, rust gradients.</span></div>
+                <div class="stackLayer"><div class="miniBar"></div><span><strong>Story decals:</strong> slime drips, handprints, shoe scuffs, oil streaks, wall leaks, pin deck stains.</span></div>
+                <div class="stackLayer"><div class="miniBar red"></div><span><strong>Impact decals:</strong> blood, splinters, scrape marks, burst stains, and danger signage near the back machine.</span></div>
+                <div class="blueprintPanel">
+                  <div class="diagramTitle"><div><strong>Zombie pin material notes</strong><span>From supplied pin art</span></div></div>
+                  <ul class="diagramChecklist">
+                    <li><strong>Ceramic shell:</strong> off-white, cracked, chipped, dirty, and slightly glossy at worn edges.</li>
+                    <li><strong>Red band:</strong> faded paint with breaks and blood crossing the stripe.</li>
+                    <li><strong>Face cut-in:</strong> skull planes and glowing eyes need strong contrast against the pin body.</li>
+                    <li><strong>Slime:</strong> green/yellow translucent drips should catch light but not cover the silhouette.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="dressing" data-title="set dressing props horror bowling alley ball return arcade scoring monitor pinsetter zones">
+        <div class="sectionHead"><div class="sectionNum">08</div><div class="sectionTitle"><h2>Dress the level in controlled zones</h2><p>Professional environment art is controlled. You are not filling space randomly — you are guiding the player’s eye from the ball to the lane to the zombie pins.</p></div><div class="tagRow"><span class="tag good">Zone-based dressing</span><span class="tag">Hero focal point</span></div></div>
+        <div class="sectionBody">
+          <div class="grid three">
+            <div class="tile"><h3>Zone A — Approach</h3><ul><li>Ball return machine</li><li>Old carpet strips</li><li>Scattered bowling shoes</li><li>Broken chair</li><li>Dirty foul line</li></ul></div>
+            <div class="tile"><h3>Zone B — Lane</h3><ul><li>Subtle scuffs</li><li>Wet reflective strips</li><li>Cracked boards near gutters</li><li>Aiming arrows visible</li><li>Clean centre path</li></ul></div>
+            <div class="tile"><h3>Zone C — Side walls</h3><ul><li>Peeling posters</li><li>Lane number signs</li><li>Old score monitor cables</li><li>Mold and water stains</li><li>Emergency exit sign</li></ul></div>
+            <div class="tile"><h3>Zone D — Pin deck</h3><ul><li>Low fog</li><li>Pin spot stains</li><li>Broken machine arms</li><li>Hanging cables</li><li>Glowing red/green warning light</li></ul></div>
+            <div class="tile"><h3>Zone E — Back machine</h3><ul><li>Broken pinsetter</li><li>Metal jaws silhouette</li><li>Conveyor belt shapes</li><li>Steam leak</li><li>Zombie groan audio source</li></ul></div>
+            <div class="tile"><h3>Zone F — Ceiling</h3><ul><li>Broken fluorescent tubes</li><li>Missing ceiling tiles</li><li>Water leaks</li><li>Hanging wires</li><li>Fan shadow movement</li></ul></div>
+          </div>
+          <div class="diagramWrap" style="margin-top:16px">
+            <div class="diagramTitle"><div><strong>Set-dressing zone map</strong><span>Busy edges, clean play lane</span></div><p class="diagramNote">This is the page's main dressing rule in diagram form. Fill the side walls, ceiling, and back machine with story. Keep the centre lane clean enough for aiming and physics feedback.</p></div>
+            <div class="precisionDiagram">
+              <div class="planGrid">
+                <div class="planCell sideTop"><strong>Zone C: side walls</strong><small>posters, scoreboards, arcade cabinets, enemy silhouettes</small></div>
+                <div class="planCell approachCell"><strong>Zone A: approach</strong><small>ball return, shoes, carpet, broken chair</small></div>
+                <div class="planCell gutterTop"><strong>Lane edge dressing</strong><small>small debris outside ball path</small></div>
+                <div class="planCell laneCell"><div class="centreLine"></div><strong>Zone B: clean lane read</strong><small>visible arrows, clear ball route, restrained clutter</small><div class="aimArrows"><i></i><i></i><i></i></div></div>
+                <div class="planCell gutterBottom"><strong>Reflection strip</strong><small>wet boards and readable edges</small></div>
+                <div class="planCell pinDeckCell"><strong>Zone D: pin deck</strong><small>fog, stains, cracked pins, impact debris</small><div class="pinRackMini"><span class="pinDot"></span><span class="rackGap"></span><span class="rackGap"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="rackGap"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span><span class="rackGap"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span><span class="pinDot"></span></div></div>
+                <div class="planCell machineCell"><strong>Zone E: back machine</strong><small>pinsetter jaws, cables, steam, red warning glow</small></div>
+                <div class="planCell sideBottom"><strong>Zone F: ceiling</strong><small>fluorescent tubes, missing panels, leaks, hanging wires</small></div>
+              </div>
+              <div class="axisStrip"><span><strong>Eye path:</strong> ball -> arrows -> pins.</span><span><strong>Busy:</strong> sides, ceiling, back machine.</span><span><strong>Clean:</strong> centre lane.</span><span><strong>Hero shot:</strong> approach view must read instantly.</span></div>
+            </div>
+            <svg viewBox="0 0 1180 700" role="img" aria-label="Set dressing zone map for haunted bowling lane">
+              <defs>
+                <linearGradient id="dressLane" x1="0" x2="1"><stop offset="0" stop-color="#6d3f20"/><stop offset=".48" stop-color="#c5924d"/><stop offset="1" stop-color="#5b331e"/></linearGradient>
+              </defs>
+              <rect x="22" y="24" width="1136" height="648" rx="28" fill="#070b12" stroke="rgba(255,255,255,.14)"/>
+              <rect x="86" y="96" width="980" height="500" rx="24" fill="rgba(255,255,255,.035)" stroke="rgba(255,255,255,.10)"/>
+              <rect x="86" y="96" width="980" height="112" rx="18" fill="rgba(120,215,255,.08)" stroke="rgba(120,215,255,.24)"/>
+              <rect x="86" y="484" width="980" height="112" rx="18" fill="rgba(120,215,255,.08)" stroke="rgba(120,215,255,.24)"/>
+              <rect x="216" y="240" width="672" height="212" rx="14" fill="url(#dressLane)" stroke="rgba(255,211,125,.34)"/>
+              <rect x="216" y="208" width="672" height="30" rx="8" fill="rgba(0,0,0,.34)" stroke="rgba(255,255,255,.10)"/>
+              <rect x="216" y="454" width="672" height="30" rx="8" fill="rgba(0,0,0,.34)" stroke="rgba(255,255,255,.10)"/>
+              <rect x="86" y="240" width="130" height="212" rx="14" fill="rgba(125,169,255,.12)" stroke="rgba(125,169,255,.30)"/>
+              <rect x="888" y="218" width="104" height="264" rx="14" fill="rgba(157,255,187,.10)" stroke="rgba(157,255,187,.30)"/>
+              <rect x="992" y="158" width="66" height="384" rx="14" fill="rgba(255,94,118,.12)" stroke="rgba(255,94,118,.32)"/>
+              <line x1="216" y1="216" x2="216" y2="488" stroke="#ff5e76" stroke-width="3" stroke-dasharray="8 8"/>
+              <line x1="552" y1="240" x2="552" y2="452" stroke="rgba(157,255,187,.45)" stroke-width="2" stroke-dasharray="7 7"/>
+              <g fill="#ffd37d">
+                <polygon points="388,346 406,336 406,356"/><polygon points="432,346 450,336 450,356"/><polygon points="476,346 494,336 494,356"/><polygon points="520,346 538,336 538,356"/>
+              </g>
+              <g fill="#eaf5ed" stroke="#ff5e76" stroke-width="3">
+                <circle cx="912" cy="346" r="8"/><circle cx="930" cy="328" r="8"/><circle cx="930" cy="364" r="8"/><circle cx="948" cy="310" r="8"/><circle cx="948" cy="346" r="8"/><circle cx="948" cy="382" r="8"/>
+              </g>
+              <g fill="rgba(255,157,98,.18)" stroke="rgba(255,157,98,.38)">
+                <rect x="124" y="112" width="88" height="46" rx="10"/><rect x="250" y="112" width="88" height="46" rx="10"/><rect x="790" y="112" width="130" height="46" rx="10"/>
+                <rect x="122" y="522" width="118" height="36" rx="10"/><rect x="728" y="520" width="172" height="38" rx="10"/>
+              </g>
+              <g fill="rgba(157,255,187,.14)" stroke="rgba(157,255,187,.32)">
+                <circle cx="152" cy="346" r="24"/><rect x="116" y="300" width="72" height="28" rx="8"/>
+                <rect x="1004" y="228" width="42" height="82" rx="10"/><rect x="1004" y="376" width="42" height="82" rx="10"/>
+              </g>
+              <text x="151" y="472" fill="#7da9ff" font-size="14" text-anchor="middle" font-weight="900">A: Approach props</text>
+              <text x="552" y="228" fill="#ffd37d" font-size="14" text-anchor="middle" font-weight="900">B: clean readable lane</text>
+              <text x="560" y="86" fill="#78d7ff" font-size="14" text-anchor="middle" font-weight="900">C: side wall story, posters, signs, cabinets, silhouettes</text>
+              <text x="936" y="506" fill="#9dffbb" font-size="14" text-anchor="middle" font-weight="900">D: pin deck fog + stains</text>
+              <text x="1025" y="580" fill="#ffd7df" font-size="14" text-anchor="middle" font-weight="900">E: back machine danger</text>
+              <text x="360" y="622" fill="#a9b7c9" font-size="13" font-weight="900">F: ceiling dressing lives above the whole plan: broken tubes, hanging wires, missing tiles, fan shadow movement.</text>
+              <g transform="translate(126 626)">
+                <rect x="0" y="0" width="914" height="34" rx="12" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.10)"/>
+                <text x="16" y="22" fill="#a9b7c9" font-size="12">Camera review: from approach, the eye should travel ball -> arrows -> pins -> back-machine silhouette -> side horror details.</text>
+              </g>
+            </svg>
+            <div class="legend"><span><i class="dot blue"></i>Approach/readability</span><span><i class="dot amber"></i>Lane surface</span><span><i class="dot"></i>Pin deck and story props</span><span><i class="dot red"></i>Back-machine danger</span></div>
+          </div>
+          <div class="callout" style="margin-top:16px"><strong>Hero shot test:</strong> stand at the approach and look down the lane. You should instantly read: bowling alley, abandoned, dangerous pin machine, zombie pins, and a clear ball path.</div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="screens" data-title="screenshots online ue5 documentation editor interface viewport outliner details fab lumen fog level instance">
+        <div class="sectionHead"><div class="sectionNum">09</div><div class="sectionTitle"><h2>UE5 visual teaching aids and official screenshot references</h2><p>These cards link to official Unreal Engine documentation pages and use documentation screenshots where available. Use them when you need to find a panel, confirm a setting location, or remind yourself what a tool looks like.</p></div><div class="tagRow"><span class="tag good">Official docs</span><span class="tag">Online images</span></div></div>
+        <div class="sectionBody grid three">
+          <article class="imageCard"><div class="imageFrame"><img loading="lazy" src="https://dev.epicgames.com/community/api/documentation/image/669481b3-c96f-4e63-9c89-2f8025e8210f?resizing_type=fit" alt="Unreal Editor interface overview screenshot" onerror="this.parentElement.innerHTML='<div class=fallback>Image blocked — open source link below.</div>'"></div><div class="imageContent"><h3>Editor interface map</h3><p>Shows the menu bar, viewport, Outliner, Details panel, Content Drawer, and toolbars.</p><a target="_blank" rel="noreferrer" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-editor-interface">Open official guide →</a></div></article>
+          <article class="imageCard"><div class="imageFrame"><img loading="lazy" src="https://dev.epicgames.com/community/api/documentation/image/329c4635-a25b-4f38-81e6-9a7f88b78c1d?height=335&resizing_type=fill&width=1920" alt="Viewport controls header image" onerror="this.parentElement.innerHTML='<div class=fallback>Image blocked — open source link below.</div>'"></div><div class="imageContent"><h3>Viewport controls</h3><p>Reference for moving around the scene, selecting actors, and understanding viewport navigation.</p><a target="_blank" rel="noreferrer" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/viewport-controls-in-unreal-engine">Open official guide →</a></div></article>
+          <article class="imageCard"><div class="imageFrame"><img loading="lazy" src="https://dev.epicgames.com/community/api/documentation/image/46e3571a-9cb5-423f-84a6-6a904a743209?resizing_type=fit" alt="Unreal Outliner screenshot" onerror="this.parentElement.innerHTML='<div class=fallback>Image blocked — open source link below.</div>'"></div><div class="imageContent"><h3>Outliner organisation</h3><p>Use this to remember where level actors and folders live while keeping the map clean.</p><a target="_blank" rel="noreferrer" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-editor-interface#outliner">Open official guide →</a></div></article>
+          <article class="imageCard"><div class="imageFrame"><img loading="lazy" src="https://dev.epicgames.com/community/api/documentation/image/491f8e6d-38cd-4973-8661-13dd3d5fe7bf?resizing_type=fit" alt="Unreal Details panel screenshot" onerror="this.parentElement.innerHTML='<div class=fallback>Image blocked — open source link below.</div>'"></div><div class="imageContent"><h3>Details panel</h3><p>Where transforms, materials, physics, collision, lighting, and component settings are edited.</p><a target="_blank" rel="noreferrer" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-editor-interface#details-panel">Open official guide →</a></div></article>
+          <article class="imageCard"><div class="imageFrame"><img loading="lazy" src="https://dev.epicgames.com/community/api/documentation/image/c4646fee-7b86-43fb-b4fd-037b10fafff8?resizing_type=fit" alt="Lumen project settings screenshot" onerror="this.parentElement.innerHTML='<div class=fallback>Image blocked — open source link below.</div>'"></div><div class="imageContent"><h3>Lumen settings</h3><p>Use when checking Dynamic Global Illumination and Reflection Method settings.</p><a target="_blank" rel="noreferrer" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/lumen-global-illumination-and-reflections-in-unreal-engine">Open official guide →</a></div></article>
+          <article class="imageCard"><div class="imageFrame"><img loading="lazy" src="https://dev.epicgames.com/community/api/documentation/image/873ad485-040d-41af-893b-985646d89299?resizing_type=fit" alt="Volumetric Fog details settings screenshot" onerror="this.parentElement.innerHTML='<div class=fallback>Image blocked — open source link below.</div>'"></div><div class="imageContent"><h3>Volumetric Fog controls</h3><p>Shows the Details panel area for enabling and tuning fog on the Exponential Height Fog actor.</p><a target="_blank" rel="noreferrer" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/volumetric-fog-in-unreal-engine">Open official guide →</a></div></article>
+          <article class="imageCard"><div class="imageFrame"><img loading="lazy" src="https://dev.epicgames.com/community/api/documentation/image/0d3b4c7d-68fd-416d-a9cf-5972dacf76dd?resizing_type=fit" alt="Fab option in Unreal Window menu screenshot" onerror="this.parentElement.innerHTML='<div class=fallback>Image blocked — open source link below.</div>'"></div><div class="imageContent"><h3>Fab window</h3><p>Useful for finding abandoned interior props, grime decals, rusty metal, and environment assets.</p><a target="_blank" rel="noreferrer" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/fab-window-in-unreal-engine">Open official guide →</a></div></article>
+          <article class="imageCard"><div class="imageFrame"><img loading="lazy" src="https://dev.epicgames.com/community/api/documentation/image/7076ff89-2c04-4c58-8fca-c4858d5a869c?height=335&resizing_type=fill&width=1920" alt="Level Instancing documentation header image" onerror="this.parentElement.innerHTML='<div class=fallback>Image blocked — open source link below.</div>'"></div><div class="imageContent"><h3>Level Instancing</h3><p>Use this when turning the lane core, back machine, and approach dressing into reusable chunks.</p><a target="_blank" rel="noreferrer" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/level-instancing-in-unreal-engine">Open official guide →</a></div></article>
+          <article class="imageCard"><div class="imageFrame"><img loading="lazy" src="https://dev.epicgames.com/community/api/documentation/image/96d4b7e3-0822-4752-b8e4-1eedf68053a1?resizing_type=fit" alt="Unreal main toolbar screenshot" onerror="this.parentElement.innerHTML='<div class=fallback>Image blocked — open source link below.</div>'"></div><div class="imageContent"><h3>Main toolbar</h3><p>Save, play, mode switching, content shortcuts, and build/testing controls.</p><a target="_blank" rel="noreferrer" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-editor-interface#main-toolbar">Open official guide →</a></div></article>
+        </div>
+      </section>
+
+      <section class="card searchable" id="reuse" data-title="level instances packed level actor reusable templates duplicated maps future levels">
+        <div class="sectionHead"><div class="sectionNum">10</div><div class="sectionTitle"><h2>Turn the first lane into a reusable level system</h2><p>Once the lane feels good, do not keep copying random actors by hand. Group repeatable pieces so future levels are fast to create and easy to maintain.</p></div><div class="tagRow"><span class="tag good">Future-proof</span><span class="tag">Level Instances</span></div></div>
+        <div class="sectionBody grid two">
+          <div class="tile"><h3>Reusable chunks</h3><ul><li><code>LI_Lane_Core</code> — lane, gutters, rails, foul line, arrows, pin deck.</li><li><code>LI_Bowling_Shell</code> — walls, ceiling, back wall.</li><li><code>LI_BackMachine_Horror_01</code> — pinsetter props, cables, fog, lights.</li><li><code>LI_Approach_Dressing_01</code> — ball return, carpet, shoe props, posters.</li></ul></div>
+          <div class="tile"><h3>Future level variations</h3><ul><li><strong>Lane 13:</strong> classic abandoned alley.</li><li><strong>Sewer Strike:</strong> lane flooded with waste and steam.</li><li><strong>Graveyard Bowl:</strong> outside lane through cemetery slabs.</li><li><strong>Arcade Necro-Bowl:</strong> neon horror bonus round.</li></ul></div>
+          <div class="callout"><strong>Clean duplication workflow:</strong> keep <code>L_BowlingAlley_Template</code> pure. Duplicate it to create playable maps. When a system is proven, move it back into the template.</div>
+          <div class="callout warning"><strong>What not to instance:</strong> gameplay objects that must vary heavily per level, boss-specific scripts, one-off scare triggers, or temporary prototype meshes.</div>
+          <div class="diagramWrap" style="grid-column:1/-1">
+            <div class="diagramTitle"><div><strong>Reusable level architecture</strong><span>Template -> chunks -> variants</span></div><p class="diagramNote">Build one reliable lane, then split it into repeatable chunks. Future levels should change dressing, lighting, hazards, and mood without rebuilding lane measurements or marker logic.</p></div>
+            <div class="precisionDiagram">
+              <div class="variantGrid">
+                <div class="variantCard core"><b>L_BowlingAlley_Template</b><span>Stable source map containing lane measurements, core markers, baseline collision, and starter lighting.</span></div>
+                <div class="variantCard"><b>LI_Lane_Core</b><span>Lane, gutters, rails, foul line, arrows, pin deck, and repeatable physical scale.</span></div>
+                <div class="variantCard"><b>LI_Bowling_Shell</b><span>Walls, ceiling, windows, back wall, camera bounds, and broad room silhouette.</span></div>
+                <div class="variantCard"><b>LI_BackMachine_Horror_01</b><span>Pinsetter shape, cables, fog emitters, warning lights, steam, and danger audio.</span></div>
+                <div class="variantCard"><b>LI_Approach_Dressing_01</b><span>Ball return, shoes, carpet, posters, chairs, and player-facing set dressing.</span></div>
+                <div class="variantCard core"><b>Playable level variants</b><span>Lane 13, Sewer Strike, Graveyard Bowl, and Arcade Necro-Bowl swap theme layers while keeping gameplay logic stable.</span></div>
+              </div>
+              <div class="axisStrip"><span><strong>Stable:</strong> dimensions and markers.</span><span><strong>Swappable:</strong> art, lights, hazards, audio.</span><span><strong>Do not instance:</strong> one-off scripts.</span><span><strong>Workflow:</strong> prove it once, duplicate safely.</span></div>
+            </div>
+            <div class="diagramGrid">
+              <svg viewBox="0 0 840 560" role="img" aria-label="Reusable level architecture diagram">
+                <defs>
+                  <marker id="flowArrowReuse" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#9dffbb"/></marker>
+                </defs>
+                <rect x="18" y="22" width="804" height="514" rx="24" fill="#070b12" stroke="rgba(255,255,255,.14)"/>
+                <rect x="296" y="54" width="248" height="70" rx="18" fill="rgba(157,255,187,.10)" stroke="rgba(157,255,187,.32)"/>
+                <text x="420" y="84" fill="#edf5ff" text-anchor="middle" font-size="15" font-weight="950">L_BowlingAlley_Template</text>
+                <text x="420" y="105" fill="#a9b7c9" text-anchor="middle" font-size="12">clean scale, markers, core lighting, baseline collision</text>
+                <g stroke="#9dffbb" stroke-width="3" marker-end="url(#flowArrowReuse)">
+                  <path d="M420 124 L420 166"/>
+                  <path d="M420 166 C270 166 208 190 176 222"/>
+                  <path d="M420 166 C326 174 308 190 286 222"/>
+                  <path d="M420 166 C420 180 420 196 420 222"/>
+                  <path d="M420 166 C514 174 532 190 554 222"/>
+                  <path d="M420 166 C570 166 632 190 664 222"/>
+                </g>
+                <g>
+                  <rect x="74" y="222" width="188" height="88" rx="18" fill="rgba(255,211,125,.10)" stroke="rgba(255,211,125,.28)"/>
+                  <rect x="278" y="222" width="188" height="88" rx="18" fill="rgba(125,169,255,.10)" stroke="rgba(125,169,255,.28)"/>
+                  <rect x="482" y="222" width="188" height="88" rx="18" fill="rgba(255,94,118,.10)" stroke="rgba(255,94,118,.28)"/>
+                  <rect x="584" y="332" width="188" height="88" rx="18" fill="rgba(157,255,187,.10)" stroke="rgba(157,255,187,.28)"/>
+                  <rect x="176" y="332" width="188" height="88" rx="18" fill="rgba(255,157,98,.10)" stroke="rgba(255,157,98,.28)"/>
+                  <text x="168" y="252" fill="#ffd37d" text-anchor="middle" font-size="13" font-weight="950">LI_Lane_Core</text>
+                  <text x="168" y="274" fill="#a9b7c9" text-anchor="middle" font-size="11">lane, gutters, rails, arrows, pin deck</text>
+                  <text x="372" y="252" fill="#7da9ff" text-anchor="middle" font-size="13" font-weight="950">LI_Bowling_Shell</text>
+                  <text x="372" y="274" fill="#a9b7c9" text-anchor="middle" font-size="11">walls, ceiling, windows, back wall</text>
+                  <text x="576" y="252" fill="#ffb2be" text-anchor="middle" font-size="13" font-weight="950">LI_BackMachine</text>
+                  <text x="576" y="274" fill="#a9b7c9" text-anchor="middle" font-size="11">pinsetter, cables, fog, danger lights</text>
+                  <text x="678" y="362" fill="#9dffbb" text-anchor="middle" font-size="13" font-weight="950">LI_Gameplay_Markers</text>
+                  <text x="678" y="384" fill="#a9b7c9" text-anchor="middle" font-size="11">spawn points, cameras, triggers, tags</text>
+                  <text x="270" y="362" fill="#ffbd91" text-anchor="middle" font-size="13" font-weight="950">LI_Approach_Dressing</text>
+                  <text x="270" y="384" fill="#a9b7c9" text-anchor="middle" font-size="11">ball return, shoes, carpet, posters</text>
+                </g>
+                <g stroke="#9dffbb" stroke-width="3" marker-end="url(#flowArrowReuse)">
+                  <path d="M168 310 C184 452 296 462 420 462"/>
+                  <path d="M372 310 C388 430 404 444 420 462"/>
+                  <path d="M576 310 C552 430 486 452 420 462"/>
+                  <path d="M270 420 C310 452 354 462 420 462"/>
+                  <path d="M678 420 C610 458 522 468 420 462"/>
+                </g>
+                <rect x="222" y="462" width="396" height="52" rx="17" fill="rgba(255,255,255,.045)" stroke="rgba(255,255,255,.12)"/>
+                <text x="420" y="484" fill="#edf5ff" text-anchor="middle" font-size="14" font-weight="950">Duplicate into playable maps</text>
+                <text x="420" y="504" fill="#a9b7c9" text-anchor="middle" font-size="12">Lane 13, Sewer Strike, Graveyard Bowl, Arcade Necro-Bowl</text>
+              </svg>
+              <div class="diagramStack">
+                <div class="blueprintPanel">
+                  <div class="diagramTitle"><div><strong>Variant knobs</strong><span>Change these per map</span></div></div>
+                  <ul class="diagramChecklist">
+                    <li><strong>Lighting:</strong> tube color, sign color, backlight intensity, flicker timing, shadow direction.</li>
+                    <li><strong>Dressing:</strong> posters, cabinets, damage level, bodies, props, exterior window view.</li>
+                    <li><strong>Hazards:</strong> moving machine parts, slime pools, enemy lanes, scare triggers, blocked gutters.</li>
+                    <li><strong>Audio:</strong> room tone, machine groans, crowd stingers, strike impact, zombie-pin barks.</li>
+                  </ul>
+                </div>
+                <div class="blueprintPanel">
+                  <div class="diagramTitle"><div><strong>Keep stable</strong><span>Do not reinvent these</span></div></div>
+                  <ul class="diagramChecklist">
+                    <li><strong>Lane dimensions:</strong> foul line, lane width, pin rack spacing, gutter placement.</li>
+                    <li><strong>Marker names:</strong> code should keep finding the same actor tags and Target Point names.</li>
+                    <li><strong>Collision logic:</strong> gutter/pit/approach volumes should stay predictable across variants.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="checklist" data-title="checklist todo progress milestones build order tasks done">
+        <div class="sectionHead"><div class="sectionNum">11</div><div class="sectionTitle"><h2>Interactive build checklist</h2><p>Tick these off as you work. Your progress is saved in this browser with local storage, so the page becomes your mini production board.</p></div><div class="tagRow"><span class="tag good">Saves locally</span><span class="tag">Milestone based</span></div></div>
+        <div class="sectionBody">
+          <div class="mission" id="missionList">
+            <label class="step"><span class="stepNum">01</span><span><h3>Create the folder structure</h3><p>Create the Content Browser folders and Outliner folders exactly as shown.</p></span><input type="checkbox" data-task="folders"></label>
+            <label class="step"><span class="stepNum">02</span><span><h3>Create and save the template map</h3><p>Save as <code>L_BowlingAlley_Template</code> inside <code>Maps</code>.</p></span><input type="checkbox" data-task="map"></label>
+            <label class="step"><span class="stepNum">03</span><span><h3>Block out approach, lane, gutters, rails, walls, ceiling, and back wall</h3><p>Use cubes and exact transforms. Keep this ugly but accurate.</p></span><input type="checkbox" data-task="blockout"></label>
+            <label class="step"><span class="stepNum">04</span><span><h3>Add pin target points</h3><p>Create 10 named target points for the pin rack.</p></span><input type="checkbox" data-task="pins"></label>
+            <label class="step"><span class="stepNum">05</span><span><h3>Add gameplay markers and tags</h3><p>Ball spawn, cameras, zombie spawns, scare point, and player start.</p></span><input type="checkbox" data-task="markers"></label>
+            <label class="step"><span class="stepNum">06</span><span><h3>Define the mouse-only throw state machine</h3><p>Create states for Positioning, Charging, Aiming, Launch, Steering, and Result.</p></span><input type="checkbox" data-task="controlstates"></label>
+            <label class="step"><span class="stepNum">07</span><span><h3>Prototype drag power, aim yaw, launch, and steering</h3><p>Mouse X moves lane-space Y, drag up sets power, drag X sets aim, release launches, post-release mouse X lightly steers.</p></span><input type="checkbox" data-task="mousecontrols"></label>
+            <label class="step"><span class="stepNum">08</span><span><h3>Add collision and trigger volumes</h3><p>Add blocking volumes and gutter/pit trigger volumes.</p></span><input type="checkbox" data-task="collision"></label>
+            <label class="step"><span class="stepNum">09</span><span><h3>Add temporary ball and pin placeholders</h3><p>Use physics sphere and simple cylinders/capsules before final art.</p></span><input type="checkbox" data-task="placeholders"></label>
+            <label class="step"><span class="stepNum">10</span><span><h3>Do the first lighting pass</h3><p>Rect lights above the lane, back-machine spotlight, and side accent lights.</p></span><input type="checkbox" data-task="lighting"></label>
+            <label class="step"><span class="stepNum">11</span><span><h3>Add fog and post process</h3><p>Enable subtle volumetric fog and lock down exposure/mood.</p></span><input type="checkbox" data-task="fogpost"></label>
+            <label class="step"><span class="stepNum">12</span><span><h3>Add base materials and material instances</h3><p>Rotten wood, dirty concrete, rusty metal, dirty paint, emissives.</p></span><input type="checkbox" data-task="materials"></label>
+            <label class="step"><span class="stepNum">13</span><span><h3>Add controlled decals</h3><p>Grime, scuffs, leaks, stains, cracks, and small blood storytelling.</p></span><input type="checkbox" data-task="decals"></label>
+            <label class="step"><span class="stepNum">14</span><span><h3>Build the back-machine focal point</h3><p>Broken pinsetter, cables, silhouette, glow, steam, and audio source.</p></span><input type="checkbox" data-task="backmachine"></label>
+            <label class="step"><span class="stepNum">15</span><span><h3>Dress the approach and side walls</h3><p>Props and storytelling without blocking gameplay readability.</p></span><input type="checkbox" data-task="dressing"></label>
+            <label class="step"><span class="stepNum">16</span><span><h3>Set up cameras and take review screenshots</h3><p>Main gameplay view, low lane view, and pin deck view.</p></span><input type="checkbox" data-task="cameras"></label>
+            <label class="step"><span class="stepNum">17</span><span><h3>Convert reusable chunks</h3><p>Turn lane core, shell, and dressing groups into reusable level chunks.</p></span><input type="checkbox" data-task="reuse"></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="resources" data-title="resources official documentation shortcuts how to find tools unreal engine">
+        <div class="sectionHead"><div class="sectionNum">12</div><div class="sectionTitle"><h2>Quick reference: where to find things in UE5</h2><p>Use this as a practical command centre while building. These are the things you will keep looking for as you learn the editor again.</p></div><div class="tagRow"><span class="tag good">Cheat sheet</span><span class="tag">Editor locations</span></div></div>
+        <div class="sectionBody">
+          <div class="pillGrid">
+            <div class="pillBox"><strong>Content Drawer</strong><span><span class="kbd">Ctrl</span> + <span class="kbd">Space</span></span></div>
+            <div class="pillBox"><strong>Place Actors</strong><span>Left panel / Window menu</span></div>
+            <div class="pillBox"><strong>Details Panel</strong><span>Window → Details</span></div>
+            <div class="pillBox"><strong>Outliner</strong><span>Window → Outliner</span></div>
+            <div class="pillBox"><strong>Modeling Mode</strong><span>Mode dropdown or <span class="kbd">Shift</span> + <span class="kbd">5</span></span></div>
+            <div class="pillBox"><strong>Fab</strong><span>Window → Fab / Content Drawer Fab button</span></div>
+            <div class="pillBox"><strong>Post Process Volume</strong><span>Place Actors → Visual Effects</span></div>
+            <div class="pillBox"><strong>Exponential Height Fog</strong><span>Place Actors → Visual Effects</span></div>
+            <div class="pillBox"><strong>Target Point</strong><span>Place Actors → Basic</span></div>
+            <div class="pillBox"><strong>Blocking Volume</strong><span>Place Actors → Volumes</span></div>
+            <div class="pillBox"><strong>Cine Camera Actor</strong><span>Place Actors → Cinematic</span></div>
+            <div class="pillBox"><strong>Play In Editor</strong><span>Main Toolbar → Play</span></div>
+          </div>
+          <div class="footer"><strong>Final milestone:</strong> before moving into proper gameplay programming, you want a greybox haunted bowling lane where a temporary physics ball can roll into temporary physics pins. Once that is satisfying, the art pass becomes safer because the level already works.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <button class="topBtn" id="topBtn" aria-label="Back to top">↑ Top</button>
+  <script>
+    const $ = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+    const body = document.body;
+    $('#openNav')?.addEventListener('click',()=>body.classList.toggle('navOpen'));
+    $$('#toc a').forEach(a=>a.addEventListener('click',()=>body.classList.remove('navOpen')));
+
+    function updateProgress(){
+      const boxes = $$('input[type="checkbox"][data-task]');
+      const done = boxes.filter(b=>b.checked).length;
+      const total = boxes.length || 1;
+      const pct = Math.round((done/total)*100);
+      $('#progressFill').style.width = pct + '%';
+      $('#progressLabel').textContent = pct + '%';
+      $('#doneCount').textContent = done;
+      $('#totalCount').textContent = total;
+      boxes.forEach(b=>b.closest('.step')?.classList.toggle('done', b.checked));
+      localStorage.setItem('nolp-progress', JSON.stringify(Object.fromEntries(boxes.map(b=>[b.dataset.task,b.checked]))));
+    }
+    function loadProgress(){
+      let saved={};
+      try{ saved = JSON.parse(localStorage.getItem('nolp-progress')||'{}'); }catch(e){}
+      $$('input[type="checkbox"][data-task]').forEach(b=>{ b.checked=!!saved[b.dataset.task]; b.addEventListener('change',updateProgress); });
+      updateProgress();
+    }
+    loadProgress();
+
+    $('#resetProgress')?.addEventListener('click',()=>{ if(confirm('Reset the checklist progress?')){ localStorage.removeItem('nolp-progress'); $$('input[type="checkbox"][data-task]').forEach(b=>b.checked=false); updateProgress(); }});
+    let hideDone=false;
+    $('#collapseDone')?.addEventListener('click',e=>{ hideDone=!hideDone; e.currentTarget.textContent = hideDone ? 'Show completed tasks' : 'Hide completed tasks'; $$('.step').forEach(s=>{ s.style.display = hideDone && s.classList.contains('done') ? 'none' : ''; }); });
+
+    $$('.copyBtn').forEach(btn=>btn.addEventListener('click', async()=>{
+      const code = btn.closest('.codeBlock')?.querySelector('code')?.innerText || '';
+      try{ await navigator.clipboard.writeText(code); btn.textContent='Copied'; setTimeout(()=>btn.textContent='Copy',1200); }
+      catch(e){ btn.textContent='Select text'; setTimeout(()=>btn.textContent='Copy',1500); }
+    }));
+
+    $$('.tabs').forEach(tabs=>{
+      const buttons=$$('.tabButtons button',tabs); const panels=$$('.tabPanel',tabs);
+      buttons.forEach((b,i)=>b.addEventListener('click',()=>{buttons.forEach(x=>x.classList.remove('active'));panels.forEach(x=>x.classList.remove('active'));b.classList.add('active');panels[i].classList.add('active');}));
+    });
+
+    const sections = $$('main section, header.hero');
+    const links = $$('#toc a');
+    const observer = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          links.forEach(l=>l.classList.toggle('active', l.getAttribute('href') === '#'+entry.target.id));
+        }
+      })
+    },{rootMargin:'-35% 0px -58% 0px',threshold:.01});
+    sections.forEach(s=>observer.observe(s));
+
+    $('#guideSearch')?.addEventListener('input', e=>{
+      const q=e.target.value.trim().toLowerCase();
+      $$('.searchable').forEach(card=>{
+        const hay=(card.dataset.title+' '+card.innerText).toLowerCase();
+        card.classList.toggle('cardsSearchHidden', q && !hay.includes(q));
+      });
+    });
+
+    const topBtn=$('#topBtn');
+    window.addEventListener('scroll',()=>{ topBtn.classList.toggle('show', window.scrollY>700); });
+    topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+    $('#printBtn')?.addEventListener('click',()=>window.print());
+    $('#mobilePrint')?.addEventListener('click',()=>window.print());
+  </script>
+</body>
+</html>
