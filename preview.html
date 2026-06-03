@@ -71,11 +71,13 @@
     .emblem:before{content:"";position:absolute;left:50%;top:10px;width:20px;height:34px;transform:translateX(-50%) rotate(-8deg);border-radius:14px 14px 8px 8px;background:linear-gradient(#fafafa,#ced8d2 48%,#ff5e76 49% 58%,#e6eee8 59%,#9faea4);filter:drop-shadow(0 8px 18px rgba(0,0,0,.36))}.emblem:after{content:"";position:absolute;left:10px;right:10px;bottom:9px;height:10px;background:rgba(157,255,187,.2);filter:blur(8px)}
     .brand h1{margin:0;font-size:15px;line-height:1.05;letter-spacing:.35px}.brand p{margin:6px 0 0;font-size:12px;color:var(--soft)}
     .progressBox{border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:22px;padding:14px;margin-bottom:16px}.progressTop{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;margin-bottom:10px}.progressBar{height:11px;border-radius:999px;background:rgba(255,255,255,.075);overflow:hidden}.progressFill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--acid),var(--cyan),var(--blue));box-shadow:0 0 20px rgba(157,255,187,.42);transition:width .28s ease}.miniStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.miniStats div{padding:9px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.075);text-align:center}.miniStats strong{display:block;color:var(--ink);font-size:15px}.miniStats span{display:block;color:var(--soft);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-    .searchWrap{position:relative;margin-bottom:12px}.searchWrap input{width:100%;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--ink);border-radius:16px;padding:12px 14px 12px 38px;outline:none}.searchWrap svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.6}.searchWrap input:focus{border-color:rgba(157,255,187,.42);box-shadow:0 0 0 4px rgba(157,255,187,.08)}
+    .searchWrap{position:relative;margin-bottom:12px}.searchWrap input{width:100%;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--ink);border-radius:16px;padding:12px 14px 12px 38px;outline:none}.searchWrap svg{position:absolute;left:13px;top:21px;transform:translateY(-50%);opacity:.6}.searchWrap input:focus{border-color:rgba(157,255,187,.42);box-shadow:0 0 0 4px rgba(157,255,187,.08)}.searchStatus{display:none;margin-top:7px;color:var(--soft);font-size:11px;line-height:1.35}.searchStatus.show{display:block}
     nav{display:grid;gap:5px}.navLink{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--muted);padding:10px 11px;border-radius:15px;border:1px solid transparent;font-size:13px;transition:.18s ease}.navLink b{min-width:25px;color:var(--acid);font-size:11px;letter-spacing:.6px}.navLink:hover,.navLink.active{color:var(--ink);background:rgba(125,169,255,.10);border-color:rgba(125,169,255,.20);transform:translateX(2px)}
     .sideActions{display:grid;gap:8px;margin-top:16px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));color:var(--ink);border-radius:16px;padding:12px 14px;font-weight:850;font-size:13px;text-decoration:none;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.22);transition:.16s ease}.btn:hover{transform:translateY(-1px);border-color:rgba(157,255,187,.34)}.btn.primary{background:linear-gradient(135deg,rgba(157,255,187,.22),rgba(125,169,255,.18));border-color:rgba(157,255,187,.34)}.btn.ghost{background:rgba(255,255,255,.035);box-shadow:none}.btn.danger{border-color:rgba(255,94,118,.25);background:rgba(255,94,118,.08)}
+    .btn:disabled{opacity:.48;cursor:not-allowed;transform:none;box-shadow:none}
     main{min-width:0}.hero{position:relative;min-height:680px;border:1px solid var(--line);border-radius:42px;overflow:hidden;background:linear-gradient(180deg,rgba(6,8,13,.20),rgba(6,8,13,.92)),#08101a;box-shadow:var(--shadow);isolation:isolate}.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 52%,rgba(157,255,187,.16),transparent 17%),radial-gradient(circle at 74% 22%,rgba(255,94,118,.13),transparent 22%),linear-gradient(90deg,rgba(125,169,255,.13),transparent 38%,rgba(157,255,187,.07));z-index:-1}.hero:after{content:"";position:absolute;left:50%;bottom:-18%;width:min(58%,720px);height:94%;transform:translateX(-50%) perspective(640px) rotateX(61deg);transform-origin:bottom;background:linear-gradient(90deg,rgba(122,69,28,.16),rgba(255,255,255,.18),rgba(122,69,28,.16)),repeating-linear-gradient(90deg,rgba(0,0,0,.42) 0 2px,transparent 2px 34px),repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 84px);border-left:1px solid rgba(255,255,255,.16);border-right:1px solid rgba(255,255,255,.16);box-shadow:0 -20px 100px rgba(157,255,187,.10),inset 0 0 80px rgba(255,211,125,.08);opacity:.9}.heroGrid{position:absolute;inset:0;background:linear-gradient(90deg,transparent 0 21%,rgba(255,255,255,.05) 21.1% 21.4%,transparent 21.5% 78.5%,rgba(255,255,255,.05) 78.6% 78.9%,transparent 79%),repeating-linear-gradient(90deg,rgba(255,255,255,.026) 0 1px,transparent 1px 60px);transform:perspective(760px) rotateX(62deg) translateY(220px) scaleY(1.6);transform-origin:bottom;opacity:.65}.heroContent{position:relative;z-index:3;padding:clamp(28px,5vw,66px);max-width:1020px}.eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(157,255,187,.28);background:rgba(157,255,187,.09);color:var(--acid);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.7px}.pulse{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 0 0 rgba(157,255,187,.6);animation:pulse 1.8s infinite}@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(157,255,187,0)}}
-    .hero h2{font-size:clamp(42px,7vw,94px);line-height:.88;letter-spacing:-3px;max-width:980px;margin:22px 0 16px;text-wrap:balance}.hero h2 span{display:inline-block;color:var(--acid);text-shadow:0 0 38px rgba(157,255,187,.24)}.heroLead{max-width:820px;color:var(--muted);font-size:clamp(16px,1.6vw,19px);line-height:1.8;margin:0 0 24px}.heroActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.heroMetrics{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:12px;margin-top:36px;max-width:900px}.metric{border:1px solid var(--line);background:rgba(5,8,13,.58);backdrop-filter:blur(10px);border-radius:22px;padding:17px}.metric strong{display:block;font-size:27px}.metric span{display:block;color:var(--soft);font-size:12px;margin-top:2px}.pinRack{position:absolute;right:7%;top:39%;z-index:2;display:grid;grid-template-columns:repeat(4,26px);gap:12px;transform:perspective(550px) rotateX(7deg);opacity:.82}.pin{width:21px;height:54px;border-radius:14px 14px 8px 8px;background:linear-gradient(#fafff7,#c9d5cc 44%,#ff5e76 45% 54%,#e5efe7 55%,#818d86);box-shadow:0 0 25px rgba(157,255,187,.23);animation:twitch 4.2s ease-in-out infinite}.pin:nth-child(2n){animation-delay:.4s}.pin:nth-child(3n){animation-delay:1.2s}@keyframes twitch{0%,94%,100%{transform:rotate(0)}95%{transform:rotate(3deg)}97%{transform:rotate(-2deg)}}.heroSign{position:absolute;right:clamp(24px,5vw,72px);top:clamp(24px,5vw,70px);z-index:3;border:1px solid rgba(255,94,118,.36);background:rgba(255,94,118,.08);color:#ffd7df;border-radius:18px;padding:11px 14px;font-weight:950;letter-spacing:1px;box-shadow:0 0 30px rgba(255,94,118,.16)}
+    .hero h2{font-size:clamp(42px,7vw,94px);line-height:.88;letter-spacing:-3px;max-width:980px;margin:22px 0 16px;text-wrap:balance}.hero h2 span{display:inline-block;color:var(--acid);text-shadow:0 0 38px rgba(157,255,187,.24)}.heroLead{max-width:820px;color:var(--muted);font-size:clamp(16px,1.6vw,19px);line-height:1.8;margin:0 0 24px}.heroActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.heroMetrics{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:12px;margin-top:36px;max-width:900px}.metric{border:1px solid var(--line);background:rgba(5,8,13,.58);backdrop-filter:blur(10px);border-radius:22px;padding:17px}.metric strong{display:block;font-size:27px}.metric span{display:block;color:var(--soft);font-size:12px;margin-top:2px}.pinRack{display:none}.heroSign{position:absolute;right:clamp(24px,5vw,72px);top:clamp(24px,5vw,70px);z-index:3;border:1px solid rgba(255,94,118,.36);background:rgba(255,94,118,.08);color:#ffd7df;border-radius:18px;padding:11px 14px;font-weight:950;letter-spacing:1px;box-shadow:0 0 30px rgba(255,94,118,.16)}
+    .storyHero{position:relative;min-height:420px;border:1px solid var(--line);border-radius:28px;overflow:hidden;background:#05070b;display:grid;align-items:end;box-shadow:var(--shadow2)}.storyHero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.12) contrast(1.08);opacity:.72}.storyHero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,4,7,.88),rgba(3,4,7,.46) 52%,rgba(3,4,7,.72)),linear-gradient(0deg,rgba(3,4,7,.92),transparent 58%)}.storyOverlay{position:relative;z-index:1;max-width:820px;padding:clamp(22px,4vw,42px)}.storyKicker{display:inline-flex;border:1px solid rgba(255,211,125,.32);background:rgba(255,211,125,.10);color:var(--amber);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.7px}.storyOverlay h3{margin:14px 0 10px;font-size:clamp(28px,4.4vw,56px);line-height:1;letter-spacing:-1px}.storyOverlay p{margin:0;color:var(--muted);font-size:16px;line-height:1.75}.storyBeatGrid{margin-top:16px}.storyBeat{border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.03));padding:18px;min-height:172px}.storyBeat b{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:13px;background:rgba(157,255,187,.10);border:1px solid rgba(157,255,187,.24);color:var(--acid);margin-bottom:12px}.storyBeat h3{margin:0 0 8px;font-size:17px}.storyBeat p{margin:0;color:var(--muted);line-height:1.6}.loopStrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:16px}.loopStep{position:relative;border:1px solid rgba(157,255,187,.20);border-radius:20px;background:rgba(157,255,187,.055);padding:15px;min-height:128px}.loopStep:after{content:"";position:absolute;right:-10px;top:50%;width:10px;height:2px;background:rgba(157,255,187,.34)}.loopStep:last-child:after{display:none}.loopStep strong{display:block;color:var(--ink);font-size:13px}.loopStep span{display:block;color:var(--soft);font-size:12px;line-height:1.45;margin-top:7px}
     .card{margin-top:24px;border:1px solid var(--line);border-radius:34px;background:linear-gradient(180deg,rgba(14,21,32,.84),rgba(7,11,17,.74));box-shadow:var(--shadow2);overflow:hidden}.sectionHead{display:grid;grid-template-columns:54px 1fr auto;gap:18px;align-items:start;padding:32px 34px 20px}.sectionNum{height:54px;border-radius:18px;display:grid;place-items:center;border:1px solid rgba(157,255,187,.25);background:rgba(157,255,187,.09);color:var(--acid);font-weight:950}.sectionTitle h2{margin:0;font-size:clamp(26px,3.3vw,44px);letter-spacing:-1.2px}.sectionTitle p{margin:9px 0 0;color:var(--muted);line-height:1.72;max-width:960px}.sectionBody{padding:0 34px 34px}.tagRow{display:flex;gap:8px;flex-wrap:wrap}.tag{font-size:11px;font-weight:900;color:var(--muted);border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:999px;padding:8px 10px}.tag.good{color:var(--acid);border-color:rgba(157,255,187,.26)}.tag.warn{color:var(--amber);border-color:rgba(255,211,125,.26)}
     .grid{display:grid;gap:16px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.tile{position:relative;border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:24px;padding:20px;overflow:hidden}.tile:before{content:"";position:absolute;inset:-1px;pointer-events:none;background:linear-gradient(135deg,rgba(157,255,187,.10),transparent 40%,rgba(125,169,255,.08));opacity:.55}.tile>*{position:relative}.tile h3{margin:0 0 10px;font-size:18px}.tile p{margin:0;color:var(--muted);line-height:1.65}.tile ul,.tile ol{margin:12px 0 0;padding-left:20px;color:var(--muted);line-height:1.75}.tile li+li{margin-top:5px}.tile .big{font-size:38px;font-weight:950;letter-spacing:-1px}.callout{border:1px solid rgba(157,255,187,.25);background:linear-gradient(135deg,rgba(157,255,187,.10),rgba(125,169,255,.07));border-radius:24px;padding:20px;color:var(--muted);line-height:1.72}.callout strong{color:var(--ink)}.warning{border-color:rgba(255,211,125,.32);background:linear-gradient(135deg,rgba(255,211,125,.10),rgba(255,94,118,.07))}
     .codeBlock{position:relative;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:#070a10;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}.codeTop{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.08);padding:11px 13px;background:rgba(255,255,255,.04);color:var(--soft);font-size:12px;font-weight:850}.copyBtn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--ink);border-radius:12px;padding:7px 10px;cursor:pointer;font-weight:900;font-size:12px}.copyBtn:hover{border-color:rgba(157,255,187,.34)}pre{margin:0;overflow:auto;padding:18px 20px;color:#d9e8ff;font-size:13px;line-height:1.65;tab-size:2}.kbd{font-family:var(--mono);font-size:.9em;border:1px solid rgba(255,255,255,.15);border-bottom-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);padding:2px 6px;border-radius:7px;color:var(--ink)}
@@ -83,13 +85,14 @@
     .diagramWrap{position:relative;border:1px solid var(--line);border-radius:28px;background:radial-gradient(circle at 50% 20%,rgba(157,255,187,.08),transparent 30%),rgba(255,255,255,.035);padding:20px;overflow:hidden}.diagramWrap svg{width:100%;height:auto;display:block;filter:drop-shadow(0 20px 45px rgba(0,0,0,.28))}.diagramImageFrame{position:relative;margin:0;border:1px solid rgba(255,255,255,.12);border-radius:24px;background:#05070b;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);cursor:zoom-in}.diagramImageFrame:after{content:"+";position:absolute;right:8px;top:8px;width:26px;height:26px;display:grid;place-items:center;border:1px solid rgba(157,255,187,.32);border-radius:9px;background:rgba(5,8,13,.72);color:var(--acid);font-weight:950;font-size:16px;box-shadow:0 8px 18px rgba(0,0,0,.24)}.diagramImageFrame:focus-visible{outline:3px solid rgba(157,255,187,.42);outline-offset:4px}.diagramImageFrame img{display:block;width:100%;height:auto;max-width:100%}.diagramSource{display:none!important}.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.legend span{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:7px 9px;background:rgba(0,0,0,.18)}.dot{width:9px;height:9px;border-radius:50%;background:var(--acid)}.dot.blue{background:var(--blue)}.dot.red{background:var(--red)}.dot.amber{background:var(--amber)}
     .heroBackdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.32;filter:saturate(1.14) contrast(1.05);z-index:0}.heroBackdrop~.heroGrid{z-index:1}.diagramTitle{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px}.diagramTitle strong{display:block;font-size:18px}.diagramTitle span{display:block;color:var(--soft);font-size:12px;text-transform:uppercase;letter-spacing:.7px;margin-top:3px}.diagramNote{color:var(--muted);font-size:13px;line-height:1.6;max-width:760px}.diagramGrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:16px}.diagramStack{display:grid;gap:10px}.flowDiagram{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;align-items:stretch}.flowNode,.specNode{position:relative;border:1px solid var(--line);background:rgba(0,0,0,.20);border-radius:18px;padding:14px;min-height:112px}.flowNode:after{content:"";position:absolute;right:-11px;top:50%;width:12px;height:2px;background:rgba(157,255,187,.36)}.flowNode:last-child:after{display:none}.flowNode b,.specNode b{display:block;color:var(--ink);font-size:13px}.flowNode span,.specNode span{display:block;color:var(--soft);font-size:12px;line-height:1.45;margin-top:6px}.specGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.assetBoard{position:relative;min-height:480px;border:1px solid var(--line);border-radius:28px;overflow:hidden;background:#05070b}.assetBoard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.06) contrast(1.04)}.assetBoard:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,4,7,.72),rgba(3,4,7,.18) 48%,rgba(3,4,7,.62)),linear-gradient(0deg,rgba(3,4,7,.66),transparent 42%,rgba(3,4,7,.28));pointer-events:none}.assetLabel{position:absolute;z-index:2;max-width:230px;border:1px solid rgba(157,255,187,.28);background:rgba(5,8,13,.78);backdrop-filter:blur(10px);border-radius:18px;padding:12px;box-shadow:var(--shadow2)}.assetLabel b{display:block;color:var(--acid);font-size:12px;text-transform:uppercase;letter-spacing:.7px}.assetLabel span{display:block;color:var(--muted);font-size:12px;line-height:1.5;margin-top:5px}.assetLabel:before{content:"";position:absolute;width:58px;height:1px;background:rgba(157,255,187,.48);top:50%}.assetLabel.left:before{right:-58px}.assetLabel.right:before{left:-58px}.artThumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.artThumb{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:rgba(255,255,255,.04)}.artThumb img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}.artThumb.pin img{aspect-ratio:16/13;object-fit:cover;object-position:50% 15%}.artThumb div{padding:13px}.artThumb h3{margin:0 0 6px;font-size:15px}.artThumb p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.blueprintPanel{border:1px solid rgba(125,169,255,.22);background:linear-gradient(135deg,rgba(125,169,255,.08),rgba(157,255,187,.05));border-radius:24px;padding:16px}.stackLayer{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:16px;padding:12px}.stackLayer strong{color:var(--ink);font-size:13px}.stackLayer span{color:var(--muted);font-size:12px;line-height:1.45}.miniBar{height:12px;border-radius:999px;background:linear-gradient(90deg,var(--acid),var(--cyan),var(--blue));box-shadow:0 0 20px rgba(157,255,187,.22)}.miniBar.red{background:linear-gradient(90deg,var(--red),var(--orange),var(--amber))}.miniBar.cold{background:linear-gradient(90deg,var(--blue),var(--cyan),var(--acid))}.miniBar.dark{background:linear-gradient(90deg,#151b24,#384454,#0c1018)}.diagramChecklist{display:grid;gap:8px}.diagramChecklist li{list-style:none;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035);padding:10px 12px;color:var(--muted);line-height:1.45}.diagramChecklist li strong{color:var(--ink)}
     .diagramWrap svg{display:none}.precisionDiagram{position:relative;border:1px solid rgba(255,255,255,.12);border-radius:24px;background:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),radial-gradient(circle at 70% 12%,rgba(157,255,187,.10),transparent 32%),rgba(4,7,12,.72);background-size:36px 36px,36px 36px,auto,auto;padding:18px;overflow:hidden}.precisionDiagram+.legend{margin-top:14px}.planGrid{display:grid;grid-template-columns:minmax(104px,.9fr) minmax(280px,4fr) minmax(104px,.95fr) minmax(76px,.65fr);grid-template-rows:64px 48px 150px 48px 64px;gap:8px;min-height:382px}.planCell{border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.045);display:grid;place-items:center;text-align:center;padding:10px;color:var(--muted);font-size:12px;line-height:1.35}.planCell strong{display:block;color:var(--ink);font-size:13px;margin-bottom:3px}.planCell small{display:block;color:var(--soft);font-size:11px}.approachCell{grid-column:1;grid-row:3;background:rgba(125,169,255,.12);border-color:rgba(125,169,255,.30)}.laneCell{grid-column:2;grid-row:3;position:relative;background:linear-gradient(90deg,#5f351b,#c18a43 48%,#6d3d20);border-color:rgba(255,211,125,.35);overflow:hidden}.laneCell:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.20) 0 1px,transparent 1px 44px),linear-gradient(0deg,rgba(255,255,255,.06),transparent 42%,rgba(0,0,0,.10));pointer-events:none}.laneCell>*{position:relative}.gutterTop{grid-column:2;grid-row:2;background:rgba(0,0,0,.30)}.gutterBottom{grid-column:2;grid-row:4;background:rgba(0,0,0,.30)}.sideTop{grid-column:1/5;grid-row:1;background:rgba(120,215,255,.08);border-color:rgba(120,215,255,.22)}.sideBottom{grid-column:1/5;grid-row:5;background:rgba(120,215,255,.06);border-color:rgba(120,215,255,.18)}.pinDeckCell{grid-column:3;grid-row:2/5;background:rgba(157,255,187,.10);border-color:rgba(157,255,187,.28)}.machineCell{grid-column:4;grid-row:1/6;background:rgba(255,94,118,.10);border-color:rgba(255,94,118,.30)}.centreLine{position:absolute;left:0;right:0;top:50%;height:2px;background:rgba(157,255,187,.55);box-shadow:0 0 18px rgba(157,255,187,.30)}.aimArrows{display:flex;gap:18px;justify-content:center;margin-top:18px}.aimArrows i{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:18px solid var(--amber);filter:drop-shadow(0 0 10px rgba(255,211,125,.26))}.pinRackMini{display:grid;grid-template-columns:repeat(4,16px);grid-auto-rows:16px;gap:7px;justify-content:center;align-content:center}.pinDot{width:15px;height:15px;border-radius:50%;background:#edf5ff;border:2px solid var(--red);box-shadow:0 0 14px rgba(157,255,187,.20)}.rackGap{visibility:hidden}.axisStrip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.axisStrip span{border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(0,0,0,.20);padding:9px 10px;color:var(--muted);font-size:12px}.axisStrip strong{color:var(--ink)}.flowClean{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.flowClean .flowNode{min-height:132px;border-color:rgba(157,255,187,.22);display:grid;grid-template-rows:auto 1fr}.stateMachine{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}.stateNode{border:1px solid rgba(157,255,187,.24);border-radius:16px;background:rgba(0,0,0,.22);padding:14px;min-height:124px;position:relative}.stateNode:after{content:"";position:absolute;right:-10px;top:50%;width:10px;height:2px;background:rgba(157,255,187,.5)}.stateNode:last-child:after{display:none}.stateNode b{display:block;color:var(--ink);font-size:13px}.stateNode span{display:block;margin-top:7px;color:var(--muted);font-size:12px;line-height:1.45}.controlGesture{display:grid;grid-template-columns:minmax(220px,1.1fr) minmax(260px,.9fr);gap:16px;align-items:stretch}.gestureLane{position:relative;min-height:360px;border:1px solid rgba(255,211,125,.25);border-radius:22px;background:linear-gradient(90deg,rgba(0,0,0,.38) 0 10%,#6d3d20 10% 90%,rgba(0,0,0,.38) 90%);overflow:hidden}.gestureLane:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 48px),linear-gradient(90deg,rgba(0,0,0,.38),transparent 18%,transparent 82%,rgba(0,0,0,.38));pointer-events:none}.playerPuck{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);width:70px;height:34px;border-radius:999px;background:linear-gradient(135deg,var(--acid),var(--cyan));box-shadow:0 0 26px rgba(157,255,187,.35)}.dragVector{position:absolute;left:50%;bottom:74px;width:4px;height:160px;background:linear-gradient(var(--acid),rgba(157,255,187,.1));transform:translateX(-50%) rotate(-13deg);transform-origin:bottom;border-radius:999px}.dragVector:after{content:"";position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:18px solid var(--acid)}.steerRibbon{position:absolute;left:20%;right:20%;top:44%;height:56px;border-top:3px dashed rgba(120,215,255,.72);border-radius:50%;transform:rotate(-2deg)}.gestureNote{position:absolute;border:1px solid rgba(255,255,255,.14);background:rgba(5,8,13,.78);border-radius:14px;padding:10px;color:var(--muted);font-size:12px;line-height:1.35;max-width:180px}.gestureNote strong{display:block;color:var(--ink);font-size:12px;margin-bottom:2px}.inputSpec{display:grid;gap:10px}.inputSpec div{border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.045);padding:13px;color:var(--muted);font-size:12px;line-height:1.45}.inputSpec strong{display:block;color:var(--ink);font-size:13px;margin-bottom:4px}.tokenGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.tokenGrid span{border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(0,0,0,.18);padding:11px;color:var(--muted);font-size:12px;line-height:1.4}.tokenGrid code{display:block;color:#cfe5ff;margin-bottom:4px}.layerRows{display:grid;gap:10px}.layerRow{display:grid;grid-template-columns:150px 1fr 120px;gap:10px;align-items:center;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.04);padding:12px;color:var(--muted);font-size:12px}.layerRow b{color:var(--ink)}.layerTrack{height:14px;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--acid),var(--amber),var(--red));box-shadow:0 0 18px rgba(157,255,187,.16)}.layerTrack.dim{background:linear-gradient(90deg,#101722,#293647,#111722)}.layerTrack.hot{background:linear-gradient(90deg,var(--orange),var(--red))}.variantGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.variantCard{border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.045);padding:15px;min-height:122px}.variantCard b{display:block;color:var(--ink);margin-bottom:7px}.variantCard span{color:var(--muted);font-size:12px;line-height:1.5}.variantCard.core{border-color:rgba(157,255,187,.28);background:rgba(157,255,187,.07)}
-    .mission{display:grid;gap:13px}.step{display:grid;grid-template-columns:46px 1fr auto;gap:14px;align-items:start;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.04);padding:16px}.stepNum{height:46px;border-radius:16px;display:grid;place-items:center;background:rgba(125,169,255,.10);border:1px solid rgba(125,169,255,.22);color:var(--cyan);font-weight:950}.step h3{margin:0 0 5px}.step p{margin:0;color:var(--muted);line-height:1.55}.step input{appearance:none;width:24px;height:24px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.2);cursor:pointer;position:relative}.step input:checked{background:linear-gradient(135deg,var(--acid),var(--blue));border-color:transparent}.step input:checked:after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#04100a;font-weight:950}.step.done{border-color:rgba(157,255,187,.28);background:rgba(157,255,187,.055)}
+    .walkthroughBoard{display:grid;grid-template-columns:minmax(260px,.95fr) minmax(0,1.05fr);gap:16px;margin-bottom:16px}.nextTaskPanel,.phasePanel{border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.032));padding:18px}.nextTaskPanel small,.phasePanel small{display:block;color:var(--soft);font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.75px;margin-bottom:8px}.nextTaskPanel h3{margin:0 0 8px;font-size:22px}.nextTaskPanel p{margin:0;color:var(--muted);line-height:1.6}.nextTaskMeta{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0}.nextTaskMeta span{display:inline-flex;border:1px solid rgba(157,255,187,.22);background:rgba(157,255,187,.07);color:var(--acid);border-radius:999px;padding:6px 8px;font-size:11px;font-weight:900}.phaseButtons{display:flex;flex-wrap:wrap;gap:8px}.phaseButtons button{border:1px solid var(--line);background:rgba(255,255,255,.045);color:var(--muted);border-radius:999px;padding:9px 11px;font-weight:950;cursor:pointer}.phaseButtons button.active{color:var(--ink);border-color:rgba(157,255,187,.34);background:rgba(157,255,187,.10)}.phaseProgress{height:10px;margin-top:14px;border-radius:999px;background:rgba(255,255,255,.075);overflow:hidden}.phaseProgress span{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--acid),var(--cyan));box-shadow:0 0 18px rgba(157,255,187,.34);transition:width .25s ease}.phaseSummary{margin:9px 0 0;color:var(--soft);font-size:12px}.mission{display:grid;gap:13px}.step{display:grid;grid-template-columns:46px 1fr auto;gap:14px;align-items:start;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.04);padding:16px;transition:border-color .18s ease,background .18s ease,transform .18s ease}.stepNum{height:46px;border-radius:16px;display:grid;place-items:center;background:rgba(125,169,255,.10);border:1px solid rgba(125,169,255,.22);color:var(--cyan);font-weight:950}.step h3{margin:0 0 5px}.step p{margin:0;color:var(--muted);line-height:1.55}.step input{appearance:none;width:24px;height:24px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.2);cursor:pointer;position:relative}.step input:checked{background:linear-gradient(135deg,var(--acid),var(--blue));border-color:transparent}.step input:checked:after{content:"\2713";position:absolute;inset:0;display:grid;place-items:center;color:#04100a;font-weight:950}.step.done{border-color:rgba(157,255,187,.28);background:rgba(157,255,187,.055)}.step.focused{border-color:rgba(255,211,125,.55);background:rgba(255,211,125,.08);transform:translateY(-1px);box-shadow:0 0 0 4px rgba(255,211,125,.08)}
     .imageCard{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;min-height:100%}.imageFrame{aspect-ratio:16/9;background:linear-gradient(135deg,rgba(157,255,187,.10),rgba(125,169,255,.10));display:grid;place-items:center;overflow:hidden}.imageFrame img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}.imageCard:hover img{transform:scale(1.025)}.imageContent{padding:16px}.imageContent h3{margin:0 0 8px}.imageContent p{margin:0;color:var(--muted);line-height:1.58}.imageContent a{display:inline-flex;margin-top:12px;color:var(--acid);font-weight:900;text-decoration:none}.imageContent a:hover{text-decoration:underline}.fallback{padding:20px;text-align:center;color:var(--muted)}
     .cardsSearchHidden{display:none!important}.pillGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.pillBox{border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:18px;padding:14px}.pillBox strong{display:block}.pillBox span{color:var(--soft);font-size:12px;display:block;margin-top:3px}.pillBox .kbd{display:inline-block;margin:0 2px}.recipe{display:grid;grid-template-columns:1fr 1fr;gap:16px}.swatch{height:14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(90deg,#05070b,#10202b,#6c3429,#9dffbb)}.swatch.red{background:linear-gradient(90deg,#05070b,#1d1014,#ff5e76,#ffd37d)}.swatch.cold{background:linear-gradient(90deg,#05070b,#0c1724,#78d7ff,#9dffbb)}
     .tabs{border:1px solid var(--line);border-radius:24px;overflow:hidden;background:rgba(255,255,255,.035)}.tabButtons{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--line);background:rgba(255,255,255,.035)}.tabButtons button{flex:1;min-width:140px;border:0;border-right:1px solid var(--line);background:transparent;color:var(--muted);padding:14px;font-weight:950;cursor:pointer}.tabButtons button.active{color:var(--ink);background:rgba(157,255,187,.08)}.tabPanel{display:none;padding:20px}.tabPanel.active{display:block}.tabPanel p{color:var(--muted);line-height:1.68}.tabPanel h3{margin-top:0}
     .footer{margin:26px 0 0;border:1px solid var(--line);border-radius:28px;background:rgba(255,255,255,.045);padding:24px;color:var(--muted);line-height:1.7}.footer strong{color:var(--ink)}.legalNotice{margin-top:16px;border:1px solid rgba(255,255,255,.14);border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(157,255,187,.045));padding:20px;color:var(--muted);font-size:13px;line-height:1.65}.legalNotice strong{display:block;color:var(--ink);font-size:14px;margin-bottom:6px}.legalNotice p{margin:0}.legalNotice p+p{margin-top:8px}.topBtn{position:fixed;right:22px;bottom:22px;z-index:70;border:1px solid var(--line);background:rgba(8,12,18,.78);backdrop-filter:blur(14px);color:var(--ink);border-radius:999px;padding:12px 14px;cursor:pointer;box-shadow:var(--shadow2);display:none}.topBtn.show{display:inline-flex}.diagramLightbox{position:fixed;inset:0;z-index:120;display:none;grid-template-rows:auto minmax(0,1fr);gap:12px;padding:16px;background:rgba(3,5,8,.92);backdrop-filter:blur(18px)}.diagramLightbox.open{display:grid}.lightboxTop{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:20px;background:rgba(9,14,22,.92);padding:10px}.lightboxTop strong{padding-left:6px;color:var(--ink);font-size:15px}.lightboxControls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.lightboxControls button,.zoomLabel{border:1px solid rgba(255,255,255,.14);border-radius:13px;background:rgba(255,255,255,.065);color:var(--ink);min-height:38px;padding:8px 11px;font-weight:950}.lightboxControls button{cursor:pointer}.lightboxControls button:hover{border-color:rgba(157,255,187,.36)}.zoomLabel{display:inline-grid;place-items:center;min-width:64px;color:var(--acid);font-family:var(--mono);font-size:12px}.lightboxStage{border:1px solid var(--line);border-radius:22px;background:#020408;overflow:auto;display:grid;place-items:start center;touch-action:none;cursor:grab;box-shadow:inset 0 0 80px rgba(0,0,0,.42)}.lightboxStage.dragging{cursor:grabbing}.lightboxStage img{display:block;width:100%;height:auto;max-width:none;transform-origin:top left;user-select:none;-webkit-user-drag:none}.lightboxOpen{overflow:hidden}
     .legalNotice{position:relative;border-color:rgba(255,94,118,.42);background:linear-gradient(135deg,rgba(255,94,118,.16),rgba(20,7,11,.88) 42%,rgba(255,157,98,.08));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 18px 50px rgba(255,94,118,.10)}.legalNotice:before{content:"";position:absolute;left:18px;right:18px;top:0;height:3px;border-radius:999px;background:linear-gradient(90deg,var(--red),var(--orange),var(--amber));box-shadow:0 0 22px rgba(255,94,118,.34)}.legalNotice strong{color:#fff0f3;font-size:15px;letter-spacing:.2px}.legalNotice p{color:#d8b8bf}.legalNotice em{color:#fff}.legalMeta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}.legalMeta span{display:inline-flex;align-items:center;border:1px solid rgba(255,94,118,.34);border-radius:999px;background:rgba(255,94,118,.10);color:#ffd7df;padding:6px 9px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.55px}
-    @media (max-width:1200px){:root{--sidebar:286px}.grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}.heroMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}.recipe{grid-template-columns:1fr}.sectionHead{grid-template-columns:50px 1fr}.sectionHead .tagRow{grid-column:1/-1}.pinRack{opacity:.42}.diagramGrid{grid-template-columns:1fr}.flowDiagram,.flowClean{grid-template-columns:repeat(3,minmax(0,1fr))}.flowNode:after,.stateNode:after{display:none}.stateMachine{grid-template-columns:repeat(3,minmax(0,1fr))}.controlGesture{grid-template-columns:1fr}.variantGrid{grid-template-columns:1fr}}
+    .diagramWrap{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025)),linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px),rgba(6,10,16,.78);background-size:auto,34px 34px,34px 34px,auto;border-color:rgba(180,213,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 46px rgba(0,0,0,.24)}.diagramImageFrame{border-radius:18px;border-color:rgba(180,213,255,.18);background:linear-gradient(180deg,rgba(10,16,24,.98),rgba(4,7,12,.98));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 18px 44px rgba(0,0,0,.28);padding:14px}.diagramImageFrame:before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(135deg,rgba(157,255,187,.10),transparent 24%),linear-gradient(315deg,rgba(120,215,255,.08),transparent 28%)}.diagramImageFrame:after{content:"View full";position:absolute;right:12px;top:12px;z-index:4;width:auto;height:32px;min-width:82px;padding:0 12px;display:grid;place-items:center;border:1px solid rgba(157,255,187,.42);border-radius:12px;background:rgba(5,8,13,.86);backdrop-filter:blur(10px);color:var(--acid);font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.55px;box-shadow:0 10px 22px rgba(0,0,0,.30),0 0 22px rgba(157,255,187,.12)}.diagramImageFrame:hover:after{border-color:rgba(157,255,187,.70);background:rgba(12,22,20,.92);box-shadow:0 12px 28px rgba(0,0,0,.34),0 0 26px rgba(157,255,187,.20)}.diagramImageFrame.hasLiveDiagram>img{display:none}.diagramImageFrame.hasLiveDiagram>.diagramSource{position:relative;z-index:1;width:100%;min-width:0}.diagramImageFrame.hasLiveDiagram>.flowDiagram.diagramSource{display:grid!important;padding:18px;border:0;border-radius:12px;background:linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px),rgba(4,7,12,.78);background-size:30px 30px,30px 30px,auto}.diagramImageFrame.hasLiveDiagram>.precisionDiagram.diagramSource{display:block!important;border:0;border-radius:12px;background:linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px),radial-gradient(circle at 72% 12%,rgba(157,255,187,.13),transparent 34%),rgba(4,7,12,.78);background-size:30px 30px,30px 30px,auto,auto;padding:18px}.diagramImageFrame.hasLiveDiagram>.precisionDiagram.controlGesture.diagramSource{display:grid!important}.diagramImageFrame.hasLiveDiagram+.diagramSource{display:none!important}.planGrid{grid-template-columns:minmax(120px,.85fr) minmax(360px,4.2fr) minmax(132px,1.05fr) minmax(120px,.9fr);grid-template-rows:70px 50px 164px 50px 70px;gap:10px;min-height:424px}.planCell{border-radius:12px;border-color:rgba(180,213,255,.18);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.032));box-shadow:inset 0 1px 0 rgba(255,255,255,.045);overflow:hidden;overflow-wrap:anywhere}.planCell strong{font-size:13px}.planCell small{font-size:11px;line-height:1.35}.laneCell{border-color:rgba(255,211,125,.48);box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 0 0 1px rgba(0,0,0,.18)}.machineCell{padding:12px 8px}.pinDeckCell{padding:12px 8px}.axisStrip span{border-radius:10px;border-color:rgba(180,213,255,.16);background:rgba(0,0,0,.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}.flowNode,.specNode,.stateNode,.variantCard,.stackLayer,.layerRow,.inputSpec div,.diagramChecklist li{border-radius:12px;border-color:rgba(180,213,255,.16);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.030));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}.flowNode:after,.stateNode:after{height:3px;border-radius:999px;background:linear-gradient(90deg,rgba(157,255,187,.70),rgba(120,215,255,.42))}.lightboxStage .lightboxDiagramClone{display:block!important;width:100%;min-width:980px;margin:0;transform-origin:top left}.lightboxStage .lightboxDiagramClone.controlGesture{display:grid!important}.lightboxStage .lightboxDiagramClone.flowDiagram{display:grid!important;padding:18px;border:1px solid var(--line);border-radius:18px;background:rgba(4,7,12,.90)}
+    @media (max-width:1200px){:root{--sidebar:286px}.grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}.heroMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}.recipe{grid-template-columns:1fr}.sectionHead{grid-template-columns:50px 1fr}.sectionHead .tagRow{grid-column:1/-1}.pinRack{opacity:.42}.diagramGrid{grid-template-columns:1fr}.flowDiagram,.flowClean{grid-template-columns:repeat(3,minmax(0,1fr))}.flowNode:after,.stateNode:after,.loopStep:after{display:none}.stateMachine{grid-template-columns:repeat(3,minmax(0,1fr))}.controlGesture{grid-template-columns:1fr}.variantGrid{grid-template-columns:1fr}.loopStrip{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media (max-width:900px){
       .app{display:block;padding:18px;width:100%;max-width:100vw;margin:0;overflow:hidden}
       .mobilebar{display:flex;width:calc(100% + 36px);justify-content:space-between;gap:10px}
@@ -121,14 +124,18 @@
       .grid.two,.grid.three,.grid.four{grid-template-columns:1fr}
       .sectionHead{padding:26px 22px 14px}.sectionBody{padding:0 22px 24px}.card{border-radius:28px;max-width:100%}
       .pinRack{display:none}.step{grid-template-columns:42px 1fr}.step input{grid-column:1/-1;justify-self:start}.hero h2{letter-spacing:-2px}
-      .artThumbs,.flowDiagram,.flowClean,.specGrid,.stateMachine{grid-template-columns:1fr}
-      .planGrid{grid-template-columns:1fr;grid-template-rows:none;min-height:auto}.planCell,.approachCell,.laneCell,.gutterTop,.gutterBottom,.sideTop,.sideBottom,.pinDeckCell,.machineCell{grid-column:auto;grid-row:auto;min-height:72px}.laneCell{min-height:160px}
-      .diagramImageFrame{border-radius:18px;max-width:100%}.diagramImageFrame img{width:100%;max-width:100%;min-width:0}
-      .axisStrip{grid-template-columns:1fr}.layerRow{grid-template-columns:1fr}
+      .artThumbs,.specGrid,.walkthroughBoard{grid-template-columns:1fr}
+      .flowDiagram,.flowClean{grid-template-columns:repeat(5,minmax(86px,1fr));overflow-x:auto;scrollbar-width:thin;scrollbar-color:rgba(157,255,187,.35) transparent}.flowNode{min-height:112px}
+      .stateMachine{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .diagramImageFrame.hasLiveDiagram .variantGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.variantCard{min-height:96px;padding:11px}.variantCard b{font-size:12px}.variantCard span{font-size:10px;line-height:1.35}
+      .loopStrip{grid-template-columns:1fr 1fr}.storyHero{min-height:500px}.storyOverlay{padding:24px}
+      .diagramImageFrame{border-radius:18px;max-width:100%;padding:7px}.diagramImageFrame img{width:100%;max-width:100%;min-width:0}.diagramImageFrame:after{right:8px;top:8px;height:28px;min-width:54px;padding:0 8px;font-size:9px;content:"Open"}
+      .diagramImageFrame.hasLiveDiagram>.precisionDiagram.diagramSource{padding:7px;background-size:22px 22px,22px 22px,auto,auto}.diagramImageFrame.hasLiveDiagram>.flowDiagram.diagramSource{padding:8px;background-size:22px 22px,22px 22px,auto}
+      .planGrid{grid-template-columns:minmax(60px,.96fr) minmax(116px,2.15fr) minmax(58px,.86fr) minmax(60px,.96fr);grid-template-rows:42px 30px 132px 30px 48px;gap:5px;min-height:292px}.planCell,.approachCell,.laneCell,.gutterTop,.gutterBottom,.sideTop,.sideBottom,.pinDeckCell,.machineCell{grid-column:auto;grid-row:auto;min-height:0}.sideTop{grid-column:1/5;grid-row:1}.gutterTop{grid-column:2;grid-row:2}.approachCell{grid-column:1;grid-row:3}.laneCell{grid-column:2;grid-row:3;min-height:132px}.gutterBottom{grid-column:2;grid-row:4}.pinDeckCell{grid-column:3;grid-row:2/5}.machineCell{grid-column:4;grid-row:1/6}.sideBottom{grid-column:1/5;grid-row:5}.planCell{border-radius:10px;padding:5px 4px;font-size:9px;line-height:1.18}.planCell strong{font-size:9px;line-height:1.08;margin-bottom:2px}.planCell small{font-size:7.5px;line-height:1.12}.laneCell .centreLine{height:1px}.aimArrows{gap:8px;margin-top:16px}.aimArrows i{border-top-width:7px;border-bottom-width:7px;border-left-width:12px}.pinRackMini{grid-template-columns:repeat(4,9px);grid-auto-rows:9px;gap:4px}.pinDot{width:9px;height:9px;border-width:2px}.axisStrip{grid-template-columns:1fr 1fr;gap:6px}.axisStrip span{font-size:10px;padding:7px 8px;border-radius:9px}.layerRow{grid-template-columns:1fr}
       .assetBoard{min-height:560px}.assetLabel{position:relative;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;margin:10px;max-width:none}.assetLabel:before{display:none}.assetBoard{display:grid;align-content:end;gap:0}.assetBoard img,.assetBoard:after{position:absolute}
       .diagramLightbox{padding:10px;gap:10px}.lightboxTop{align-items:flex-start;flex-direction:column}.lightboxControls{width:100%;display:grid;grid-template-columns:44px 44px minmax(64px,1fr) auto auto}.lightboxControls button,.zoomLabel{min-height:40px}.lightboxStage{border-radius:18px}
     }
-    @media (max-width:560px){.app{padding:12px}.mobilebar{margin:-12px -12px 12px;width:calc(100% + 24px)}.hero{min-height:590px;border-radius:26px}.heroContent{padding:24px}.hero h2{font-size:36px;line-height:1;letter-spacing:0;text-wrap:wrap;overflow-wrap:break-word}.heroLead{font-size:15px;line-height:1.65}.heroActions .btn{width:100%}.heroMetrics{grid-template-columns:1fr}.sectionNum{display:none}.sectionHead{grid-template-columns:1fr}.tile{padding:16px}.mission .step{grid-template-columns:1fr}.stepNum{width:46px}.tabButtons button{min-width:100%;border-right:0;border-bottom:1px solid var(--line)}table{font-size:13px}.footer{font-size:14px}.diagramWrap{padding:14px}.diagramTitle{display:block}.assetBoard{min-height:620px}.stackLayer{grid-template-columns:1fr}.gestureLane{min-height:720px;padding-top:430px}.gestureLane .aimArrows{top:250px!important}.steerRibbon{top:250px}.playerPuck{top:338px;bottom:auto}.dragVector{top:180px;bottom:auto;height:130px}.gestureNote{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;max-width:none;margin:8px 12px;z-index:3}}
+    @media (max-width:560px){.app{padding:12px}.mobilebar{margin:-12px -12px 12px;width:calc(100% + 24px)}.hero{min-height:590px;border-radius:26px}.heroContent{padding:24px}.hero h2{font-size:36px;line-height:1;letter-spacing:0;text-wrap:wrap;overflow-wrap:break-word}.heroLead{font-size:15px;line-height:1.65}.heroActions .btn{width:100%}.heroMetrics{grid-template-columns:1fr}.sectionNum{display:none}.sectionHead{grid-template-columns:1fr}.tile{padding:16px}.mission .step{grid-template-columns:1fr}.stepNum{width:46px}.tabButtons button{min-width:100%;border-right:0;border-bottom:1px solid var(--line)}table{font-size:13px}.footer{font-size:14px}.diagramWrap{padding:14px}.diagramTitle{display:block}.assetBoard{min-height:620px}.stackLayer{grid-template-columns:1fr}.gestureLane{min-height:720px;padding-top:430px}.gestureLane .aimArrows{top:250px!important}.steerRibbon{top:250px}.playerPuck{top:338px;bottom:auto}.dragVector{top:180px;bottom:auto;height:130px}.gestureNote{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;max-width:none;margin:8px 12px;z-index:3}.loopStrip{grid-template-columns:1fr}.storyHero{min-height:560px}.phaseButtons button{flex:1 1 100%}}
     @media print{body{background:#fff;color:#111}.noise,.fog,aside,.mobilebar,.topBtn,.heroGrid,.hero:after,.hero:before,.pinRack,.heroSign{display:none!important}.app{display:block;max-width:100%;padding:0}.card,.hero,.tile,.callout,.codeBlock,.imageCard{box-shadow:none;background:#fff;color:#111;border-color:#ddd}.hero{min-height:auto}.heroLead,.sectionTitle p,.tile p,.tile li,td,.footer,.callout{color:#333}.btn,.copyBtn{display:none!important}pre{white-space:pre-wrap;color:#111;background:#f5f5f5}a{color:#0645ad}}
     @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   </style>
@@ -162,11 +169,13 @@
       <div class="searchWrap">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 21-4.3-4.3m2.3-5.2a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         <input id="guideSearch" type="search" placeholder="Search this guide…" />
+        <div class="searchStatus" id="searchStatus" role="status" aria-live="polite"></div>
       </div>
 
       <nav id="toc">
         <a class="navLink" href="#overview"><b>00</b> Vision</a>
         <a class="navLink" href="#artref"><b>AR</b> Artwork Ref</a>
+        <a class="navLink" href="#story"><b>ST</b> Story Loop</a>
         <a class="navLink" href="#setup"><b>01</b> Project Setup</a>
         <a class="navLink" href="#scale"><b>02</b> Scale Plan</a>
         <a class="navLink" href="#blockout"><b>03</b> Blockout</a>
@@ -208,6 +217,7 @@
           <p class="heroLead">This is your visual production guide for the first level of <strong>Night of the Living Pins</strong>. The goal is not just to make a nice room. The goal is to build a clean UE5 template with sensible scale, lighting, triggers, markers, art zones, and reusable structure for future levels.</p>
           <div class="heroActions">
             <a class="btn primary" href="#setup">Start the build</a>
+            <a class="btn" href="#story">Story loop</a>
             <a class="btn" href="#scale">View lane plan</a>
             <a class="btn" href="#controls">Mouse controls</a>
             <a class="btn" href="#screens">UE5 screenshot aids</a>
@@ -256,6 +266,42 @@
             <article class="artThumb"><img src="assets/loading1.png" alt="Wide key art with logo, bowling lane, zombies, and living pin" loading="lazy"><div><h3>Key art: lane chase</h3><p>Use for hero composition, ball impact energy, lane reflections, logo treatment, and foreground threat scale.</p></div></article>
             <article class="artThumb"><img src="assets/loading2.png" alt="Wide loading art with ball strike and zombie pins" loading="lazy"><div><h3>Impact art: strike burst</h3><p>Use for VFX timing, debris arcs, green energy, crowd pressure, and pin collapse silhouettes.</p></div></article>
             <article class="artThumb pin"><img src="assets/pin-example.png" alt="Zombie bowling pin character reference" loading="lazy"><div><h3>Zombie pin model target</h3><p>Cracked ceramic, red band, exposed skull face, glowing eyes, slime, chipped base, and asymmetrical damage.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="card searchable" id="story" data-title="story arcade game premise player goal lane 13 cursed pinsetter play loop frames tickets score arcade horror walkthrough">
+        <div class="sectionHead"><div class="sectionNum">ST</div><div class="sectionTitle"><h2>Add a story spine for the arcade game</h2><p>The game needs a reason for the player to keep throwing. Keep it simple, readable, and arcade-first: every frame is another attempt to break the cursed machine before the living pins rebuild themselves.</p></div><div class="tagRow"><span class="tag good">Arcade story</span><span class="tag">Play loop</span></div></div>
+        <div class="sectionBody">
+          <div class="storyHero">
+            <img src="assets/loading2.png" alt="Night of the Living Pins strike artwork with zombie pins and arcade horror lighting" loading="lazy" />
+            <div class="storyOverlay">
+              <span class="storyKicker">Lane 13 incident</span>
+              <h3>One last frame before the pins take the alley.</h3>
+              <p>You play the late-shift arcade mechanic trapped inside Bowl-O-Rama after the cursed Lane 13 pinsetter wakes up. The doors lock, the scoreboards bleed green light, and every living pin knocked down drains power from the back machine. Clear enough frames, rescue the trapped staff ghosts, and shut the lane down before sunrise.</p>
+            </div>
+          </div>
+
+          <div class="grid three storyBeatGrid">
+            <article class="storyBeat"><b>01</b><h3>Attract Mode Hook</h3><p>The scoreboard flashes FREE GAME after closing. A single ball rolls back by itself, already glowing with ectoplasm.</p></article>
+            <article class="storyBeat"><b>02</b><h3>Player Goal</h3><p>Smash cursed pins, bank tickets, and drain the pinsetter's soul meter before the machine reaches full power.</p></article>
+            <article class="storyBeat"><b>03</b><h3>Threat</h3><p>The pins are not passive targets. Missed shots let them rebuild, taunt the player, and spawn lane hazards.</p></article>
+            <article class="storyBeat"><b>04</b><h3>Escalation</h3><p>Each frame adds pressure: flickering lights, moving gutters, slime patches, staff zombies, and faster pin recovery.</p></article>
+            <article class="storyBeat"><b>05</b><h3>Reward</h3><p>Strikes pay out cursed tickets for ball upgrades, lane cleanses, extra steering, and emergency rerolls.</p></article>
+            <article class="storyBeat"><b>06</b><h3>Boss Frame</h3><p>The final frame turns the pinsetter into the boss target. The player must bowl through chaos and hit the heart of the machine.</p></article>
+          </div>
+
+          <div class="loopStrip" aria-label="Core arcade play loop">
+            <div class="loopStep"><strong>Choose lane position</strong><span>Move across the approach and read the danger state before charging.</span></div>
+            <div class="loopStep"><strong>Charge and aim</strong><span>Drag for power and angle while the lane telegraphs hazards.</span></div>
+            <div class="loopStep"><strong>Launch and steer</strong><span>Release the ball, then use subtle mouse steering to chase openings.</span></div>
+            <div class="loopStep"><strong>Resolve impact</strong><span>Pins scatter, score pops, ghosts react, and the back machine loses power.</span></div>
+            <div class="loopStep"><strong>Upgrade or survive</strong><span>Spend tickets, trigger a scare, then start the next haunted frame.</span></div>
+          </div>
+
+          <div class="grid two" style="margin-top:16px">
+            <div class="callout"><strong>Level storytelling rule:</strong> every side prop should support the story loop. Scoreboards show the curse status, cabinets imply the arcade setting, the ball return is the player's safe anchor, and the back machine is the source of the threat.</div>
+            <div class="callout warning"><strong>Gameplay rule:</strong> story must never hide the throw. Put lore, staff ghosts, posters, cabinets, and scare moments around the clean lane path, not on top of the aiming arrows or ball read.</div>
           </div>
         </div>
       </section>
@@ -1064,27 +1110,50 @@ MI_Monitor_GlitchGreen</code></pre></div></div>
         </div>
       </section>
 
-      <section class="card searchable" id="checklist" data-title="checklist todo progress milestones build order tasks done">
+      <section class="card searchable" id="checklist" data-title="checklist walkthrough todo progress milestones build phase filter story gameplay art polish tasks done">
         <div class="sectionHead"><div class="sectionNum">11</div><div class="sectionTitle"><h2>Interactive build checklist</h2><p>Tick these off as you work. Your progress is saved in this browser with local storage, so the page becomes your mini production board.</p></div><div class="tagRow"><span class="tag good">Saves locally</span><span class="tag">Milestone based</span></div></div>
         <div class="sectionBody">
+          <div class="walkthroughBoard" aria-label="Guided walkthrough controls">
+            <div class="nextTaskPanel">
+              <small>Next walkthrough step</small>
+              <h3 id="nextTaskTitle">Loading checklist...</h3>
+              <p id="nextTaskDetail">Progress will appear here after the checklist loads.</p>
+              <div class="nextTaskMeta"><span id="nextTaskPhase">All phases</span><span id="nextTaskCount">0 of 0 done</span></div>
+              <button class="btn primary" id="jumpNextTask" type="button">Jump to next task</button>
+            </div>
+            <div class="phasePanel">
+              <small>Build phase filter</small>
+              <div class="phaseButtons" id="phaseButtons" aria-label="Checklist phase filter">
+                <button class="active" type="button" data-phase="all">All</button>
+                <button type="button" data-phase="foundation">Foundation</button>
+                <button type="button" data-phase="blockout">Blockout</button>
+                <button type="button" data-phase="gameplay">Gameplay</button>
+                <button type="button" data-phase="art">Art pass</button>
+                <button type="button" data-phase="polish">Polish</button>
+              </div>
+              <div class="phaseProgress" aria-hidden="true"><span id="phaseProgressFill"></span></div>
+              <p class="phaseSummary" id="phaseSummary">Showing every task.</p>
+            </div>
+          </div>
           <div class="mission" id="missionList">
-            <label class="step"><span class="stepNum">01</span><span><h3>Create the folder structure</h3><p>Create the Content Browser folders and Outliner folders exactly as shown.</p></span><input type="checkbox" data-task="folders"></label>
-            <label class="step"><span class="stepNum">02</span><span><h3>Create and save the template map</h3><p>Save as <code>L_BowlingAlley_Template</code> inside <code>Maps</code>.</p></span><input type="checkbox" data-task="map"></label>
-            <label class="step"><span class="stepNum">03</span><span><h3>Block out approach, lane, gutters, rails, walls, ceiling, and back wall</h3><p>Use cubes and exact transforms. Keep this ugly but accurate.</p></span><input type="checkbox" data-task="blockout"></label>
-            <label class="step"><span class="stepNum">04</span><span><h3>Add pin target points</h3><p>Create 10 named target points for the pin rack.</p></span><input type="checkbox" data-task="pins"></label>
-            <label class="step"><span class="stepNum">05</span><span><h3>Add gameplay markers and tags</h3><p>Ball spawn, cameras, zombie spawns, scare point, and player start.</p></span><input type="checkbox" data-task="markers"></label>
-            <label class="step"><span class="stepNum">06</span><span><h3>Define the mouse-only throw state machine</h3><p>Create states for Positioning, Charging, Aiming, Launch, Steering, and Result.</p></span><input type="checkbox" data-task="controlstates"></label>
-            <label class="step"><span class="stepNum">07</span><span><h3>Prototype drag power, aim yaw, launch, and steering</h3><p>Mouse X moves lane-space Y, drag up sets power, drag X sets aim, release launches, post-release mouse X lightly steers.</p></span><input type="checkbox" data-task="mousecontrols"></label>
-            <label class="step"><span class="stepNum">08</span><span><h3>Add collision and trigger volumes</h3><p>Add blocking volumes and gutter/pit trigger volumes.</p></span><input type="checkbox" data-task="collision"></label>
-            <label class="step"><span class="stepNum">09</span><span><h3>Add temporary ball and pin placeholders</h3><p>Use physics sphere and simple cylinders/capsules before final art.</p></span><input type="checkbox" data-task="placeholders"></label>
-            <label class="step"><span class="stepNum">10</span><span><h3>Do the first lighting pass</h3><p>Rect lights above the lane, back-machine spotlight, and side accent lights.</p></span><input type="checkbox" data-task="lighting"></label>
-            <label class="step"><span class="stepNum">11</span><span><h3>Add fog and post process</h3><p>Enable subtle volumetric fog and lock down exposure/mood.</p></span><input type="checkbox" data-task="fogpost"></label>
-            <label class="step"><span class="stepNum">12</span><span><h3>Add base materials and material instances</h3><p>Rotten wood, dirty concrete, rusty metal, dirty paint, emissives.</p></span><input type="checkbox" data-task="materials"></label>
-            <label class="step"><span class="stepNum">13</span><span><h3>Add controlled decals</h3><p>Grime, scuffs, leaks, stains, cracks, and small blood storytelling.</p></span><input type="checkbox" data-task="decals"></label>
-            <label class="step"><span class="stepNum">14</span><span><h3>Build the back-machine focal point</h3><p>Broken pinsetter, cables, silhouette, glow, steam, and audio source.</p></span><input type="checkbox" data-task="backmachine"></label>
-            <label class="step"><span class="stepNum">15</span><span><h3>Dress the approach and side walls</h3><p>Props and storytelling without blocking gameplay readability.</p></span><input type="checkbox" data-task="dressing"></label>
-            <label class="step"><span class="stepNum">16</span><span><h3>Set up cameras and take review screenshots</h3><p>Main gameplay view, low lane view, and pin deck view.</p></span><input type="checkbox" data-task="cameras"></label>
-            <label class="step"><span class="stepNum">17</span><span><h3>Convert reusable chunks</h3><p>Turn lane core, shell, and dressing groups into reusable level chunks.</p></span><input type="checkbox" data-task="reuse"></label>
+            <label class="step" data-phase="foundation"><span class="stepNum">01</span><span><h3>Create the folder structure</h3><p>Create the Content Browser folders and Outliner folders exactly as shown so the project can scale cleanly.</p></span><input type="checkbox" data-task="folders"></label>
+            <label class="step" data-phase="foundation"><span class="stepNum">02</span><span><h3>Create and save the template map</h3><p>Save as <code>L_BowlingAlley_Template</code> inside <code>Maps</code>, then duplicate only when you are ready to make a playable variant.</p></span><input type="checkbox" data-task="map"></label>
+            <label class="step" data-phase="foundation"><span class="stepNum">03</span><span><h3>Lock the Lane 13 story beats</h3><p>Use the story spine above to define the scoreboard message, trapped-player hook, cursed pinsetter goal, and final boss-frame payoff.</p></span><input type="checkbox" data-task="storyspine"></label>
+            <label class="step" data-phase="blockout"><span class="stepNum">04</span><span><h3>Block out approach, lane, gutters, rails, walls, ceiling, and back wall</h3><p>Use cubes and exact transforms. Keep this ugly but accurate so throw testing starts from reliable scale.</p></span><input type="checkbox" data-task="blockout"></label>
+            <label class="step" data-phase="gameplay"><span class="stepNum">05</span><span><h3>Add pin target points</h3><p>Create 10 named target points for the pin rack and keep their coordinates consistent across future lane variants.</p></span><input type="checkbox" data-task="pins"></label>
+            <label class="step" data-phase="gameplay"><span class="stepNum">06</span><span><h3>Add gameplay markers and tags</h3><p>Ball spawn, cameras, zombie spawns, scare point, player start, and story-facing scoreboard or machine markers.</p></span><input type="checkbox" data-task="markers"></label>
+            <label class="step" data-phase="gameplay"><span class="stepNum">07</span><span><h3>Define the mouse-only throw state machine</h3><p>Create states for Positioning, Charging, Aiming, Launch, Steering, and Result before building the throw implementation.</p></span><input type="checkbox" data-task="controlstates"></label>
+            <label class="step" data-phase="gameplay"><span class="stepNum">08</span><span><h3>Prototype drag power, aim yaw, launch, and steering</h3><p>Mouse X moves lane-space Y, drag up sets power, drag X sets aim, release launches, post-release mouse X lightly steers.</p></span><input type="checkbox" data-task="mousecontrols"></label>
+            <label class="step" data-phase="gameplay"><span class="stepNum">09</span><span><h3>Add collision and trigger volumes</h3><p>Add blocking volumes plus gutter, pit, approach, and back-machine trigger volumes so the game can score and reset cleanly.</p></span><input type="checkbox" data-task="collision"></label>
+            <label class="step" data-phase="gameplay"><span class="stepNum">10</span><span><h3>Add temporary ball and pin placeholders</h3><p>Use a physics sphere and simple cylinders or capsules before final art, then test a full throw-to-result loop.</p></span><input type="checkbox" data-task="placeholders"></label>
+            <label class="step" data-phase="art"><span class="stepNum">11</span><span><h3>Do the first lighting pass</h3><p>Rect lights above the lane, back-machine spotlight, side accent lights, and enough contrast for the story focal points.</p></span><input type="checkbox" data-task="lighting"></label>
+            <label class="step" data-phase="art"><span class="stepNum">12</span><span><h3>Add fog and post process</h3><p>Enable subtle volumetric fog, lock down exposure and mood, and keep ball, arrows, gutters, and head pin readable.</p></span><input type="checkbox" data-task="fogpost"></label>
+            <label class="step" data-phase="art"><span class="stepNum">13</span><span><h3>Add base materials and material instances</h3><p>Rotten wood, dirty concrete, rusty metal, dirty paint, emissives, and pin material targets that match the supplied art.</p></span><input type="checkbox" data-task="materials"></label>
+            <label class="step" data-phase="art"><span class="stepNum">14</span><span><h3>Add controlled decals</h3><p>Grime, scuffs, leaks, stains, cracks, slime trails, and small blood storytelling without dirtying the clean aim path.</p></span><input type="checkbox" data-task="decals"></label>
+            <label class="step" data-phase="art"><span class="stepNum">15</span><span><h3>Build the back-machine focal point</h3><p>Broken pinsetter, cables, silhouette, glow, steam, warning bulbs, audio source, and cursed boss-frame identity.</p></span><input type="checkbox" data-task="backmachine"></label>
+            <label class="step" data-phase="art"><span class="stepNum">16</span><span><h3>Dress the approach and side walls</h3><p>Props, cabinets, posters, scoreboards, shoes, staff-ghost hints, and storytelling without blocking gameplay readability.</p></span><input type="checkbox" data-task="dressing"></label>
+            <label class="step" data-phase="polish"><span class="stepNum">17</span><span><h3>Set up cameras and take review screenshots</h3><p>Main gameplay view, low lane view, pin deck view, and one story-composition screenshot from the approach.</p></span><input type="checkbox" data-task="cameras"></label>
+            <label class="step" data-phase="polish"><span class="stepNum">18</span><span><h3>Convert reusable chunks</h3><p>Turn lane core, shell, gameplay markers, and dressing groups into reusable level chunks for future haunted lane variants.</p></span><input type="checkbox" data-task="reuse"></label>
           </div>
         </div>
       </section>
@@ -1155,18 +1224,44 @@ MI_Monitor_GlitchGreen</code></pre></div></div>
     const lightboxTitle = $('#diagramLightboxTitle');
     const zoomLabel = $('#diagramZoomLabel');
     let diagramZoom = 1;
+    let lightboxDiagramNode = null;
+    let lightboxZoomTarget = lightboxImg;
 
     function setDiagramZoom(value){
       diagramZoom = Math.min(3, Math.max(.5, value));
-      if(lightboxImg) lightboxImg.style.width = (diagramZoom * 100) + '%';
+      if(lightboxZoomTarget) lightboxZoomTarget.style.width = (diagramZoom * 100) + '%';
       if(zoomLabel) zoomLabel.textContent = Math.round(diagramZoom * 100) + '%';
     }
-    function openDiagramLightbox(img){
-      if(!lightbox || !lightboxImg || !img) return;
-      const title = img.closest('.diagramWrap')?.querySelector('.diagramTitle strong')?.textContent || img.alt || 'Diagram';
+    function clearLightboxContent(){
+      lightboxDiagramNode?.remove();
+      lightboxDiagramNode = null;
+      if(lightboxImg){
+        lightboxImg.style.display = '';
+        lightboxImg.style.width = '100%';
+        lightboxImg.removeAttribute('src');
+      }
+      lightboxZoomTarget = lightboxImg;
+    }
+    function openDiagramLightbox(frame){
+      if(!lightbox || !lightboxImg || !frame) return;
+      const img = $('img', frame);
+      const liveDiagram = $('.diagramSource', frame);
+      const title = frame.closest('.diagramWrap')?.querySelector('.diagramTitle strong')?.textContent || img?.alt || 'Diagram';
       lightboxTitle.textContent = title;
-      lightboxImg.src = img.currentSrc || img.src;
-      lightboxImg.alt = img.alt || title;
+      clearLightboxContent();
+      if(liveDiagram){
+        lightboxDiagramNode = liveDiagram.cloneNode(true);
+        lightboxDiagramNode.classList.remove('diagramSource');
+        lightboxDiagramNode.classList.add('lightboxDiagramClone');
+        lightboxDiagramNode.removeAttribute('aria-hidden');
+        lightboxImg.style.display = 'none';
+        lightboxStage.appendChild(lightboxDiagramNode);
+        lightboxZoomTarget = lightboxDiagramNode;
+      }else if(img){
+        lightboxImg.src = img.currentSrc || img.src;
+        lightboxImg.alt = img.alt || title;
+        lightboxZoomTarget = lightboxImg;
+      }
       lightbox.classList.add('open');
       lightbox.setAttribute('aria-hidden','false');
       body.classList.add('lightboxOpen');
@@ -1180,16 +1275,22 @@ MI_Monitor_GlitchGreen</code></pre></div></div>
       lightbox.classList.remove('open');
       lightbox.setAttribute('aria-hidden','true');
       body.classList.remove('lightboxOpen');
-      lightboxImg.removeAttribute('src');
+      clearLightboxContent();
     }
     $$('.diagramImageFrame').forEach(frame=>{
       const img = $('img', frame);
+      const source = frame.nextElementSibling?.classList.contains('diagramSource') ? frame.nextElementSibling : null;
+      if(source){
+        frame.appendChild(source);
+        source.removeAttribute('aria-hidden');
+        frame.classList.add('hasLiveDiagram');
+      }
       const title = frame.closest('.diagramWrap')?.querySelector('.diagramTitle strong')?.textContent || img?.alt || 'diagram';
       frame.setAttribute('role','button');
       frame.setAttribute('tabindex','0');
       frame.setAttribute('aria-label', 'Open ' + title + ' in zoom viewer');
-      frame.addEventListener('click',()=>openDiagramLightbox(img));
-      frame.addEventListener('keydown',e=>{ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openDiagramLightbox(img); } });
+      frame.addEventListener('click',()=>openDiagramLightbox(frame));
+      frame.addEventListener('keydown',e=>{ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openDiagramLightbox(frame); } });
     });
     $('#diagramLightboxClose')?.addEventListener('click', closeLightbox);
     $('#diagramZoomIn')?.addEventListener('click',()=>setDiagramZoom(diagramZoom + .25));
@@ -1216,29 +1317,121 @@ MI_Monitor_GlitchGreen</code></pre></div></div>
     lightboxStage?.addEventListener('pointerup',()=>{ panStart = null; lightboxStage.classList.remove('dragging'); });
     lightboxStage?.addEventListener('pointercancel',()=>{ panStart = null; lightboxStage.classList.remove('dragging'); });
 
+    const progressKey = 'nolp-progress';
+    const phaseKey = 'nolp-current-phase';
+    const phaseLabels = {
+      all:'All phases',
+      foundation:'Foundation',
+      blockout:'Blockout',
+      gameplay:'Gameplay',
+      art:'Art pass',
+      polish:'Polish'
+    };
+    let currentPhase = localStorage.getItem(phaseKey) || 'all';
+    let hideDone = false;
+
+    function taskBoxes(){
+      return $$('input[type="checkbox"][data-task]');
+    }
+    function stepPhase(step){
+      return step?.dataset.phase || 'foundation';
+    }
+    function boxesInPhase(boxes, phase=currentPhase){
+      return phase === 'all' ? boxes : boxes.filter(b=>stepPhase(b.closest('.step')) === phase);
+    }
+    function refreshTaskVisibility(){
+      $$('.step').forEach(step=>{
+        const phaseMatch = currentPhase === 'all' || stepPhase(step) === currentPhase;
+        const doneMatch = hideDone && step.classList.contains('done');
+        step.hidden = !phaseMatch || doneMatch;
+      });
+    }
+    function updatePhaseButtons(boxes){
+      $$('#phaseButtons button').forEach(button=>{
+        const phase = button.dataset.phase || 'all';
+        const scoped = boxesInPhase(boxes, phase);
+        const done = scoped.filter(b=>b.checked).length;
+        button.classList.toggle('active', phase === currentPhase);
+        button.textContent = `${phaseLabels[phase] || phase} (${done}/${scoped.length})`;
+      });
+    }
+    function updateWalkthroughPanel(boxes){
+      const activeBoxes = boxesInPhase(boxes);
+      const done = boxes.filter(b=>b.checked).length;
+      const total = boxes.length;
+      const activeDone = activeBoxes.filter(b=>b.checked).length;
+      const activeTotal = activeBoxes.length;
+      const activePct = activeTotal ? Math.round((activeDone / activeTotal) * 100) : 0;
+      const next = activeBoxes.find(b=>!b.checked) || boxes.find(b=>!b.checked);
+      $('#phaseProgressFill')?.style.setProperty('width', activePct + '%');
+      $('#phaseSummary')?.replaceChildren(currentPhase === 'all' ? `Showing all ${total} tasks.` : `Showing ${phaseLabels[currentPhase]}: ${activeDone}/${activeTotal} complete.`);
+      $('#nextTaskCount')?.replaceChildren(`${done} of ${total} done`);
+      if(next){
+        const step = next.closest('.step');
+        $('#nextTaskTitle')?.replaceChildren(step?.querySelector('h3')?.textContent || 'Next task');
+        $('#nextTaskDetail')?.replaceChildren(step?.querySelector('p')?.textContent || 'Open this checklist item and complete the next build action.');
+        $('#nextTaskPhase')?.replaceChildren(phaseLabels[stepPhase(step)] || 'Build phase');
+        $('#jumpNextTask')?.removeAttribute('disabled');
+        $('#jumpNextTask')?.replaceChildren('Jump to next task');
+      }else{
+        $('#nextTaskTitle')?.replaceChildren('Walkthrough complete');
+        $('#nextTaskDetail')?.replaceChildren('Every checklist item is complete. Review screenshots, save the map, and keep the template clean before building variants.');
+        $('#nextTaskPhase')?.replaceChildren('All phases');
+        $('#jumpNextTask')?.setAttribute('disabled','disabled');
+        $('#jumpNextTask')?.replaceChildren('All tasks done');
+      }
+    }
     function updateProgress(){
-      const boxes = $$('input[type="checkbox"][data-task]');
+      const boxes = taskBoxes();
       const done = boxes.filter(b=>b.checked).length;
       const total = boxes.length || 1;
       const pct = Math.round((done/total)*100);
-      $('#progressFill').style.width = pct + '%';
-      $('#progressLabel').textContent = pct + '%';
-      $('#doneCount').textContent = done;
-      $('#totalCount').textContent = total;
+      $('#progressFill')?.style.setProperty('width', pct + '%');
+      $('#progressLabel')?.replaceChildren(pct + '%');
+      $('#doneCount')?.replaceChildren(String(done));
+      $('#totalCount')?.replaceChildren(String(boxes.length));
       boxes.forEach(b=>b.closest('.step')?.classList.toggle('done', b.checked));
-      localStorage.setItem('nolp-progress', JSON.stringify(Object.fromEntries(boxes.map(b=>[b.dataset.task,b.checked]))));
+      localStorage.setItem(progressKey, JSON.stringify(Object.fromEntries(boxes.map(b=>[b.dataset.task,b.checked]))));
+      updatePhaseButtons(boxes);
+      refreshTaskVisibility();
+      updateWalkthroughPanel(boxes);
+    }
+    function setActivePhase(phase){
+      currentPhase = phaseLabels[phase] ? phase : 'all';
+      localStorage.setItem(phaseKey, currentPhase);
+      updateProgress();
     }
     function loadProgress(){
       let saved={};
-      try{ saved = JSON.parse(localStorage.getItem('nolp-progress')||'{}'); }catch(e){}
-      $$('input[type="checkbox"][data-task]').forEach(b=>{ b.checked=!!saved[b.dataset.task]; b.addEventListener('change',updateProgress); });
-      updateProgress();
+      try{ saved = JSON.parse(localStorage.getItem(progressKey)||'{}'); }catch(e){}
+      taskBoxes().forEach(b=>{ b.checked=!!saved[b.dataset.task]; b.addEventListener('change',updateProgress); });
+      setActivePhase(currentPhase);
     }
     loadProgress();
 
-    $('#resetProgress')?.addEventListener('click',()=>{ if(confirm('Reset the checklist progress?')){ localStorage.removeItem('nolp-progress'); $$('input[type="checkbox"][data-task]').forEach(b=>b.checked=false); updateProgress(); }});
-    let hideDone=false;
-    $('#collapseDone')?.addEventListener('click',e=>{ hideDone=!hideDone; e.currentTarget.textContent = hideDone ? 'Show completed tasks' : 'Hide completed tasks'; $$('.step').forEach(s=>{ s.style.display = hideDone && s.classList.contains('done') ? 'none' : ''; }); });
+    $$('#phaseButtons button').forEach(button=>button.addEventListener('click',()=>setActivePhase(button.dataset.phase || 'all')));
+    $('#jumpNextTask')?.addEventListener('click',()=>{
+      const boxes = taskBoxes();
+      let next = boxesInPhase(boxes).find(b=>!b.checked);
+      if(!next){
+        next = boxes.find(b=>!b.checked);
+        if(next && currentPhase !== 'all') setActivePhase('all');
+      }
+      const step = next?.closest('.step');
+      if(!step) return;
+      step.scrollIntoView({behavior:'smooth',block:'center'});
+      step.classList.add('focused');
+      next.focus({preventScroll:true});
+      setTimeout(()=>step.classList.remove('focused'),1700);
+    });
+
+    $('#resetProgress')?.addEventListener('click',()=>{ if(confirm('Reset the checklist progress?')){ localStorage.removeItem(progressKey); taskBoxes().forEach(b=>b.checked=false); updateProgress(); }});
+    $('#collapseDone')?.addEventListener('click',e=>{
+      hideDone=!hideDone;
+      e.currentTarget.textContent = hideDone ? 'Show completed tasks' : 'Hide completed tasks';
+      refreshTaskVisibility();
+      updateWalkthroughPanel(taskBoxes());
+    });
 
     $$('.copyBtn').forEach(btn=>btn.addEventListener('click', async()=>{
       const code = btn.closest('.codeBlock')?.querySelector('code')?.innerText || '';
@@ -1264,15 +1457,24 @@ MI_Monitor_GlitchGreen</code></pre></div></div>
 
     $('#guideSearch')?.addEventListener('input', e=>{
       const q=e.target.value.trim().toLowerCase();
-      $$('.searchable').forEach(card=>{
-        const hay=(card.dataset.title+' '+card.innerText).toLowerCase();
-        card.classList.toggle('cardsSearchHidden', q && !hay.includes(q));
+      let matches = 0;
+      const cards = $$('.searchable');
+      cards.forEach(card=>{
+        const hay=((card.dataset.title || '')+' '+card.innerText).toLowerCase();
+        const matched = !q || hay.includes(q);
+        if(matched) matches++;
+        card.classList.toggle('cardsSearchHidden', q && !matched);
       });
+      const status = $('#searchStatus');
+      if(status){
+        status.classList.toggle('show', !!q);
+        status.textContent = q ? `${matches} of ${cards.length} sections match` : '';
+      }
     });
 
     const topBtn=$('#topBtn');
-    window.addEventListener('scroll',()=>{ topBtn.classList.toggle('show', window.scrollY>700); });
-    topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+    window.addEventListener('scroll',()=>{ topBtn?.classList.toggle('show', window.scrollY>700); });
+    topBtn?.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
     $('#printBtn')?.addEventListener('click',()=>window.print());
     $('#mobilePrint')?.addEventListener('click',()=>window.print());
   </script>
